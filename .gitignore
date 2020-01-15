@@ -1,0 +1,7 @@
+**.exe
+**.pdb
+**.cache
+**.manifest
+**/.vs/
+**/obj/
+**/bin/
