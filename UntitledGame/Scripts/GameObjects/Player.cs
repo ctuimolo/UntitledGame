@@ -17,7 +17,7 @@ namespace UntitledGame.GameObjects.Player
     class Player : GameObject
     {
         // Player physics engine params
-        private readonly Point      _size = new Point(14,56);
+        private readonly Point      _size = new Point(20,64);
         private readonly float      _walkSpeed    = 3;
         private readonly float      _jumpStrength = 8;
 

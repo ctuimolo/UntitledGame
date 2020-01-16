@@ -26,7 +26,7 @@ namespace UntitledGame.Rooms.TestRoom
             _renderedGameObjects = new List<GameObject>
             {
                 new Wall(World, new Rectangle(0,420,800,80)),
-                new Wall(World, new Rectangle(560,312,40,20)),
+                new Wall(World, new Rectangle(560,304,40,20)),
                 new Wall(World, new Rectangle(0,0,4,480)),
                 new Wall(World, new Rectangle(0,400,5,480)),
                 new Wall(World, new Rectangle(796,0,4,480)),
