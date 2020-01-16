@@ -34,7 +34,6 @@ namespace UntitledGame
             {
                 PreferredBackBufferWidth        = 800,
                 PreferredBackBufferHeight       = 480,
-                SynchronizeWithVerticalRetrace  = true
             };
             TargetElapsedTime       = TimeSpan.FromTicks(TimeSpan.TicksPerSecond / _targetFPS);
             Content.RootDirectory   = "Content";
@@ -48,6 +47,8 @@ namespace UntitledGame
 
             Rooms.Hash["test room"] = new TestRoom(new Point(1000,1000));
             CurrentRoom = Rooms.Hash["test room"];
+
+            CurrentRoom.LoadContent();
 
             _view = Matrix.Identity;
         }

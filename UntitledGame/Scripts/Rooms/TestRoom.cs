@@ -18,7 +18,6 @@ namespace UntitledGame.Rooms.TestRoom
 
         public TestRoom(Point worldSize) : base(worldSize)
         {
-            LoadContent();
         }
 
         public override void LoadContent()
