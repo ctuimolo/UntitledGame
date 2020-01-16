@@ -1,13 +1,11 @@
-﻿using System;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 using System.Collections.Generic;
 
 using Humper;
 using Humper.Responses;
 
-namespace UntitledGame.Scripts
+namespace UntitledGame.Dynamics
 {
     public enum PhysicsType
     {

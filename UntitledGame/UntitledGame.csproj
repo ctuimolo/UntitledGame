@@ -9,8 +9,8 @@
     <ProjectGuid>{C3598537-2E99-4778-825C-F7D5B03AB3F4}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MonoGame1</RootNamespace>
-    <AssemblyName>MonoGame1</AssemblyName>
+    <RootNamespace>UntitledGame</RootNamespace>
+    <AssemblyName>UntitledGame</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>Windows</MonoGamePlatform>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -49,14 +49,14 @@
     <Compile Include="Scripts\AnimationHandler.cs" />
     <Compile Include="Scripts\Debug\DebugAssets.cs" />
     <Compile Include="Scripts\GameObject.cs" />
-    <Compile Include="Scripts\HitBox.cs" />
-    <Compile Include="Scripts\PhysicsBody.cs" />
-    <Compile Include="Scripts\Player.cs" />
+    <Compile Include="Scripts\Dynamics\HitBox.cs" />
+    <Compile Include="Scripts\Dynamics\PhysicsBody.cs" />
+    <Compile Include="Scripts\GameObjects\Player.cs" />
     <Compile Include="Scripts\Room.cs" />
     <Compile Include="Scripts\RoomHandler.cs" />
-    <Compile Include="Scripts\TestRoom.cs" />
-    <Compile Include="Scripts\Wall.cs" />
-    <Compile Include="Scripts\WorldHandler.cs" />
+    <Compile Include="Scripts\Rooms\TestRoom.cs" />
+    <Compile Include="Scripts\GameObjects\Wall.cs" />
+    <Compile Include="Scripts\Dynamics\WorldHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

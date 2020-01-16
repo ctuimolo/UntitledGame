@@ -1,11 +1,10 @@
-﻿using System;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
 using Microsoft.Xna.Framework.Input;
 
-namespace UntitledGame.Scripts
+using UntitledGame.Dynamics;
+
+namespace UntitledGame.GameObjects.Wall
 {
     public class Wall : GameObject
     {

@@ -1,12 +1,10 @@
-﻿using System;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-using Humper;
+using UntitledGame.Dynamics;
 
-namespace UntitledGame.Scripts
+namespace UntitledGame.GameObjects.Player
 {
     enum AnimationStates
     {
@@ -53,7 +51,7 @@ namespace UntitledGame.Scripts
                 (int)AnimationStates.Idle,
                 new Animation(new Rectangle(0, 0, 152, 152), _size)
                 {
-                    SpriteSheet = Game.Assets.Load<Texture2D>("SpriteSheets/suika_idle_padded"),
+                    SpriteSheet = Game.Assets.Load<Texture2D>("SpriteSheets/suika_idle"),
                     FrameCount  = 18,
                     FrameDelay  = 6,
                 });

@@ -1,12 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Graphics;
 
+using UntitledGame.Dynamics;
 
-using System.Collections.Generic;
-using System;
-
-namespace UntitledGame.Scripts
+namespace UntitledGame
 {
     public class Room
     {

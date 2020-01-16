@@ -1,18 +1,14 @@
-﻿using System.Collections.Generic;
-using System;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 
-using UntitledGame.Scripts;
+using System;
 
-using Rooms.TestRoom;
+using UntitledGame.Rooms.TestRoom;
 
 namespace UntitledGame
 {
-
     public class Game : Microsoft.Xna.Framework.Game
     {
         // Engine IO and Physics inits

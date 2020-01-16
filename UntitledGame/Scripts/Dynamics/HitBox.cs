@@ -1,10 +1,7 @@
-﻿using System;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-
-namespace UntitledGame.Scripts
+namespace UntitledGame.Dynamics
 {
     public class CollisionPackage
     {

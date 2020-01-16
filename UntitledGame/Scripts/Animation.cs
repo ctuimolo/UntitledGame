@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace UntitledGame.Scripts
+namespace UntitledGame
 {
     public enum OffsetType
     {

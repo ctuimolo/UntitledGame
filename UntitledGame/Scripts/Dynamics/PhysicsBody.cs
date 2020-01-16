@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 using Humper;
 
-namespace UntitledGame.Scripts
+namespace UntitledGame.Dynamics
 {
     public class PhysicsBody
     {

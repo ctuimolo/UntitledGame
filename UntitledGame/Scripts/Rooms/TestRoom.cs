@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-using UntitledGame.Scripts;
+using System.Collections.Generic;
 
-namespace Rooms.TestRoom
+using UntitledGame.Dynamics;
+using UntitledGame.GameObjects.Player;
+using UntitledGame.GameObjects.Wall;
+
+namespace UntitledGame.Rooms.TestRoom
 {
     public class TestRoom : Room
     {

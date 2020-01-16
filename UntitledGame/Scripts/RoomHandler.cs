@@ -1,12 +1,6 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Graphics;
+﻿using System.Collections.Generic;
 
-
-using System.Collections.Generic;
-using System;
-
-namespace UntitledGame.Scripts
+namespace UntitledGame
 {
     public class RoomHandler
     {

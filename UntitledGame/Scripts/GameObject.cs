@@ -1,7 +1,8 @@
-﻿
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
-namespace UntitledGame.Scripts
+using UntitledGame.Dynamics;
+
+namespace UntitledGame
 {
 
     public abstract class GameObject
