@@ -16,26 +16,17 @@ namespace UntitledGame.GameObjects.Wall
 
         public Hitbox Hitbox  { get; private set; }
 
-        public Wall(WorldHandler setWorld, Rectangle coordinates)
+        public Wall(Rectangle coordinates)
         {
             // Object fields
-            _size     = new Point(coordinates.Width, coordinates.Height);
+            _size = new Point(coordinates.Width, coordinates.Height);
             _position = new Vector2(coordinates.X, coordinates.Y);
-
-            CurrentWorld    = setWorld;
-            Body            = setWorld.AddBody(this, _position, _size, false);
         }
 
-        public override void LoadContent()
+        public override void SetWorld(WorldHandler world)
         {
-        }
-
-        public override void Initialize()
-        {
-        }
-
-        public override void ResolveCollisions()
-        {
+            CurrentWorld = world;
+            Body = CurrentWorld.AddBody(this, _position, _size, false);
         }
 
         public override void Update()

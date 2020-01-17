@@ -11,39 +11,34 @@ namespace UntitledGame.Rooms.TestRoom
 {
     public class TestRoom : Room
     {
-
-        private List<GameObject>    _renderedGameObjects;
         private bool                _drawDebug = false;
         private KeyboardState       _oldKeyState;
 
         public TestRoom(Point worldSize) : base(worldSize)
         {
+            ActiveGameObjects = new List<GameObject>();
         }
 
         public override void LoadContent()
         {
-            _renderedGameObjects = new List<GameObject>
-            {
-                new Wall(World, new Rectangle(0,420,800,80)),
-                new Wall(World, new Rectangle(560,304,40,20)),
-                new Wall(World, new Rectangle(0,0,4,480)),
-                new Wall(World, new Rectangle(0,400,5,480)),
-                new Wall(World, new Rectangle(796,0,4,480)),
-                new Wall(World, new Rectangle(200,300,70,20)),
-                new Wall(World, new Rectangle(220,280,70,20)),
-                new Wall(World, new Rectangle(0,0,800,4)),
-                new Wall(World, new Rectangle(190,400,70,20)),
-                new Wall(World, new Rectangle(60,325,70,20)),
-                new Wall(World, new Rectangle(390,388,40,32)),
-                new Wall(World, new Rectangle(432,388,40,32)),
-                new Wall(World, new Rectangle(474,388,40,32)),
-                new Wall(World, new Rectangle(516,388,40,32)),
-                new Wall(World, new Rectangle(558,388,40,32)),
-                new Wall(World, new Rectangle(600,388,40,32)),
-                new Wall(World, new Rectangle(642,388,40,32)),
-
-                new Player(World, new Vector2(250,230)),
-             };
+            SpawnGameObject(new Wall(new Rectangle(0, 420, 800, 80)));
+            SpawnGameObject(new Wall(new Rectangle(560, 304, 40, 20)));
+            SpawnGameObject(new Wall(new Rectangle(0, 0, 4, 480)));
+            SpawnGameObject(new Wall(new Rectangle(0, 400, 5, 480)));
+            SpawnGameObject(new Wall(new Rectangle(796, 0, 4, 480)));
+            SpawnGameObject(new Wall(new Rectangle(200, 300, 70, 20)));
+            SpawnGameObject(new Wall(new Rectangle(220, 280, 70, 20)));
+            SpawnGameObject(new Wall(new Rectangle(0, 0, 800, 4)));
+            SpawnGameObject(new Wall(new Rectangle(190, 400, 70, 20)));
+            SpawnGameObject(new Wall(new Rectangle(60, 325, 70, 20)));
+            SpawnGameObject(new Wall(new Rectangle(390, 388, 40, 32)));
+            SpawnGameObject(new Wall(new Rectangle(432, 388, 40, 32)));
+            SpawnGameObject(new Wall(new Rectangle(474, 388, 40, 32)));
+            SpawnGameObject(new Wall(new Rectangle(516, 388, 40, 32)));
+            SpawnGameObject(new Wall(new Rectangle(558, 388, 40, 32)));
+            SpawnGameObject(new Wall(new Rectangle(600, 388, 40, 32)));
+            SpawnGameObject(new Wall(new Rectangle(642, 388, 40, 32)));
+            SpawnGameObject(new Player(World, new Vector2(250, 230)));
 
             World.AddHitbox(new Hitbox(null, new Vector2(420, 310), new Point(30, 60))
             {
@@ -174,13 +169,13 @@ namespace UntitledGame.Rooms.TestRoom
             HandleKeyboard();
 
             // update every game object
-            foreach (GameObject obj in _renderedGameObjects)
+            foreach (GameObject obj in ActiveGameObjects)
             {
                 obj.ResolveCollisions();
             }
 
             // update every game object
-            foreach (GameObject obj in _renderedGameObjects)
+            foreach (GameObject obj in ActiveGameObjects)
             {
                 obj.Update();
             }
@@ -188,7 +183,7 @@ namespace UntitledGame.Rooms.TestRoom
 
         public override void Draw()
         {
-            foreach (GameObject obj in _renderedGameObjects)
+            foreach (GameObject obj in ActiveGameObjects)
             {
                 obj.Draw();
                 if (_drawDebug)

@@ -154,6 +154,12 @@ namespace UntitledGame.GameObjects.Player
         {
         }
 
+        public override void SetWorld(WorldHandler world)
+        {
+            CurrentWorld = world;
+            //Body = CurrentWorld.AddBody(this, _position, _size, false);
+        }
+
         public override void Update()
         {
             // Take keyboard input
