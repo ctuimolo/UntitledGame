@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 using Humper;
 
+using UntitledGame.GameObjects;
+
 namespace UntitledGame.Dynamics
 {
     public class PhysicsBody

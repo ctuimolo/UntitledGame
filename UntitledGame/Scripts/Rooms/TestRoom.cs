@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 
 using UntitledGame.Dynamics;
+using UntitledGame.GameObjects;
 using UntitledGame.GameObjects.Player;
 using UntitledGame.GameObjects.Wall;
 
@@ -14,31 +15,31 @@ namespace UntitledGame.Rooms.TestRoom
         private bool                _drawDebug = false;
         private KeyboardState       _oldKeyState;
 
-        public TestRoom(Point worldSize) : base(worldSize)
+        public TestRoom(Point worldSize, string setKey) : base(worldSize, setKey)
         {
-            ActiveGameObjects = new List<GameObject>();
+            ActiveGameObjects = new Dictionary<string, GameObject>();
         }
 
         public override void LoadContent()
         {
-            SpawnGameObject(new Wall(new Rectangle(0, 420, 800, 80)));
-            SpawnGameObject(new Wall(new Rectangle(560, 304, 40, 20)));
-            SpawnGameObject(new Wall(new Rectangle(0, 0, 4, 480)));
-            SpawnGameObject(new Wall(new Rectangle(0, 400, 5, 480)));
-            SpawnGameObject(new Wall(new Rectangle(796, 0, 4, 480)));
-            SpawnGameObject(new Wall(new Rectangle(200, 300, 70, 20)));
-            SpawnGameObject(new Wall(new Rectangle(220, 280, 70, 20)));
-            SpawnGameObject(new Wall(new Rectangle(0, 0, 800, 4)));
-            SpawnGameObject(new Wall(new Rectangle(190, 400, 70, 20)));
-            SpawnGameObject(new Wall(new Rectangle(60, 325, 70, 20)));
-            SpawnGameObject(new Wall(new Rectangle(390, 388, 40, 32)));
-            SpawnGameObject(new Wall(new Rectangle(432, 388, 40, 32)));
-            SpawnGameObject(new Wall(new Rectangle(474, 388, 40, 32)));
-            SpawnGameObject(new Wall(new Rectangle(516, 388, 40, 32)));
-            SpawnGameObject(new Wall(new Rectangle(558, 388, 40, 32)));
-            SpawnGameObject(new Wall(new Rectangle(600, 388, 40, 32)));
-            SpawnGameObject(new Wall(new Rectangle(642, 388, 40, 32)));
-            SpawnGameObject(new Player(World, new Vector2(250, 230)));
+            LoadGameObject("w1", new Wall(new Rectangle(0, 420, 800, 80)));
+            LoadGameObject("w2", new Wall(new Rectangle(560, 302, 40, 20)));
+            LoadGameObject("w3", new Wall(new Rectangle(0, 0, 4, 480)));
+            LoadGameObject("w4", new Wall(new Rectangle(0, 400, 5, 480)));
+            LoadGameObject("w5", new Wall(new Rectangle(796, 0, 4, 480)));
+            LoadGameObject("w6", new Wall(new Rectangle(200, 300, 70, 20)));
+            LoadGameObject("w7", new Wall(new Rectangle(220, 280, 70, 20)));
+            LoadGameObject("w8", new Wall(new Rectangle(0, 0, 800, 4)));
+            LoadGameObject("w9", new Wall(new Rectangle(190, 400, 70, 20)));
+            LoadGameObject("w10", new Wall(new Rectangle(60, 325, 70, 20)));
+            LoadGameObject("w11", new Wall(new Rectangle(390, 388, 40, 32)));
+            LoadGameObject("w12", new Wall(new Rectangle(432, 388, 40, 32)));
+            LoadGameObject("w13", new Wall(new Rectangle(474, 388, 40, 32)));
+            LoadGameObject("w14", new Wall(new Rectangle(516, 388, 40, 32)));
+            LoadGameObject("w15", new Wall(new Rectangle(558, 388, 40, 32)));
+            LoadGameObject("w16", new Wall(new Rectangle(600, 388, 40, 32)));
+            LoadGameObject("w17", new Wall(new Rectangle(642, 388, 40, 32)));
+            LoadGameObject("player1", new Player(World, new Vector2(250, 230)));
 
             World.AddHitbox(new Hitbox(null, new Vector2(420, 310), new Point(30, 60))
             {
@@ -169,13 +170,13 @@ namespace UntitledGame.Rooms.TestRoom
             HandleKeyboard();
 
             // update every game object
-            foreach (GameObject obj in ActiveGameObjects)
+            foreach (GameObject obj in ActiveGameObjects.Values)
             {
                 obj.ResolveCollisions();
             }
 
             // update every game object
-            foreach (GameObject obj in ActiveGameObjects)
+            foreach (GameObject obj in ActiveGameObjects.Values)
             {
                 obj.Update();
             }
@@ -183,7 +184,7 @@ namespace UntitledGame.Rooms.TestRoom
 
         public override void Draw()
         {
-            foreach (GameObject obj in ActiveGameObjects)
+            foreach (GameObject obj in ActiveGameObjects.Values)
             {
                 obj.Draw();
                 if (_drawDebug)

@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using Humper;
 using Humper.Responses;
 
+using UntitledGame.GameObjects;
+
 namespace UntitledGame.Dynamics
 {
     public enum PhysicsType

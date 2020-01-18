@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using UntitledGame.Animations;
 using UntitledGame.Dynamics;
 
 namespace UntitledGame.GameObjects.Player

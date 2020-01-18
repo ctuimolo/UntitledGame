@@ -45,8 +45,8 @@ namespace UntitledGame
             SpriteBatch = new SpriteBatch(Graphics.GraphicsDevice);
             Rooms       = new RoomHandler();
 
-            Rooms.Hash["test room"] = new TestRoom(new Point(1000,1000));
-            CurrentRoom = Rooms.Hash["test room"];
+            Rooms.AddRoom(new TestRoom(new Point(1000,1000), "Test Room"));
+            CurrentRoom = Rooms.GetRoom("Test Room");
 
             CurrentRoom.LoadContent();
 

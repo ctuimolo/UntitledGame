@@ -3,7 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 using System.Collections.Generic;
 
-namespace UntitledGame
+using UntitledGame.GameObjects;
+
+namespace UntitledGame.Animations
 {
     public enum PlayerOrientation
     {

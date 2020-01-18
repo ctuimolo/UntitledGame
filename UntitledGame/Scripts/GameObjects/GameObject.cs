@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 
+using UntitledGame.Animations;
 using UntitledGame.Dynamics;
 
-namespace UntitledGame
+namespace UntitledGame.GameObjects
 {
 
     public abstract class GameObject

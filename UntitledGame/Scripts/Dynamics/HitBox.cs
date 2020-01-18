@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using UntitledGame.GameObjects;
+
 namespace UntitledGame.Dynamics
 {
     public class CollisionPackage
