@@ -9,7 +9,8 @@ namespace UntitledGame
 {
     public class Room
     {
-        protected Dictionary<string, GameObject> ActiveGameObjects { get; set; }
+        protected Dictionary<string, GameObject> CachedGameObjects { get; set; }
+        protected List<GameObject> ActiveGameObjects;
         
         public WorldHandler World   { get; protected set; }
         public string       Key     { get; protected set; }
@@ -28,13 +29,13 @@ namespace UntitledGame
 
         public void LoadGameObject(string key, GameObject gameObject)
         {
-            if(ActiveGameObjects.ContainsKey(key))
+            if(CachedGameObjects.ContainsKey(key))
             {
                 Console.Error.WriteLine("Room : \"{0}\" : LoadGameObject() : Keyname \"{1}\" already exists", Key,  key);
                 Environment.Exit(1);
             }
             gameObject.SetWorld(World);
-            ActiveGameObjects[key] = gameObject;
+            CachedGameObjects[key] = gameObject;
         }
 
         public virtual void LoadContent()   { }

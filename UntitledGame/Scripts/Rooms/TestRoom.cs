@@ -17,7 +17,8 @@ namespace UntitledGame.Rooms.TestRoom
 
         public TestRoom(Point worldSize, string setKey) : base(worldSize, setKey)
         {
-            ActiveGameObjects = new Dictionary<string, GameObject>();
+            CachedGameObjects = new Dictionary<string, GameObject>();
+            ActiveGameObjects = new List<GameObject>();
         }
 
         public override void LoadContent()
@@ -170,13 +171,13 @@ namespace UntitledGame.Rooms.TestRoom
             HandleKeyboard();
 
             // update every game object
-            foreach (GameObject obj in ActiveGameObjects.Values)
+            foreach (GameObject obj in CachedGameObjects.Values)
             {
                 obj.ResolveCollisions();
             }
 
             // update every game object
-            foreach (GameObject obj in ActiveGameObjects.Values)
+            foreach (GameObject obj in CachedGameObjects.Values)
             {
                 obj.Update();
             }
@@ -184,7 +185,7 @@ namespace UntitledGame.Rooms.TestRoom
 
         public override void Draw()
         {
-            foreach (GameObject obj in ActiveGameObjects.Values)
+            foreach (GameObject obj in CachedGameObjects.Values)
             {
                 obj.Draw();
                 if (_drawDebug)
