@@ -40,7 +40,7 @@ namespace UntitledGame.Rooms.TestRoom
             LoadGameObject("w15", new Wall(new Rectangle(558, 388, 40, 32)));
             LoadGameObject("w16", new Wall(new Rectangle(600, 388, 40, 32)));
             LoadGameObject("w17", new Wall(new Rectangle(642, 388, 40, 32)));
-            LoadGameObject("player1", new Player(World, new Vector2(250, 230)));
+            LoadGameObject(new Player(World, new Vector2(250, 130), "player_key"));
 
             World.AddHitbox(new Hitbox(null, new Vector2(420, 310), new Point(30, 60))
             {

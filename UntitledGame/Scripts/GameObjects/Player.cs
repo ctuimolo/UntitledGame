@@ -39,11 +39,12 @@ namespace UntitledGame.GameObjects.Player
         private string  _isOverlappingPinkString;
         private string  _listOfCollisions;
 
-        public Player(WorldHandler setWorld, Vector2 setPosition)
+        public Player(WorldHandler setWorld, Vector2 setPosition, string key)
         {
             CurrentWorld            = setWorld;
             Body                    = setWorld.AddBody(this, setPosition, _size);
-            Body.ChildHitboxes[0]   = new Hitbox(this, new Vector2(0,0), _size);
+            Body.ChildHitboxes[0] = new Hitbox(this, new Vector2(0, 0), _size);
+            Key                     = key;
             AnimationHandler        = new AnimationHandler(this);
             Position                = setPosition;
             Size                    = _size;
@@ -155,11 +156,11 @@ namespace UntitledGame.GameObjects.Player
         {
         }
 
-        public override void SetWorld(WorldHandler world)
-        {
-            CurrentWorld = world;
-            //Body = CurrentWorld.AddBody(this, _position, _size, false);
-        }
+        //public override void SetWorld(WorldHandler world)
+        //{
+        //    CurrentWorld = world;
+        //    Body = CurrentWorld.AddBody(this, Position, Size, false);
+        //}
 
         public override void Update()
         {

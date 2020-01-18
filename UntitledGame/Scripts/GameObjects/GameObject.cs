@@ -10,6 +10,7 @@ namespace UntitledGame.GameObjects
     {
         public PhysicsBody      Body               { get; protected set; }
         public AnimationHandler AnimationHandler   { get; protected set; }
+        public string           Key                { get; protected set; }
 
         public WorldHandler CurrentWorld    { get; protected set; }
         public Vector2      Position        { get; protected set; }

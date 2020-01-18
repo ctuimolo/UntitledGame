@@ -27,15 +27,26 @@ namespace UntitledGame
             Key     = setKey;
         }
 
-        public void LoadGameObject(string key, GameObject gameObject)
+        public void LoadGameObject(GameObject gameObject)
         {
-            if(CachedGameObjects.ContainsKey(key))
+            if(CachedGameObjects.ContainsKey(gameObject.Key))
             {
-                Console.Error.WriteLine("Room : \"{0}\" : LoadGameObject() : Keyname \"{1}\" already exists", Key,  key);
+                Console.Error.WriteLine("Room : \"{0}\" : LoadGameObject() : Keyname \"{1}\" already exists", Key, gameObject.Key);
                 Environment.Exit(1);
             }
             gameObject.SetWorld(World);
-            CachedGameObjects[key] = gameObject;
+            CachedGameObjects[gameObject.Key] = gameObject;
+        }
+
+        public void LoadGameObject(string setkey, GameObject gameObject)
+        {
+            if (CachedGameObjects.ContainsKey(setkey))
+            {
+                Console.Error.WriteLine("Room : \"{0}\" : LoadGameObject() : Keyname \"{1}\" already exists", Key, setkey);
+                Environment.Exit(1);
+            }
+            gameObject.SetWorld(World);
+            CachedGameObjects[setkey] = gameObject;
         }
 
         public virtual void LoadContent()   { }
