@@ -1,6 +1,6 @@
-﻿namespace Humper.Responses
+﻿namespace PhysicsWorld.Responses
 {
-	using Humper.Base;
+	using PhysicsWorld.Base;
 	/// <summary>
 	/// The result of a collision reaction onto a box position.
 	/// </summary>

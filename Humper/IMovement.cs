@@ -1,4 +1,4 @@
-﻿namespace Humper
+﻿namespace PhysicsWorld
 {
 	using System.Collections.Generic;
 	using Base;

@@ -1,6 +1,6 @@
-﻿using Humper.Base;
+﻿using PhysicsWorld.Base;
 
-namespace Humper
+namespace PhysicsWorld
 {
 	public class Collision : ICollision
 	{

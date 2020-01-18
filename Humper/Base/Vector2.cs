@@ -1,5 +1,5 @@
 ﻿
-namespace Humper.Base
+namespace PhysicsWorld.Base
 {
 	using System;
 	using System.Diagnostics;

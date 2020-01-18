@@ -1,4 +1,4 @@
-﻿namespace Humper
+﻿namespace PhysicsWorld
 {
 	using System;
 	using Base;

@@ -1,4 +1,4 @@
-﻿namespace Humper.Responses
+﻿namespace PhysicsWorld.Responses
 {
 	using Base;
 	using System;

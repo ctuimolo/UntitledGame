@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.Serialization;
 
-namespace Humper.Base
+namespace PhysicsWorld.Base
 {
 	/// <summary>
 	/// Describes a floating point 2D-rectangle. 
@@ -111,7 +111,7 @@ namespace Humper.Base
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="T:Humper.Base.RectangleF"/> that contains the two given rectangles.
+		/// Initializes a new instance of the <see cref="T:PhysicsWorld.Base.RectangleF"/> that contains the two given rectangles.
 		/// </summary>
 		/// <param name="one">One.</param>
 		/// <param name="two">Two.</param>

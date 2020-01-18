@@ -1,4 +1,4 @@
-﻿namespace Humper
+﻿namespace PhysicsWorld
 {
 	using System;
 	using System.Collections.Generic;
@@ -67,7 +67,7 @@
 
 			foreach (var other in boxes)
 			{
-				var hit = Humper.Hit.Resolve(point, other);
+				var hit = PhysicsWorld.Hit.Resolve(point, other);
 
 				if (hit != null)
 				{
@@ -95,7 +95,7 @@
 
 			foreach (var other in boxes)
 			{
-				var hit = Humper.Hit.Resolve(origin, destination, other);
+				var hit = PhysicsWorld.Hit.Resolve(origin, destination, other);
 
 				if (hit != null && (nearest == null || hit.IsNearest(nearest,origin)))
 				{
@@ -120,7 +120,7 @@
 
 			foreach (var other in boxes)
 			{
-				var hit = Humper.Hit.Resolve(origin, destination, other);
+				var hit = PhysicsWorld.Hit.Resolve(origin, destination, other);
 
 				if (hit != null && (nearest == null || hit.IsNearest(nearest, origin.Location)))
 				{

@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace Humper.Base
+namespace PhysicsWorld.Base
 {
 	/// <summary>
 	/// Contains commonly used precalculated values and mathematical operations.

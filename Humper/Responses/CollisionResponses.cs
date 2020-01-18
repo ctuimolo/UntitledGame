@@ -1,4 +1,4 @@
-﻿namespace Humper.Responses
+﻿namespace PhysicsWorld.Responses
 {
 	public enum CollisionResponses
 	{

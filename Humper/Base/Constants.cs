@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Humper.Base
+namespace PhysicsWorld.Base
 {
 	public static class Constants
 	{

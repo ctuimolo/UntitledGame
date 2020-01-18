@@ -1,7 +1,7 @@
 ﻿using System;
-using Humper.Base;
+using PhysicsWorld.Base;
 
-namespace Humper.Responses
+namespace PhysicsWorld.Responses
 {
 	public class CollisionResponse : ICollisionResponse
 	{
