@@ -72,7 +72,7 @@
     <MonoGameContentReference Include="Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Humper\PhysicsWorld.csproj">
+    <ProjectReference Include="..\PhysicsWorld\PhysicsWorld.csproj">
       <Project>{1dd7d455-8710-44a5-b275-8606eb78d80e}</Project>
       <Name>PhysicsWorld</Name>
     </ProjectReference>
