@@ -16,11 +16,14 @@ namespace UntitledGame.GameObjects.Wall
         public Wall(WorldHandler setWorld, Rectangle coordinates, string key)
         {
             // Object fields
-            Size = new Point(coordinates.Width, coordinates.Height);
-            Position = new Vector2(coordinates.X, coordinates.Y);
+            Size         = new Point(coordinates.Width, coordinates.Height);
+            Position     = new Vector2(coordinates.X, coordinates.Y);
             InitPosition = Position;
-            Key = key;
+
+            Key          = key;
             CurrentWorld = setWorld;
+            Drawable     = true;
+
             Body = CurrentWorld.AddBody(this, Position, Size, false);
             Body.BoxCollider.Data = this;
         }

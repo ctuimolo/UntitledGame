@@ -46,5 +46,10 @@ namespace UntitledGame.Dynamics
                     0f);
             }
         }
+
+        public void Destruct()
+        {
+
+        }
     }
 }

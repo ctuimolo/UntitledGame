@@ -41,10 +41,13 @@ namespace UntitledGame.GameObjects.Player
 
         public Player(WorldHandler setWorld, Vector2 setPosition, string key)
         {
-            CurrentWorld            = setWorld;
-            Key = key;
+            CurrentWorld    = setWorld;
+            Key             = key;
+            Drawable        = true;
+
             Body                    = setWorld.AddBody(this, setPosition, _size);
             Body.ChildHitboxes[0]   = new Hitbox(this, new Vector2(0, 0), _size, "body");
+
             AnimationHandler        = new AnimationHandler(this);
             InitPosition            = setPosition;
             Position                = setPosition;

@@ -13,6 +13,7 @@ namespace UntitledGame.Rooms
     {
         protected Dictionary<string, GameObject> CachedGameObjects { get; set; }
         protected List<GameObject> ActiveGameObjects;
+        protected List<GameObject> DrawableGameObjects;
         
         public WorldHandler World   { get; protected set; }
         public string       Key     { get; protected set; }
@@ -48,6 +49,10 @@ namespace UntitledGame.Rooms
                 return;
             }
             ActiveGameObjects.Add(CachedGameObjects[key]);
+            if(CachedGameObjects[key].Drawable)
+            {
+                DrawableGameObjects.Add(CachedGameObjects[key]);
+            }
             if (CachedGameObjects[key].Body != null)
             {
                 CachedGameObjects[key].Body.BoxCollider.Move(CachedGameObjects[key].InitPosition.X, CachedGameObjects[key].InitPosition.Y, (collision) => CollisionResponses.None);
@@ -63,6 +68,7 @@ namespace UntitledGame.Rooms
                 return;
             }
             ActiveGameObjects.Remove(CachedGameObjects[key]);
+            DrawableGameObjects.Remove(CachedGameObjects[key]);
             if(CachedGameObjects[key].Body != null)
             {
                 CachedGameObjects[key].Body.BoxCollider.Move(CachedGameObjects[key].Size.X * -1, CachedGameObjects[key].Size.Y * -1, (collision) => CollisionResponses.None);
@@ -77,6 +83,7 @@ namespace UntitledGame.Rooms
                 return;
             }
             ActiveGameObjects.Remove(CachedGameObjects[key]);
+            DrawableGameObjects.Remove(CachedGameObjects[key]);
             CachedGameObjects[key].Destruct();
             CachedGameObjects.Remove(key);
         }

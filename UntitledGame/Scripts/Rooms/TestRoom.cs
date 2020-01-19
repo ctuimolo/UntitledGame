@@ -17,8 +17,9 @@ namespace UntitledGame.Rooms.TestRoom
 
         public TestRoom(Point worldSize, string setKey) : base(worldSize, setKey)
         {
-            CachedGameObjects = new Dictionary<string, GameObject>();
-            ActiveGameObjects = new List<GameObject>();
+            CachedGameObjects   = new Dictionary<string, GameObject>();
+            ActiveGameObjects   = new List<GameObject>();
+            DrawableGameObjects = new List<GameObject>();
         }
 
         public override void LoadContent()
@@ -165,7 +166,7 @@ namespace UntitledGame.Rooms.TestRoom
             Instantiate("wall_16");
             Instantiate("wall_17");
             Instantiate("player_1");
-
+               
             Remove("wall_12");
             Remove("wall_13");
             Remove("wall_14");
@@ -173,6 +174,8 @@ namespace UntitledGame.Rooms.TestRoom
 
             Instantiate("wall_13");
             Instantiate("wall_14");
+
+            Destruct("wall_17");
         }
 
         private void HandleKeyboard()
@@ -207,7 +210,7 @@ namespace UntitledGame.Rooms.TestRoom
 
         public override void Draw()
         {
-            foreach (GameObject obj in ActiveGameObjects)
+            foreach (GameObject obj in DrawableGameObjects)
             {
                 obj.Draw();
                 if (_drawDebug)

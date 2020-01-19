@@ -49,6 +49,12 @@ namespace UntitledGame.Dynamics
             return newBody;
         }
 
+        public void RemoveBody(PhysicsBody body)
+        {
+            _world.Remove(body.BoxCollider);
+            _dynamicBodies.Remove(body.Owner.Key);
+        }
+
         public void AddHitbox(Hitbox hitbox)
         {
             if (_worldHitboxes.ContainsKey(hitbox.Key))
@@ -58,6 +64,11 @@ namespace UntitledGame.Dynamics
             }
 
             _worldHitboxes[hitbox.Key] = hitbox;
+        }
+
+        public void RemoveHitbox(Hitbox hitbox)
+        {
+            _worldHitboxes.Remove(hitbox.Key);
         }
 
         public PhysicsBody CreatePhysicsBody(GameObject owner, Vector2 position, Point size)

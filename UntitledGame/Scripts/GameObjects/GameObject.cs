@@ -12,19 +12,26 @@ namespace UntitledGame.GameObjects
         public AnimationHandler AnimationHandler    { get; protected set; }
         public string           Key                 { get; protected set; }
 
+        public bool Drawable    { get; protected set; }
+
         public WorldHandler CurrentWorld    { get; protected set; }
         public Vector2      InitPosition    { get; protected set; }
         public Vector2      Position        { get; protected set; }
         public Point        Size            { get; protected set; }
 
-        public GameComponent test;
-
         public virtual void LoadContent()       { }
         public virtual void Initialize()        { }
-        public virtual void Destruct()          { }
         public virtual void Update()            { }
         public virtual void ResolveCollisions() { }
         public virtual void Draw()              { }
         public virtual void DrawDebug()         { }
+
+        public virtual void Destruct()
+        {
+            if(CurrentWorld != null && Body != null)
+            {
+                CurrentWorld.RemoveBody(Body);
+            }
+        }
     }
 }
