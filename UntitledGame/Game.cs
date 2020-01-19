@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Content;
 
 using System;
 
+using UntitledGame.Rooms;
 using UntitledGame.Rooms.TestRoom;
 
 namespace UntitledGame

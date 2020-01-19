@@ -40,9 +40,9 @@ namespace UntitledGame.Rooms.TestRoom
             LoadGameObject(new Wall(World, new Rectangle(558, 388, 40, 32), "wall_15"));
             LoadGameObject(new Wall(World, new Rectangle(600, 388, 40, 32), "wall_16"));
             LoadGameObject(new Wall(World, new Rectangle(642, 388, 40, 32), "wall_17"));
-
             LoadGameObject(new Player(World, new Vector2(250, 130), "player_1"));
 
+            #region test misc. purple/orange hitboxes...
             World.AddHitbox(new Hitbox(null, new Vector2(420, 310), new Point(30, 60), "spuds")
             {
                 DebugSprite = Debug.Assets.OrangeBox,
@@ -54,7 +54,7 @@ namespace UntitledGame.Rooms.TestRoom
 
             World.AddHitbox(new Hitbox(null, new Vector2(550, 290), new Point(20, 120), "cats")
             {
-                DebugSprite = UntitledGame.Debug.Assets.PurpleBox,
+                DebugSprite = Debug.Assets.PurpleBox,
                 Data = new CollisionPackage
                 {
                     Value = "purple",
@@ -63,7 +63,7 @@ namespace UntitledGame.Rooms.TestRoom
 
             World.AddHitbox(new Hitbox(null, new Vector2(60, 290), new Point(40, 40), "bruh")
             {
-                DebugSprite = UntitledGame.Debug.Assets.OrangeBox,
+                DebugSprite = Debug.Assets.OrangeBox,
                 Data = new CollisionPackage
                 {
                     Value = "orange",
@@ -72,7 +72,7 @@ namespace UntitledGame.Rooms.TestRoom
 
             World.AddHitbox(new Hitbox(null, new Vector2(440, 290), new Point(80, 40), "crunchy")
             {
-                DebugSprite = UntitledGame.Debug.Assets.PurpleBox,
+                DebugSprite = Debug.Assets.PurpleBox,
                 Data = new CollisionPackage
                 {
                     Value = "purple",
@@ -81,7 +81,7 @@ namespace UntitledGame.Rooms.TestRoom
 
             World.AddHitbox(new Hitbox(null, new Vector2(300, 250), new Point(40, 20), "trash")
             {
-                DebugSprite = UntitledGame.Debug.Assets.OrangeBox,
+                DebugSprite = Debug.Assets.OrangeBox,
                 Data = new CollisionPackage
                 {
                     Value = "orange",
@@ -90,7 +90,7 @@ namespace UntitledGame.Rooms.TestRoom
 
             World.AddHitbox(new Hitbox(null, new Vector2(280, 340), new Point(20, 50), "curly")
             {
-                DebugSprite = UntitledGame.Debug.Assets.PurpleBox,
+                DebugSprite = Debug.Assets.PurpleBox,
                 Data = new CollisionPackage
                 {
                     Value = "purple",
@@ -99,7 +99,7 @@ namespace UntitledGame.Rooms.TestRoom
 
             World.AddHitbox(new Hitbox(null, new Vector2(300, 340), new Point(20, 50), "d00d")
             {
-                DebugSprite = UntitledGame.Debug.Assets.OrangeBox,
+                DebugSprite = Debug.Assets.OrangeBox,
                 Data = new CollisionPackage
                 {
                     Value = "orange",
@@ -108,7 +108,7 @@ namespace UntitledGame.Rooms.TestRoom
 
             World.AddHitbox(new Hitbox(null, new Vector2(320, 340), new Point(20, 50), "very nice")
             {
-                DebugSprite = UntitledGame.Debug.Assets.PurpleBox,
+                DebugSprite = Debug.Assets.PurpleBox,
                 Data = new CollisionPackage
                 {
                     Value = "purple",
@@ -117,7 +117,7 @@ namespace UntitledGame.Rooms.TestRoom
 
             World.AddHitbox(new Hitbox(null, new Vector2(580, 120), new Point(66, 12), "cute funny")
             {
-                DebugSprite = UntitledGame.Debug.Assets.PurpleBox,
+                DebugSprite = Debug.Assets.PurpleBox,
                 Data = new CollisionPackage
                 {
                     Value = "purple",
@@ -126,7 +126,7 @@ namespace UntitledGame.Rooms.TestRoom
 
             World.AddHitbox(new Hitbox(null, new Vector2(400, 620), new Point(40, 40), "popcorn")
             {
-                DebugSprite = UntitledGame.Debug.Assets.OrangeBox,
+                DebugSprite = Debug.Assets.OrangeBox,
                 Data = new CollisionPackage
                 {
                     Value = "orange",
@@ -135,35 +135,44 @@ namespace UntitledGame.Rooms.TestRoom
 
             World.AddHitbox(new Hitbox(null, new Vector2(21, 400), new Point(24, 50), "bruh bruh bruh")
             {
-                DebugSprite = UntitledGame.Debug.Assets.PurpleBox,
+                DebugSprite = Debug.Assets.PurpleBox,
                 Data = new CollisionPackage
                 {
                     Value = "purple",
                     String = "bruh bruh bruh",
                 }
             });
+            #endregion
         }
 
         public override void InitializeRoom()
         {
-            ActiveGameObjects.Add(CachedGameObjects["wall_01"]);
-            ActiveGameObjects.Add(CachedGameObjects["wall_02"]);
-            ActiveGameObjects.Add(CachedGameObjects["wall_03"]);
-            ActiveGameObjects.Add(CachedGameObjects["wall_04"]);
-            ActiveGameObjects.Add(CachedGameObjects["wall_05"]);
-            ActiveGameObjects.Add(CachedGameObjects["wall_06"]);
-            ActiveGameObjects.Add(CachedGameObjects["wall_07"]);
-            ActiveGameObjects.Add(CachedGameObjects["wall_08"]);
-            ActiveGameObjects.Add(CachedGameObjects["wall_09"]);
-            ActiveGameObjects.Add(CachedGameObjects["wall_10"]);
-            ActiveGameObjects.Add(CachedGameObjects["wall_11"]);
-            ActiveGameObjects.Add(CachedGameObjects["wall_12"]);
-            ActiveGameObjects.Add(CachedGameObjects["wall_13"]);
-            ActiveGameObjects.Add(CachedGameObjects["wall_14"]);
-            ActiveGameObjects.Add(CachedGameObjects["wall_15"]);
-            ActiveGameObjects.Add(CachedGameObjects["wall_16"]);
-            ActiveGameObjects.Add(CachedGameObjects["wall_17"]);
-            ActiveGameObjects.Add(CachedGameObjects["player_1"]);
+            Instantiate("wall_01");
+            Instantiate("wall_02");
+            Instantiate("wall_03");
+            Instantiate("wall_04");
+            Instantiate("wall_05");
+            Instantiate("wall_06");
+            Instantiate("wall_07");
+            Instantiate("wall_08");
+            Instantiate("wall_09");
+            Instantiate("wall_10");
+            Instantiate("wall_11");
+            Instantiate("wall_12");
+            Instantiate("wall_13");
+            Instantiate("wall_14");
+            Instantiate("wall_15");
+            Instantiate("wall_16");
+            Instantiate("wall_17");
+            Instantiate("player_1");
+
+            Remove("wall_12");
+            Remove("wall_13");
+            Remove("wall_14");
+            Remove("wall_15");
+
+            Instantiate("wall_13");
+            Instantiate("wall_14");
         }
 
         private void HandleKeyboard()

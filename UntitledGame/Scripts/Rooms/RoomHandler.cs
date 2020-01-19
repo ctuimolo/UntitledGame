@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 
-namespace UntitledGame
+namespace UntitledGame.Rooms
 {
     public class RoomHandler
     {

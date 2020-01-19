@@ -44,8 +44,9 @@ namespace UntitledGame.GameObjects.Player
             CurrentWorld            = setWorld;
             Key = key;
             Body                    = setWorld.AddBody(this, setPosition, _size);
-            Body.ChildHitboxes[0] = new Hitbox(this, new Vector2(0, 0), _size, "body");
+            Body.ChildHitboxes[0]   = new Hitbox(this, new Vector2(0, 0), _size, "body");
             AnimationHandler        = new AnimationHandler(this);
+            InitPosition            = setPosition;
             Position                = setPosition;
             Size                    = _size;
 

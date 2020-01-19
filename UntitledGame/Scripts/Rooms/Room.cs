@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System;
 
+using PhysicsWorld.Responses;
+
 using UntitledGame.GameObjects;
 using UntitledGame.Dynamics;
 
-namespace UntitledGame
+namespace UntitledGame.Rooms
 {
     public class Room
     {
@@ -35,6 +37,48 @@ namespace UntitledGame
                 Environment.Exit(1);
             }
             CachedGameObjects[gameObject.Key] = gameObject;
+        }
+
+        // Spawns a cached object, moves into active obj list and update loop. Physics bodies reset.
+        public void Instantiate(string key)
+        {
+            if (!CachedGameObjects.ContainsKey(key))
+            {
+                Console.Error.WriteLine("Room : \"{0}\" : Instantiate() : Keyname \"{1}\" not found in loaded objects", Key, key);
+                return;
+            }
+            ActiveGameObjects.Add(CachedGameObjects[key]);
+            if (CachedGameObjects[key].Body != null)
+            {
+                CachedGameObjects[key].Body.BoxCollider.Move(CachedGameObjects[key].InitPosition.X, CachedGameObjects[key].InitPosition.Y, (collision) => CollisionResponses.None);
+            }
+        }
+
+        // Remove a cached object from update loop, does not deallocate. Physics bodies crushed and moved to (-1,-1)
+        public void Remove(string key)
+        {
+            if (!CachedGameObjects.ContainsKey(key))
+            {
+                Console.Error.WriteLine("Room : \"{0}\" : Instantiate() : Keyname \"{1}\" not found in loaded objects", Key, key);
+                return;
+            }
+            ActiveGameObjects.Remove(CachedGameObjects[key]);
+            if(CachedGameObjects[key].Body != null)
+            {
+                CachedGameObjects[key].Body.BoxCollider.Move(CachedGameObjects[key].Size.X * -1, CachedGameObjects[key].Size.Y * -1, (collision) => CollisionResponses.None);
+            }
+        }
+
+        public void Destruct(string key)
+        {
+            if (!CachedGameObjects.ContainsKey(key))
+            {
+                Console.Error.WriteLine("Room : \"{0}\" : Instantiate() : Keyname \"{1}\" not found in loaded objects", Key, key);
+                return;
+            }
+            ActiveGameObjects.Remove(CachedGameObjects[key]);
+            CachedGameObjects[key].Destruct();
+            CachedGameObjects.Remove(key);
         }
 
         public virtual void LoadContent()    { }

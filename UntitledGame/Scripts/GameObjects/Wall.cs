@@ -18,6 +18,7 @@ namespace UntitledGame.GameObjects.Wall
             // Object fields
             Size = new Point(coordinates.Width, coordinates.Height);
             Position = new Vector2(coordinates.X, coordinates.Y);
+            InitPosition = Position;
             Key = key;
             CurrentWorld = setWorld;
             Body = CurrentWorld.AddBody(this, Position, Size, false);
