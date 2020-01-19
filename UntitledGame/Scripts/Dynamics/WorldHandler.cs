@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
+using System;
 using System.Collections.Generic;
 
 using PhysicsWorld;
@@ -18,8 +19,8 @@ namespace UntitledGame.Dynamics
     public class WorldHandler
     {
         private readonly World              _world;
-        private readonly List<PhysicsBody>  _dynamicBodies;
-        private readonly List<Hitbox>       _worldHitboxes;
+        private readonly Dictionary<string, PhysicsBody>  _dynamicBodies;
+        private readonly Dictionary<string, Hitbox>       _worldHitboxes;
 
         public float Gravity        { get; set; } = 0.6f;
         public float MaxFallSpeed   { get; set; } = 12f;
@@ -27,29 +28,36 @@ namespace UntitledGame.Dynamics
         public WorldHandler(Point worldSize)
         {
             _world          = new World(worldSize.X, worldSize.Y);
-            _dynamicBodies  = new List<PhysicsBody>();
-            _worldHitboxes  = new List<Hitbox>();
+            _dynamicBodies  = new Dictionary<string, PhysicsBody>();
+            _worldHitboxes  = new Dictionary<string, Hitbox>();
         }
 
         public PhysicsBody AddBody(GameObject owner, Vector2 position, Point size, bool isDynamic = true)
         {
+            if(_dynamicBodies.ContainsKey(owner.Key))
+            {
+                Console.Error.WriteLine("WorldHandler : AddBody() : Keyname \"{1}\" already exists", owner.Key);
+                Environment.Exit(1);
+            }
+
             PhysicsBody newBody = new PhysicsBody(owner, _world.Create(position.X, position.Y, size.X, size.Y));
             if (isDynamic)
             {
-                _dynamicBodies.Add(newBody);
+                _dynamicBodies[owner.Key] = newBody;
             }
-            return newBody;
-        }
 
-        public PhysicsBody AddDynamicBody(PhysicsBody body)
-        {
-            _dynamicBodies.Add(body);
-            return body;
+            return newBody;
         }
 
         public void AddHitbox(Hitbox hitbox)
         {
-            _worldHitboxes.Add(hitbox);
+            if (_worldHitboxes.ContainsKey(hitbox.Key))
+            {
+                Console.Error.WriteLine("WorldHandler : AddHitbox() : Keyname \"{0}\" already exists", hitbox.Key);
+                Environment.Exit(1);
+            }
+
+            _worldHitboxes[hitbox.Key] = hitbox;
         }
 
         public PhysicsBody CreatePhysicsBody(GameObject owner, Vector2 position, Point size)
@@ -65,7 +73,7 @@ namespace UntitledGame.Dynamics
 
         public void PhysicsStep()
         {
-            foreach (PhysicsBody body in _dynamicBodies)
+            foreach (PhysicsBody body in _dynamicBodies.Values)
             {
                 body.IsFloored = false;
                 body.CurrentCollisions.Clear();
@@ -111,7 +119,7 @@ namespace UntitledGame.Dynamics
                     hitbox.Position.X = body.BoxCollider.X + hitbox.Offset.X;
                     hitbox.Position.Y = body.BoxCollider.Y + hitbox.Offset.Y;
 
-                    foreach (Hitbox other in _worldHitboxes)
+                    foreach (Hitbox other in _worldHitboxes.Values)
                     {
                         if (!body.CurrentCollisions.Contains(other)     &&
                             !ReferenceEquals(body.Owner, other.Owner)   &&
@@ -127,7 +135,7 @@ namespace UntitledGame.Dynamics
 
         public void DrawDebug()
         {
-            foreach(Hitbox hitbox in _worldHitboxes)
+            foreach(Hitbox hitbox in _worldHitboxes.Values)
             {
                 hitbox.DrawDebug();
             }

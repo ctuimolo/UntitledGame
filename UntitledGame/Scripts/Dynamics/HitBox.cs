@@ -15,6 +15,7 @@ namespace UntitledGame.Dynamics
     {
         // Monogame drawing fields
         public GameObject   Owner       { get; private set; } = null;
+        public string       Key         { get; protected set; }
         public Texture2D    DebugSprite { get; set; } 
 
         public Vector2 Offset;
@@ -24,8 +25,9 @@ namespace UntitledGame.Dynamics
 
         public delegate void enact();
 
-        public Hitbox(GameObject owner, Vector2 offset, Point size)
+        public Hitbox(GameObject owner, Vector2 offset, Point size, string key)
         {
+            Key     = key;
             Offset  = offset;
             Size    = size;
 

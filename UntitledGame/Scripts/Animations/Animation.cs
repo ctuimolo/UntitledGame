@@ -29,7 +29,7 @@ namespace UntitledGame.Animations
             DrawRect = drawRect;
             if(OffsetType == OffsetType.CenterBottom)
             {
-                Offset = new Vector2(DrawRect.Width / 2 - ownerSize.X / 2 - 1, drawRect.Height - ownerSize.Y - 1);
+                Offset = new Vector2(DrawRect.Width / 2 - ownerSize.X / 2, drawRect.Height - ownerSize.Y - 1);
             }
         }
 

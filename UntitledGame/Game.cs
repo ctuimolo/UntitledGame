@@ -47,8 +47,8 @@ namespace UntitledGame
 
             Rooms.AddRoom(new TestRoom(new Point(1000,1000), "Test Room"));
             CurrentRoom = Rooms.GetRoom("Test Room");
-
             CurrentRoom.LoadContent();
+            CurrentRoom.InitializeRoom();
 
             _view = Matrix.Identity;
         }

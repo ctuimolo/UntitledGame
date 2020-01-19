@@ -23,126 +23,117 @@ namespace UntitledGame.Rooms.TestRoom
 
         public override void LoadContent()
         {
-            LoadGameObject("w1", new Wall(new Rectangle(0, 420, 800, 80)));
-            LoadGameObject("w2", new Wall(new Rectangle(560, 302, 40, 20)));
-            LoadGameObject("w3", new Wall(new Rectangle(0, 0, 4, 480)));
-            LoadGameObject("w4", new Wall(new Rectangle(0, 400, 5, 480)));
-            LoadGameObject("w5", new Wall(new Rectangle(796, 0, 4, 480)));
-            LoadGameObject("w6", new Wall(new Rectangle(200, 300, 70, 20)));
-            LoadGameObject("w7", new Wall(new Rectangle(220, 280, 70, 20)));
-            LoadGameObject("w8", new Wall(new Rectangle(0, 0, 800, 4)));
-            LoadGameObject("w9", new Wall(new Rectangle(190, 400, 70, 20)));
-            LoadGameObject("w10", new Wall(new Rectangle(60, 325, 70, 20)));
-            LoadGameObject("w11", new Wall(new Rectangle(390, 388, 40, 32)));
-            LoadGameObject("w12", new Wall(new Rectangle(432, 388, 40, 32)));
-            LoadGameObject("w13", new Wall(new Rectangle(474, 388, 40, 32)));
-            LoadGameObject("w14", new Wall(new Rectangle(516, 388, 40, 32)));
-            LoadGameObject("w15", new Wall(new Rectangle(558, 388, 40, 32)));
-            LoadGameObject("w16", new Wall(new Rectangle(600, 388, 40, 32)));
-            LoadGameObject("w17", new Wall(new Rectangle(642, 388, 40, 32)));
-            LoadGameObject(new Player(World, new Vector2(250, 130), "player_key"));
+            LoadGameObject(new Wall(World, new Rectangle(0, 420, 800, 80),  "wall_01"));
+            LoadGameObject(new Wall(World, new Rectangle(560, 302, 40, 20), "wall_02"));
+            LoadGameObject(new Wall(World, new Rectangle(0, 0, 4, 480),     "wall_03"));
+            LoadGameObject(new Wall(World, new Rectangle(0, 400, 5, 480),   "wall_04"));
+            LoadGameObject(new Wall(World, new Rectangle(796, 0, 4, 480),   "wall_05"));
+            LoadGameObject(new Wall(World, new Rectangle(200, 300, 70, 20), "wall_06"));
+            LoadGameObject(new Wall(World, new Rectangle(220, 280, 70, 20), "wall_07"));
+            LoadGameObject(new Wall(World, new Rectangle(0, 0, 800, 4),     "wall_08"));
+            LoadGameObject(new Wall(World, new Rectangle(190, 400, 70, 20), "wall_09"));
+            LoadGameObject(new Wall(World, new Rectangle(60, 325, 70, 20),  "wall_10"));
+            LoadGameObject(new Wall(World, new Rectangle(390, 388, 40, 32), "wall_11"));
+            LoadGameObject(new Wall(World, new Rectangle(432, 388, 40, 32), "wall_12"));
+            LoadGameObject(new Wall(World, new Rectangle(474, 388, 40, 32), "wall_13"));
+            LoadGameObject(new Wall(World, new Rectangle(516, 388, 40, 32), "wall_14"));
+            LoadGameObject(new Wall(World, new Rectangle(558, 388, 40, 32), "wall_15"));
+            LoadGameObject(new Wall(World, new Rectangle(600, 388, 40, 32), "wall_16"));
+            LoadGameObject(new Wall(World, new Rectangle(642, 388, 40, 32), "wall_17"));
 
-            World.AddHitbox(new Hitbox(null, new Vector2(420, 310), new Point(30, 60))
+            LoadGameObject(new Player(World, new Vector2(250, 130), "player_1"));
+
+            World.AddHitbox(new Hitbox(null, new Vector2(420, 310), new Point(30, 60), "spuds")
             {
-                DebugSprite = UntitledGame.Debug.Assets.OrangeBox,
+                DebugSprite = Debug.Assets.OrangeBox,
                 Data = new CollisionPackage
                 {
                     Value = "orange",
-                    String = "spuds",
                 }
             });;
 
-            World.AddHitbox(new Hitbox(null, new Vector2(550, 290), new Point(20, 120))
+            World.AddHitbox(new Hitbox(null, new Vector2(550, 290), new Point(20, 120), "cats")
             {
                 DebugSprite = UntitledGame.Debug.Assets.PurpleBox,
                 Data = new CollisionPackage
                 {
                     Value = "purple",
-                    String = "cats",
                 }
             });
 
-            World.AddHitbox(new Hitbox(null, new Vector2(60, 290), new Point(40, 40))
+            World.AddHitbox(new Hitbox(null, new Vector2(60, 290), new Point(40, 40), "bruh")
             {
                 DebugSprite = UntitledGame.Debug.Assets.OrangeBox,
                 Data = new CollisionPackage
                 {
                     Value = "orange",
-                    String = "bruh",
                 }
             });
 
-            World.AddHitbox(new Hitbox(null, new Vector2(440, 290), new Point(80, 40))
+            World.AddHitbox(new Hitbox(null, new Vector2(440, 290), new Point(80, 40), "crunchy")
             {
                 DebugSprite = UntitledGame.Debug.Assets.PurpleBox,
                 Data = new CollisionPackage
                 {
                     Value = "purple",
-                    String = "crunchy",
                 }
             });
 
-            World.AddHitbox(new Hitbox(null, new Vector2(300, 250), new Point(40, 20))
+            World.AddHitbox(new Hitbox(null, new Vector2(300, 250), new Point(40, 20), "trash")
             {
                 DebugSprite = UntitledGame.Debug.Assets.OrangeBox,
                 Data = new CollisionPackage
                 {
                     Value = "orange",
-                    String = "trash",
                 }
             });
 
-            World.AddHitbox(new Hitbox(null, new Vector2(280, 340), new Point(20, 50))
+            World.AddHitbox(new Hitbox(null, new Vector2(280, 340), new Point(20, 50), "curly")
             {
                 DebugSprite = UntitledGame.Debug.Assets.PurpleBox,
                 Data = new CollisionPackage
                 {
                     Value = "purple",
-                    String = "curly",
                 }
             });
 
-            World.AddHitbox(new Hitbox(null, new Vector2(300, 340), new Point(20, 50))
+            World.AddHitbox(new Hitbox(null, new Vector2(300, 340), new Point(20, 50), "d00d")
             {
                 DebugSprite = UntitledGame.Debug.Assets.OrangeBox,
                 Data = new CollisionPackage
                 {
                     Value = "orange",
-                    String = "d00d",
                 }
             });
 
-            World.AddHitbox(new Hitbox(null, new Vector2(320, 340), new Point(20, 50))
+            World.AddHitbox(new Hitbox(null, new Vector2(320, 340), new Point(20, 50), "very nice")
             {
                 DebugSprite = UntitledGame.Debug.Assets.PurpleBox,
                 Data = new CollisionPackage
                 {
                     Value = "purple",
-                    String = "very nice",
                 }
             });
 
-            World.AddHitbox(new Hitbox(null, new Vector2(580, 120), new Point(66, 12))
+            World.AddHitbox(new Hitbox(null, new Vector2(580, 120), new Point(66, 12), "cute funny")
             {
                 DebugSprite = UntitledGame.Debug.Assets.PurpleBox,
                 Data = new CollisionPackage
                 {
                     Value = "purple",
-                    String = "cute funny",
                 }
             });
 
-            World.AddHitbox(new Hitbox(null, new Vector2(400, 620), new Point(40, 40))
+            World.AddHitbox(new Hitbox(null, new Vector2(400, 620), new Point(40, 40), "popcorn")
             {
                 DebugSprite = UntitledGame.Debug.Assets.OrangeBox,
                 Data = new CollisionPackage
                 {
                     Value = "orange",
-                    String = "popcorn",
                 }
             });
 
-            World.AddHitbox(new Hitbox(null, new Vector2(21, 400), new Point(24, 50))
+            World.AddHitbox(new Hitbox(null, new Vector2(21, 400), new Point(24, 50), "bruh bruh bruh")
             {
                 DebugSprite = UntitledGame.Debug.Assets.PurpleBox,
                 Data = new CollisionPackage
@@ -151,6 +142,28 @@ namespace UntitledGame.Rooms.TestRoom
                     String = "bruh bruh bruh",
                 }
             });
+        }
+
+        public override void InitializeRoom()
+        {
+            ActiveGameObjects.Add(CachedGameObjects["wall_01"]);
+            ActiveGameObjects.Add(CachedGameObjects["wall_02"]);
+            ActiveGameObjects.Add(CachedGameObjects["wall_03"]);
+            ActiveGameObjects.Add(CachedGameObjects["wall_04"]);
+            ActiveGameObjects.Add(CachedGameObjects["wall_05"]);
+            ActiveGameObjects.Add(CachedGameObjects["wall_06"]);
+            ActiveGameObjects.Add(CachedGameObjects["wall_07"]);
+            ActiveGameObjects.Add(CachedGameObjects["wall_08"]);
+            ActiveGameObjects.Add(CachedGameObjects["wall_09"]);
+            ActiveGameObjects.Add(CachedGameObjects["wall_10"]);
+            ActiveGameObjects.Add(CachedGameObjects["wall_11"]);
+            ActiveGameObjects.Add(CachedGameObjects["wall_12"]);
+            ActiveGameObjects.Add(CachedGameObjects["wall_13"]);
+            ActiveGameObjects.Add(CachedGameObjects["wall_14"]);
+            ActiveGameObjects.Add(CachedGameObjects["wall_15"]);
+            ActiveGameObjects.Add(CachedGameObjects["wall_16"]);
+            ActiveGameObjects.Add(CachedGameObjects["wall_17"]);
+            ActiveGameObjects.Add(CachedGameObjects["player_1"]);
         }
 
         private void HandleKeyboard()
@@ -171,13 +184,13 @@ namespace UntitledGame.Rooms.TestRoom
             HandleKeyboard();
 
             // update every game object
-            foreach (GameObject obj in CachedGameObjects.Values)
+            foreach (GameObject obj in ActiveGameObjects)
             {
                 obj.ResolveCollisions();
             }
 
             // update every game object
-            foreach (GameObject obj in CachedGameObjects.Values)
+            foreach (GameObject obj in ActiveGameObjects)
             {
                 obj.Update();
             }
@@ -185,7 +198,7 @@ namespace UntitledGame.Rooms.TestRoom
 
         public override void Draw()
         {
-            foreach (GameObject obj in CachedGameObjects.Values)
+            foreach (GameObject obj in ActiveGameObjects)
             {
                 obj.Draw();
                 if (_drawDebug)

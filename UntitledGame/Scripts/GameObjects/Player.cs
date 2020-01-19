@@ -42,9 +42,9 @@ namespace UntitledGame.GameObjects.Player
         public Player(WorldHandler setWorld, Vector2 setPosition, string key)
         {
             CurrentWorld            = setWorld;
+            Key = key;
             Body                    = setWorld.AddBody(this, setPosition, _size);
-            Body.ChildHitboxes[0] = new Hitbox(this, new Vector2(0, 0), _size);
-            Key                     = key;
+            Body.ChildHitboxes[0] = new Hitbox(this, new Vector2(0, 0), _size, "body");
             AnimationHandler        = new AnimationHandler(this);
             Position                = setPosition;
             Size                    = _size;
@@ -88,7 +88,7 @@ namespace UntitledGame.GameObjects.Player
                     Loop        = false
                 });
 
-            AnimationHandler.ChangeAnimation((int)AnimationStates.Idle);
+            AnimationHandler.ChangeAnimation((int)AnimationStates.Idle); 
             AnimationHandler.Facing = PlayerOrientation.Right;
         } 
 
@@ -156,12 +156,6 @@ namespace UntitledGame.GameObjects.Player
         {
         }
 
-        //public override void SetWorld(WorldHandler world)
-        //{
-        //    CurrentWorld = world;
-        //    Body = CurrentWorld.AddBody(this, Position, Size, false);
-        //}
-
         public override void Update()
         {
             // Take keyboard input
@@ -218,7 +212,7 @@ namespace UntitledGame.GameObjects.Player
             _listOfCollisions = "";
             foreach (Hitbox collision in Body.CurrentCollisions)
             {
-                _listOfCollisions += "<" + collision.Position.X + "," + collision.Position.Y + " : " + collision.Data.String + ">\n";
+                _listOfCollisions += "<" + collision.Position.X + "," + collision.Position.Y + " : " + collision.Key + ">\n";
             }
 
             if (Body.CurrentCollisions.Count > 0 )

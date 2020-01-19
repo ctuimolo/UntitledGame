@@ -16,11 +16,6 @@ namespace UntitledGame.GameObjects
         public Vector2      Position        { get; protected set; }
         public Point        Size            { get; protected set; }
 
-        public virtual void SetWorld(WorldHandler world)
-        {
-            CurrentWorld = world;
-        }
-
         public virtual void Initialize()        { }
         public virtual void LoadContent()       { }
         public virtual void Update()            { }

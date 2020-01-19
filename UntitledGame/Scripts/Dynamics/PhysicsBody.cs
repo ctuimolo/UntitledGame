@@ -18,7 +18,7 @@ namespace UntitledGame.Dynamics
         public readonly IBox        BoxCollider;
         public readonly GameObject  Owner;
 
-        public bool     GravityEnabled { get; set; } = true;
+        public bool     GravityEnabled      { get; set; } = true;
         public Vector2  Velocity = new Vector2(0, 0);
 
         public PhysicsBody(GameObject owner, IBox body)

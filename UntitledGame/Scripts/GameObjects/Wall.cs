@@ -8,25 +8,20 @@ namespace UntitledGame.GameObjects.Wall
 {
     public class Wall : GameObject
     {
-        private readonly Point      _size;
-        private readonly Vector2    _position;
-
         private bool _drawDebug = true;
         private KeyboardState _oldKeyState;
 
         public Hitbox Hitbox  { get; private set; }
 
-        public Wall(Rectangle coordinates)
+        public Wall(WorldHandler setWorld, Rectangle coordinates, string key)
         {
             // Object fields
-            _size = new Point(coordinates.Width, coordinates.Height);
-            _position = new Vector2(coordinates.X, coordinates.Y);
-        }
-
-        public override void SetWorld(WorldHandler world)
-        {
-            CurrentWorld = world;
-            Body = CurrentWorld.AddBody(this, _position, _size, false);
+            Size = new Point(coordinates.Width, coordinates.Height);
+            Position = new Vector2(coordinates.X, coordinates.Y);
+            Key = key;
+            CurrentWorld = setWorld;
+            Body = CurrentWorld.AddBody(this, Position, Size, false);
+            Body.BoxCollider.Data = this;
         }
 
         public override void Update()
@@ -42,7 +37,7 @@ namespace UntitledGame.GameObjects.Wall
             Game.SpriteBatch.Draw(
                 Debug.Assets.GreyBox,
                 new Vector2(Body.BoxCollider.X, Body.BoxCollider.Y),
-                new Rectangle(0, 0, (int)_size.X, (int)_size.Y), 
+                new Rectangle(0, 0, (int)Size.X, (int)Size.Y), 
                 Color.White,
                 0,
                 Vector2.Zero,
