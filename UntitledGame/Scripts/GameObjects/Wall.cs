@@ -38,10 +38,15 @@ namespace UntitledGame.GameObjects.Wall
 
         public override void Draw()
         {
+            DrawDebug();
+        }
+
+        public override void DrawDebug()
+        {
             Game.SpriteBatch.Draw(
                 Debug.Assets.GreyBox,
                 new Vector2(Body.BoxCollider.X, Body.BoxCollider.Y),
-                new Rectangle(0, 0, (int)Size.X, (int)Size.Y), 
+                new Rectangle(0, 0, (int)Size.X, (int)Size.Y),
                 Color.White,
                 0,
                 Vector2.Zero,
@@ -49,10 +54,6 @@ namespace UntitledGame.GameObjects.Wall
                 SpriteEffects.None,
                 0f
             );
-        }
-
-        public override void DrawDebug()
-        {
         }
     }
 }

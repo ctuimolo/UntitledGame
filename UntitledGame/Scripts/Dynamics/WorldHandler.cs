@@ -10,10 +10,10 @@ using UntitledGame.GameObjects;
 
 namespace UntitledGame.Dynamics
 {
-    public enum PhysicsType
+    public enum WorldState
     {
-        Wall,
-        Hitbox
+        Update,
+        Pause,
     }
 
     public class WorldHandler
@@ -22,6 +22,7 @@ namespace UntitledGame.Dynamics
         private readonly Dictionary<string, PhysicsBody>  _dynamicBodies;
         private readonly Dictionary<string, Hitbox>       _worldHitboxes;
 
+        public WorldState State     { get; set; } = WorldState.Update;
         public float Gravity        { get; set; } = 0.6f;
         public float MaxFallSpeed   { get; set; } = 12f;
 
@@ -84,60 +85,63 @@ namespace UntitledGame.Dynamics
 
         public void PhysicsStep()
         {
-            foreach (PhysicsBody body in _dynamicBodies.Values)
+            if(State == WorldState.Update)
             {
-                body.IsFloored = false;
-                body.CurrentCollisions.Clear();
-
-                if (body.GravityEnabled && body.Velocity.Y < MaxFallSpeed)
+                foreach (PhysicsBody body in _dynamicBodies.Values)
                 {
-                    if(body.Velocity.Y + Gravity <= MaxFallSpeed)
+                    body.IsFloored = false;
+                    body.CurrentCollisions.Clear();
+
+                    if (body.GravityEnabled && body.Velocity.Y < MaxFallSpeed)
                     {
-                        body.Velocity.Y += Gravity;
-                    } else
-                    {
-                        body.Velocity.Y = MaxFallSpeed;
+                        if(body.Velocity.Y + Gravity <= MaxFallSpeed)
+                        {
+                            body.Velocity.Y += Gravity;
+                        } else
+                        {
+                            body.Velocity.Y = MaxFallSpeed;
+                        }
                     }
-                }
 
-                body.BoxCollider.Move(
-                    body.BoxCollider.X + body.Velocity.X,
-                    body.BoxCollider.Y + body.Velocity.Y, 
-                    (collision) =>
+                    body.BoxCollider.Move(
+                        body.BoxCollider.X + body.Velocity.X,
+                        body.BoxCollider.Y + body.Velocity.Y, 
+                        (collision) =>
+                        {
+                            if (body.Velocity.Y > 0 && collision.Hit.Normal.Y < 0)
+                            {
+                                body.Velocity.Y = 0;
+                                body.IsFloored = true;
+                            }
+                            else if (body.Velocity.Y < 0 && collision.Hit.Normal.Y > 0)
+                            {
+                                body.Velocity.Y = 0;
+                            }
+                            if (body.Velocity.X > 0 && collision.Hit.Normal.X < 0)
+                            {
+                                body.Velocity.X = 0;
+                            }
+                            else if (body.Velocity.X < 0 && collision.Hit.Normal.X > 0)
+                            {
+                                body.Velocity.X = 0;
+                            }
+                            return CollisionResponses.Slide;
+                        });
+
+                    foreach (Hitbox hitbox in body.ChildHitboxes.Values)
                     {
-                        if (body.Velocity.Y > 0 && collision.Hit.Normal.Y < 0)
-                        {
-                            body.Velocity.Y = 0;
-                            body.IsFloored = true;
-                        }
-                        else if (body.Velocity.Y < 0 && collision.Hit.Normal.Y > 0)
-                        {
-                            body.Velocity.Y = 0;
-                        }
-                        if (body.Velocity.X > 0 && collision.Hit.Normal.X < 0)
-                        {
-                            body.Velocity.X = 0;
-                        }
-                        else if (body.Velocity.X < 0 && collision.Hit.Normal.X > 0)
-                        {
-                            body.Velocity.X = 0;
-                        }
-                        return CollisionResponses.Slide;
-                    });
+                        hitbox.Position.X = body.BoxCollider.X + hitbox.Offset.X;
+                        hitbox.Position.Y = body.BoxCollider.Y + hitbox.Offset.Y;
 
-                foreach (Hitbox hitbox in body.ChildHitboxes.Values)
-                {
-                    hitbox.Position.X = body.BoxCollider.X + hitbox.Offset.X;
-                    hitbox.Position.Y = body.BoxCollider.Y + hitbox.Offset.Y;
-
-                    foreach (Hitbox other in _worldHitboxes.Values)
-                    {
-                        if (!body.CurrentCollisions.Contains(other)     &&
-                            !ReferenceEquals(body.Owner, other.Owner)   &&
-                            other.Data != null                          &&
-                            IsAABBOverlap(hitbox, other))
+                        foreach (Hitbox other in _worldHitboxes.Values)
                         {
-                            body.CurrentCollisions.Add(other);
+                            if (!body.CurrentCollisions.Contains(other)     &&
+                                !ReferenceEquals(body.Owner, other.Owner)   &&
+                                other.Data != null                          &&
+                                IsAABBOverlap(hitbox, other))
+                            {
+                                body.CurrentCollisions.Add(other);
+                            }
                         }
                     }
                 }

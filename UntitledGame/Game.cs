@@ -74,34 +74,40 @@ namespace UntitledGame
 
         protected override void Update(GameTime gameTime) // 60 updates per ~1000ms, non-buffering (slowdown enabled)
         {
-            HandleKeyboard();
-            CurrentRoom.Update();
+            if(IsActive)
+            {
+                CurrentRoom.Update();
+                HandleKeyboard();
+            }
         }
 
         protected override void Draw(GameTime gameTime) // calls after Update()
         {
+            if (IsActive)
+            {
+                // FPS and update count debug
+                if (_frameCount >= _targetFPS - 1)
+                    _frameCount = 0;
+                else
+                    _frameCount++;
 
-            // FPS and update count debug
-            if (_frameCount >= _targetFPS - 1)
-                _frameCount = 0;
-            else
-                _frameCount++;
+                _frameRate = Math.Round((1 / gameTime.ElapsedGameTime.TotalSeconds), 1);
 
-            _frameRate = Math.Round((1 / gameTime.ElapsedGameTime.TotalSeconds), 1);
+                GraphicsDevice.Clear(Color.Black);
+                SpriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, _view);
 
-            GraphicsDevice.Clear(Color.Black);
-            SpriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, _view);
+                SpriteBatch.DrawString(Debug.Assets.DebugFont, "Toggle Hitbox view:   [F1]", new Vector2(10, 10), Color.White);
+                SpriteBatch.DrawString(Debug.Assets.DebugFont, "_frameCount: " + _frameCount, new Vector2(10, 22), Color.White);
+                SpriteBatch.DrawString(Debug.Assets.DebugFont, "Target FPS: " + _targetFPS, new Vector2(10, 34), Color.White);
+                SpriteBatch.DrawString(Debug.Assets.DebugFont, "Avg FPS:    " + _frameRate, new Vector2(10, 46), Color.White);
 
-            SpriteBatch.DrawString(Debug.Assets.DebugFont, "Toggle Hitbox view:   [F1]", new Vector2(10, 10), Color.White);
-            SpriteBatch.DrawString(Debug.Assets.DebugFont, "_frameCount: " + _frameCount, new Vector2(10, 22), Color.White);
-            SpriteBatch.DrawString(Debug.Assets.DebugFont, "Target FPS: " + _targetFPS, new Vector2(10, 34), Color.White);
-            SpriteBatch.DrawString(Debug.Assets.DebugFont, "Avg FPS:    " + _frameRate, new Vector2(10, 46), Color.White);
+                CurrentRoom.Draw();
 
-            CurrentRoom.Draw();
+                SpriteBatch.End();
 
-            SpriteBatch.End();
+                base.Draw(gameTime);
+            }
 
-            base.Draw(gameTime);
         }
     }
 }

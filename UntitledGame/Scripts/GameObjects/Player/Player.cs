@@ -1,20 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+
+using System;
 
 using UntitledGame.Animations;
 using UntitledGame.Dynamics;
 
 namespace UntitledGame.GameObjects.Player
 {
-    enum AnimationStates
-    {
-        Idle,
-        Walking,
-        Rising,
-        Falling
-    }
-
     class Player : GameObject
     {
         // Player physics engine params
@@ -53,44 +46,7 @@ namespace UntitledGame.GameObjects.Player
             Position                = setPosition;
             Size                    = _size;
 
-            AnimationHandler.AddAnimation(
-                (int)AnimationStates.Idle,
-                new Animation(new Rectangle(0, 0, 152, 152), _size)
-                {
-                    SpriteSheet = Game.Assets.Load<Texture2D>("SpriteSheets/suika_idle"),
-                    FrameCount  = 18,
-                    FrameDelay  = 6,
-                });
-
-            AnimationHandler.AddAnimation(
-                (int)AnimationStates.Walking,
-                new Animation(new Rectangle(0, 0, 96, 96), _size)
-                {
-                    SpriteSheet = Game.Assets.Load<Texture2D>("SpriteSheets/suika_walk"),
-                    FrameCount  = 8,
-                    FrameDelay  = 4
-                });
-
-            AnimationHandler.AddAnimation(
-                (int)AnimationStates.Falling,
-                new Animation(new Rectangle(0, 0, 126, 102), _size)
-                {
-                    SpriteSheet = Game.Assets.Load<Texture2D>("SpriteSheets/suika_fall"),
-                    FrameCount  = 3,
-                    FrameDelay  = 6,
-                    LoopIndex   = 1
-                });
-
-            AnimationHandler.AddAnimation(
-               (int)AnimationStates.Rising,
-                new Animation(new Rectangle(0, 0, 110, 110), _size)
-                {
-                    SpriteSheet = Game.Assets.Load<Texture2D>("SpriteSheets/suika_rise"),
-                    Offset      = new Vector2(48, 53),
-                    FrameCount  = 2,
-                    FrameDelay  = 4,
-                    Loop        = false
-                });
+            Player_AnimationLibrary.LoadAnimations(AnimationHandler);
 
             AnimationHandler.ChangeAnimation((int)AnimationStates.Idle); 
             AnimationHandler.Facing = PlayerOrientation.Right;
@@ -162,35 +118,40 @@ namespace UntitledGame.GameObjects.Player
 
         public override void Update()
         {
-            // Take keyboard input
-            HandleKeyboard();
-
-            // World collisions are set, do update here
-            _isOverlappingOrange = false;
-            _isOverlappingPink   = false;
-
-            if (!Body.IsFloored)
+            if(CurrentWorld.State == WorldState.Update)
             {
-                if (Body.Velocity.Y <= 0)
-                {
-                    AnimationHandler.ChangeAnimation((int)AnimationStates.Rising);
-                }
-                else
-                {
-                    AnimationHandler.ChangeAnimation((int)AnimationStates.Falling);
-                }
-            }
+                // Take keyboard input
+                HandleKeyboard();
 
-            foreach (Hitbox collision in Body.CurrentCollisions)
-            {
-                if (collision.Data.Value == "orange")
+                // World collisions are set, do update here
+                _isOverlappingOrange = false;
+                _isOverlappingPink   = false;
+
+                if (!Body.IsFloored)
                 {
-                    _isOverlappingOrange = true;
+                    if (Body.Velocity.Y <= 0)
+                    {
+                        AnimationHandler.ChangeAnimation((int)AnimationStates.Rising);
+                    }
+                    else
+                    {
+                        AnimationHandler.ChangeAnimation((int)AnimationStates.Falling);
+                    }
                 }
-                if (collision.Data.Value == "purple")
+
+                foreach (Hitbox collision in Body.CurrentCollisions)
                 {
-                    _isOverlappingPink = true;
+                    if (collision.Data.Value == "orange")
+                    {
+                        _isOverlappingOrange = true;
+                    }
+                    if (collision.Data.Value == "purple")
+                    {
+                        _isOverlappingPink = true;
+                    }
                 }
+
+                AnimationHandler.UpdateIndex();
             }
         }
 

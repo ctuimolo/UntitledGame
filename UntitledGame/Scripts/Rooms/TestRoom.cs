@@ -12,7 +12,6 @@ namespace UntitledGame.Rooms.TestRoom
 {
     public class TestRoom : Room
     {
-        private bool                _drawDebug = false;
         private KeyboardState       _oldKeyState;
 
         public TestRoom(Point worldSize, string setKey) : base(worldSize, setKey)
@@ -185,43 +184,24 @@ namespace UntitledGame.Rooms.TestRoom
             if (state.IsKeyDown(Keys.F1) && _oldKeyState.IsKeyUp(Keys.F1))
                 _drawDebug = !_drawDebug;
 
+            if (state.IsKeyDown(Keys.P) && _oldKeyState.IsKeyUp(Keys.P))
+                World.State = (World.State == WorldState.Pause ? WorldState.Update : WorldState.Pause);
+
             _oldKeyState = state;
         }
 
         public override void Update()
         {
-            // Physics world step, and then resolve collisions
-            // Send to collisions, interacting objects
-            World.PhysicsStep();
+            base.Update();
             HandleKeyboard();
-
-            // update every game object
-            foreach (GameObject obj in ActiveGameObjects)
-            {
-                obj.ResolveCollisions();
-            }
-
-            // update every game object
-            foreach (GameObject obj in ActiveGameObjects)
-            {
-                obj.Update();
-            }
         }
 
         public override void Draw()
         {
-            foreach (GameObject obj in DrawableGameObjects)
+            base.Draw();
+            if(World.State == WorldState.Pause)
             {
-                obj.Draw();
-                if (_drawDebug)
-                {
-                    obj.DrawDebug();
-                }
-            }
-
-            if (_drawDebug)
-            {
-                World.DrawDebug();
+                Game.SpriteBatch.DrawString(Debug.Assets.DebugFont, "<< PAUSED >>" , new Vector2(355, 10), Color.White);
             }
         }
     }

@@ -15,7 +15,6 @@ namespace UntitledGame.Animations
 
     public class AnimationHandler
     {
-        private readonly GameObject _owner;
 
         private Dictionary<int, Animation> _animationDic { get; }
         private Animation  _currentAnimation;
@@ -24,11 +23,12 @@ namespace UntitledGame.Animations
         private int _animationTimer  = 0;
         private int _state           = 0;
 
+        public GameObject Owner         { get; private set; }
         public PlayerOrientation Facing { get; set; }
 
-        public AnimationHandler( GameObject owner)
+        public AnimationHandler(GameObject owner)
         {
-            _owner          = owner;
+            Owner          = owner;
             _animationDic   = new Dictionary<int, Animation>();
         }
 
@@ -59,20 +59,26 @@ namespace UntitledGame.Animations
             _currentAnimation = _animationDic[_state];
             Game.SpriteBatch.Draw(
                 _currentAnimation.SpriteSheet,
-                new Vector2(_owner.Body.BoxCollider.X, _owner.Body.BoxCollider.Y) - _currentAnimation.Offset,
+                new Vector2(Owner.Body.BoxCollider.X, Owner.Body.BoxCollider.Y) - _currentAnimation.Offset,
                 _currentAnimation.GetDrawRect(_drawIndex),
                 Color.White,
                 0,
                 Vector2.Zero,
                 1f,
                 Facing == PlayerOrientation.Right ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
-                0f
+                1f
             );
+           
+            Game.SpriteBatch.DrawString(Debug.Assets.DebugFont, "_drawIndex  : " + _drawIndex, new Vector2(10, 100), Color.Pink);
+            _currentAnimation.DrawDebug();
+        }
 
-            if (_currentAnimation.Play)
+        public void UpdateIndex()
+        {
+            if (_currentAnimation != null && _currentAnimation.Play)
             {
                 _animationTimer++;
-                if(_animationTimer >= _currentAnimation.FrameDelay)
+                if (_animationTimer >= _currentAnimation.FrameDelay)
                 {
                     _animationTimer = 0;
                     _drawIndex++;
@@ -89,9 +95,6 @@ namespace UntitledGame.Animations
                     }
                 }
             }
-
-            Game.SpriteBatch.DrawString(Debug.Assets.DebugFont, "_drawIndex  : " + _drawIndex, new Vector2(10, 100), Color.Pink);
-            _currentAnimation.DrawDebug();
         }
     }
 }

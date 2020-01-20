@@ -11,6 +11,8 @@ namespace UntitledGame.Rooms
 {
     public class Room
     {
+        protected bool _drawDebug = false;
+
         protected Dictionary<string, GameObject> CachedGameObjects { get; set; }
         protected List<GameObject> ActiveGameObjects;
         protected List<GameObject> DrawableGameObjects;
@@ -64,7 +66,7 @@ namespace UntitledGame.Rooms
         {
             if (!CachedGameObjects.ContainsKey(key))
             {
-                Console.Error.WriteLine("Room : \"{0}\" : Instantiate() : Keyname \"{1}\" not found in loaded objects", Key, key);
+                Console.Error.WriteLine("Room : \"{0}\" : Remove() : Keyname \"{1}\" not found in loaded objects", Key, key);
                 return;
             }
             ActiveGameObjects.Remove(CachedGameObjects[key]);
@@ -79,7 +81,7 @@ namespace UntitledGame.Rooms
         {
             if (!CachedGameObjects.ContainsKey(key))
             {
-                Console.Error.WriteLine("Room : \"{0}\" : Instantiate() : Keyname \"{1}\" not found in loaded objects", Key, key);
+                Console.Error.WriteLine("Room : \"{0}\" : Destruct() : Keyname \"{1}\" not found in loaded objects", Key, key);
                 return;
             }
             ActiveGameObjects.Remove(CachedGameObjects[key]);
@@ -90,7 +92,41 @@ namespace UntitledGame.Rooms
 
         public virtual void LoadContent()    { }
         public virtual void InitializeRoom() { }
-        public virtual void Update()         { }
-        public virtual void Draw()           { }
+
+        public virtual  void Update()
+        {
+            // Physics world step, and then resolve collisions
+            // Send to collisions, interacting objects
+            World.PhysicsStep();
+
+            // update every game object
+            foreach (GameObject obj in ActiveGameObjects)
+            {
+                obj.ResolveCollisions();
+            }
+
+            // update every game object
+            foreach (GameObject obj in ActiveGameObjects)
+            {
+                obj.Update();
+            }
+        }
+
+        public virtual void Draw()
+        {
+            foreach (GameObject obj in DrawableGameObjects)
+            {
+                obj.Draw();
+                if (_drawDebug)
+                {
+                    obj.DrawDebug();
+                }
+            }
+
+            if (_drawDebug)
+            {
+                World.DrawDebug();
+            }
+        }
     }
 }
