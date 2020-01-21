@@ -46,31 +46,12 @@ namespace UntitledGame.Animations
             }
         }
 
-        public void Set_drawIndex(int set_drawIndex)
+        public void SetDrawIndex(int set_drawIndex)
         {
             if (set_drawIndex >= _currentAnimation.FrameCount)
                 _drawIndex = 0;
             else
                 _drawIndex = set_drawIndex;
-        }
-
-        public void DrawFrame()
-        {
-            _currentAnimation = _animationDic[_state];
-            Game.SpriteBatch.Draw(
-                _currentAnimation.SpriteSheet,
-                new Vector2(Owner.Body.BoxCollider.X, Owner.Body.BoxCollider.Y) - _currentAnimation.Offset,
-                _currentAnimation.GetDrawRect(_drawIndex),
-                Color.White,
-                0,
-                Vector2.Zero,
-                1f,
-                Facing == PlayerOrientation.Right ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
-                1f
-            );
-           
-            Game.SpriteBatch.DrawString(Debug.Assets.DebugFont, "_drawIndex  : " + _drawIndex, new Vector2(10, 100), Color.Pink);
-            _currentAnimation.DrawDebug();
         }
 
         public void UpdateIndex()
@@ -96,5 +77,28 @@ namespace UntitledGame.Animations
                 }
             }
         }
+
+        public void DrawFrame()
+        {
+            _currentAnimation = _animationDic[_state];
+            Game.SpriteBatch.Draw(
+                _currentAnimation.SpriteSheet,
+                new Vector2(Owner.Body.BoxCollider.X, Owner.Body.BoxCollider.Y) - _currentAnimation.Offset,
+                _currentAnimation.GetDrawRect(_drawIndex),
+                Color.White,
+                0,
+                Vector2.Zero,
+                1f,
+                Facing == PlayerOrientation.Right ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
+                0f
+            );
+        }
+
+        public void DrawDebug()
+        {
+            Game.SpriteBatch.DrawString(Debug.Assets.DebugFont, "_drawIndex  : " + _drawIndex, new Vector2(10, 100), Color.Pink);
+            _currentAnimation.DrawDebug();
+        }
+        
     }
 }

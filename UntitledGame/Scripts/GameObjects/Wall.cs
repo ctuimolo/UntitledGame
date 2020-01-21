@@ -52,7 +52,7 @@ namespace UntitledGame.GameObjects.Wall
                 Vector2.Zero,
                 1f,
                 SpriteEffects.None,
-                0f
+                1f
             );
         }
     }

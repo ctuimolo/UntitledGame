@@ -8,11 +8,12 @@ namespace UntitledGame.GameObjects
 
     public abstract class GameObject
     {
-        public PhysicsBody      Body                { get; protected set; }
-        public AnimationHandler AnimationHandler    { get; protected set; }
-        public string           Key                 { get; protected set; }
+        protected   AnimationHandler  AnimationHandler    { get; set; }
 
-        public bool Drawable    { get; protected set; }
+        public PhysicsBody  Body        { get; protected set; }
+        public bool         Drawable    { get; protected set; }
+        public string       Key         { get; protected set; }
+
 
         public WorldHandler CurrentWorld    { get; protected set; }
         public Vector2      InitPosition    { get; protected set; }

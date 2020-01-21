@@ -53,7 +53,7 @@
     <Compile Include="Scripts\Dynamics\PhysicsBody.cs" />
     <Compile Include="Scripts\GameObjects\Player\Player.cs" />
     <Compile Include="Scripts\GameObjects\Player\Player_AnimationLibrary.cs" />
-    <Compile Include="Scripts\GameObjects\Player\Player_BehaviorLibrary.cs" />
+    <Compile Include="Scripts\GameObjects\Player\Player_BehaviorFunctions.cs" />
     <Compile Include="Scripts\Rooms\Room.cs" />
     <Compile Include="Scripts\Rooms\RoomHandler.cs" />
     <Compile Include="Scripts\Rooms\TestRoom.cs" />

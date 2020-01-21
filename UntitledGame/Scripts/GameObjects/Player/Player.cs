@@ -9,7 +9,7 @@ using UntitledGame.Dynamics;
 
 namespace UntitledGame.GameObjects.Player
 {
-    class Player : GameObject
+    public class Player : GameObject
     {
         // Player physics engine params
         private readonly Point      _size = new Point(20,64);
@@ -31,13 +31,15 @@ namespace UntitledGame.GameObjects.Player
         private string  _isOverlappingPinkString;
         private string  _listOfCollisions;
 
+        // Behavior libraries
+        private readonly Player_AnimationLibrary    _AnimationLibrary;
+        private readonly Player_BehaviorFunctions   _behaviorFunctions;
+
         // Behavior events delegate. 
-        public delegate void ResolveCollisionsDelegate(PhysicsBody Body);
         public delegate void BehaviorsDelegate();
 
         // Behavior events. Call this after appending all collisions and logic.
-        public ResolveCollisionsDelegate ResolveCollisions;
-        public BehaviorsDelegate         BehaviorFunctions;
+        public BehaviorsDelegate        BehaviorFunctions;
 
         public Player(WorldHandler setWorld, Vector2 setPosition, string key)
         {
@@ -48,14 +50,17 @@ namespace UntitledGame.GameObjects.Player
             Body                    = setWorld.AddBody(this, setPosition, _size);
             Body.ChildHitboxes[0]   = new Hitbox(this, new Vector2(0, 0), _size, "body");
 
-            AnimationHandler        = new AnimationHandler(this);
+            _AnimationLibrary   = new Player_AnimationLibrary();
+            AnimationHandler    = new AnimationHandler(this);
+
             InitPosition            = setPosition;
             Position                = setPosition;
             Size                    = _size;
 
-            Player_BehaviorLibrary.LoadCollisionHandling(this);
-            Player_BehaviorLibrary.LoadBehaviors(this);
-            Player_AnimationLibrary.LoadAnimations(AnimationHandler);
+            _behaviorFunctions  = new Player_BehaviorFunctions(this, Body, AnimationHandler);
+
+            _behaviorFunctions.InitBehaviors();
+            _AnimationLibrary.LoadAnimations(AnimationHandler);
 
             AnimationHandler.ChangeAnimation((int)AnimationStates.Idle); 
             AnimationHandler.Facing = PlayerOrientation.Right;
@@ -125,12 +130,8 @@ namespace UntitledGame.GameObjects.Player
         {
             if(CurrentWorld.State == WorldState.Update)
             {
-
-                ResolveCollisions?.Invoke(Body);
-                BehaviorFunctions?.Invoke();
-
                 AnimationHandler.UpdateIndex();
-
+                BehaviorFunctions?.Invoke();
                 HandleKeyboard();
             }
         }
@@ -138,14 +139,17 @@ namespace UntitledGame.GameObjects.Player
         public override void Draw()
         {
             AnimationHandler.DrawFrame();
+        }
 
+        public override void DrawDebug()
+        {
             _PositionDebugString = "Position: \n" +
-                                  "X: " + (int)(Body.BoxCollider.X - _size.X / 2) + "\n" +
-                                  "Y: " + (int)(Body.BoxCollider.Y - _size.Y / 2) + "\n";
+                      "X: " + (int)(Body.BoxCollider.X - _size.X / 2) + "\n" +
+                      "Y: " + (int)(Body.BoxCollider.Y - _size.Y / 2) + "\n";
 
             _isFlooredString = "Grounded:            " + (Body.IsFloored ? "true" : "false");
-            _isOverlappingOrangeString = "Hitbox Collisions:   " + (Player_BehaviorLibrary.isOverlappingOrange ? "true" : "false");
-            _isOverlappingPinkString = "Hitbox Collisions:   " + (Player_BehaviorLibrary.isOverlappingPink ? "true" : "false");
+            _isOverlappingOrangeString = "Hitbox Collisions:   " + (_behaviorFunctions.isOverlappingOrange ? "true" : "false");
+            _isOverlappingPinkString = "Hitbox Collisions:   " + (_behaviorFunctions.isOverlappingPink ? "true" : "false");
             _afterCollisionString = "Collisions present:  " + (Body.CurrentCollisions.Count > 0 ? "true" : "false");
 
             Game.SpriteBatch.DrawString(
@@ -153,14 +157,14 @@ namespace UntitledGame.GameObjects.Player
                 "collision packages: " + Body.CurrentCollisions.Count,
                 new Vector2(10, 124),
                 Color.GreenYellow);
-            
+
             _listOfCollisions = "";
             foreach (Hitbox collision in Body.CurrentCollisions)
             {
                 _listOfCollisions += "<" + collision.Position.X + "," + collision.Position.Y + " : " + collision.Key + ">\n";
             }
 
-            if (Body.CurrentCollisions.Count > 0 )
+            if (Body.CurrentCollisions.Count > 0)
             {
                 Game.SpriteBatch.DrawString(
                     Debug.Assets.DebugFont,
@@ -198,11 +202,8 @@ namespace UntitledGame.GameObjects.Player
                 "B " + _isOverlappingOrangeString,
                 new Vector2(Body.BoxCollider.X, Body.BoxCollider.Y) + new Vector2(20, -50),
                 Color.Orange);
-        }
-
-        public override void DrawDebug()
-        {
             Body.DrawDebug();
+            AnimationHandler.DrawDebug();
         }
     }
 }
