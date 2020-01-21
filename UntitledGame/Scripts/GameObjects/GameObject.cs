@@ -22,7 +22,6 @@ namespace UntitledGame.GameObjects
         public virtual void LoadContent()       { }
         public virtual void Initialize()        { }
         public virtual void Update()            { }
-        public virtual void ResolveCollisions() { }
         public virtual void Draw()              { }
         public virtual void DrawDebug()         { }
 

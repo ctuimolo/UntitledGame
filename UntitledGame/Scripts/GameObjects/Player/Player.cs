@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Input;
 
 using System;
+using System.Collections.Generic;
 
 using UntitledGame.Animations;
 using UntitledGame.Dynamics;
@@ -23,14 +24,20 @@ namespace UntitledGame.GameObjects.Player
         private bool _inputAction1;
 
         // Debug fields and strings
-        private bool    _isOverlappingOrange;
-        private bool    _isOverlappingPink;
         private string  _afterCollisionString;
         private string  _PositionDebugString;
         private string  _isFlooredString;
         private string  _isOverlappingOrangeString;
         private string  _isOverlappingPinkString;
         private string  _listOfCollisions;
+
+        // Behavior events delegate. 
+        public delegate void ResolveCollisionsDelegate(PhysicsBody Body);
+        public delegate void BehaviorsDelegate();
+
+        // Behavior events. Call this after appending all collisions and logic.
+        public ResolveCollisionsDelegate ResolveCollisions;
+        public BehaviorsDelegate         BehaviorFunctions;
 
         public Player(WorldHandler setWorld, Vector2 setPosition, string key)
         {
@@ -46,6 +53,8 @@ namespace UntitledGame.GameObjects.Player
             Position                = setPosition;
             Size                    = _size;
 
+            Player_BehaviorLibrary.LoadCollisionHandling(this);
+            Player_BehaviorLibrary.LoadBehaviors(this);
             Player_AnimationLibrary.LoadAnimations(AnimationHandler);
 
             AnimationHandler.ChangeAnimation((int)AnimationStates.Idle); 
@@ -112,46 +121,17 @@ namespace UntitledGame.GameObjects.Player
             _oldKeyState = state;
         }
 
-        public override void ResolveCollisions()
-        {
-        }
-
         public override void Update()
         {
             if(CurrentWorld.State == WorldState.Update)
             {
-                // Take keyboard input
-                HandleKeyboard();
 
-                // World collisions are set, do update here
-                _isOverlappingOrange = false;
-                _isOverlappingPink   = false;
-
-                if (!Body.IsFloored)
-                {
-                    if (Body.Velocity.Y <= 0)
-                    {
-                        AnimationHandler.ChangeAnimation((int)AnimationStates.Rising);
-                    }
-                    else
-                    {
-                        AnimationHandler.ChangeAnimation((int)AnimationStates.Falling);
-                    }
-                }
-
-                foreach (Hitbox collision in Body.CurrentCollisions)
-                {
-                    if (collision.Data.Value == "orange")
-                    {
-                        _isOverlappingOrange = true;
-                    }
-                    if (collision.Data.Value == "purple")
-                    {
-                        _isOverlappingPink = true;
-                    }
-                }
+                ResolveCollisions?.Invoke(Body);
+                BehaviorFunctions?.Invoke();
 
                 AnimationHandler.UpdateIndex();
+
+                HandleKeyboard();
             }
         }
 
@@ -164,8 +144,8 @@ namespace UntitledGame.GameObjects.Player
                                   "Y: " + (int)(Body.BoxCollider.Y - _size.Y / 2) + "\n";
 
             _isFlooredString = "Grounded:            " + (Body.IsFloored ? "true" : "false");
-            _isOverlappingOrangeString = "Hitbox Collisions:   " + (_isOverlappingOrange ? "true" : "false");
-            _isOverlappingPinkString = "Hitbox Collisions:   " + (_isOverlappingPink ? "true" : "false");
+            _isOverlappingOrangeString = "Hitbox Collisions:   " + (Player_BehaviorLibrary.isOverlappingOrange ? "true" : "false");
+            _isOverlappingPinkString = "Hitbox Collisions:   " + (Player_BehaviorLibrary.isOverlappingPink ? "true" : "false");
             _afterCollisionString = "Collisions present:  " + (Body.CurrentCollisions.Count > 0 ? "true" : "false");
 
             Game.SpriteBatch.DrawString(

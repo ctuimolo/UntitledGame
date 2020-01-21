@@ -13,7 +13,7 @@ namespace UntitledGame.GameObjects.Player
         Falling,
     }
 
-    public static class Player_AnimationLibrary
+    static class Player_AnimationLibrary
     {
         public static void LoadAnimations(AnimationHandler animationHandler)
         {

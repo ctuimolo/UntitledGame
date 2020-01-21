@@ -102,12 +102,6 @@ namespace UntitledGame.Rooms
             // update every game object
             foreach (GameObject obj in ActiveGameObjects)
             {
-                obj.ResolveCollisions();
-            }
-
-            // update every game object
-            foreach (GameObject obj in ActiveGameObjects)
-            {
                 obj.Update();
             }
         }
