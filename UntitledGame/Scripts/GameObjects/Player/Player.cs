@@ -114,8 +114,8 @@ namespace UntitledGame.GameObjects.Player
             {
                 AnimationHandler.UpdateIndex();
                 BehaviorFunctions?.Invoke();
-                _controller.ParseInput();
                 HandleKeyboard();
+                _controller.ParseInput();
             }
         }
 
