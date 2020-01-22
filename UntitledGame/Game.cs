@@ -4,7 +4,9 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 
 using System;
+using System.Collections.Generic;
 
+using UntitledGame.Input;
 using UntitledGame.Rooms;
 using UntitledGame.Rooms.TestRoom;
 
@@ -17,17 +19,20 @@ namespace UntitledGame
 
         // Game camera and view
         private bool                _drawDebug = false;
-        private KeyboardState       _oldKeyState;
         private Matrix              _view;
         private int                 _frameCount;
         private double              _frameRate;
 
+        // Global input profiles
+        public static Dictionary<string, InputManager> InputProfiles { get; private set; }
+        public static InputManager GlobalKeyboard { get; private set; }
+
         // Graphics and World physics
-        public static GraphicsDeviceManager Graphics    { get; private set; }
-        public static SpriteBatch           SpriteBatch { get; private set; }
-        public static ContentManager        Assets      { get; private set; }
-        public static RoomHandler           Rooms       { get; private set; }
-        public static Room                  CurrentRoom { get; private set; }
+        public static GraphicsDeviceManager Graphics        { get; private set; }
+        public static SpriteBatch           SpriteBatch     { get; private set; }
+        public static ContentManager        Assets          { get; private set; }
+        public static RoomHandler           Rooms           { get; private set; }
+        public static Room                  CurrentRoom     { get; private set; }
 
         public Game()
         {
@@ -43,11 +48,15 @@ namespace UntitledGame
 
         protected override void LoadContent()
         {
-            SpriteBatch = new SpriteBatch(Graphics.GraphicsDevice);
-            Rooms       = new RoomHandler();
+            InputProfiles   = new Dictionary<string, InputManager>();
+            SpriteBatch     = new SpriteBatch(Graphics.GraphicsDevice);
+            Rooms           = new RoomHandler();
 
-            Rooms.AddRoom(new TestRoom(new Point(1000,1000), "Test Room"));
-            CurrentRoom = Rooms.GetRoom("Test Room");
+            InputProfiles["global_keyboard"] = new InputManager();
+            GlobalKeyboard = InputProfiles["global_keyboard"];
+
+            Rooms.AddRoom(new TestRoom(new Point(1000,1000), "test_room"));
+            CurrentRoom = Rooms.GetRoom("test_room");
             CurrentRoom.LoadContent();
             CurrentRoom.InitializeRoom();
 
@@ -61,15 +70,11 @@ namespace UntitledGame
 
         private void HandleKeyboard()
         {
-            KeyboardState state = Keyboard.GetState();
-
-            if (state.IsKeyDown(Keys.Escape))
+            if (GlobalKeyboard.InputPressed(InputFlags.Escape))
                 Exit();
 
-            if (state.IsKeyDown(Keys.F1) && _oldKeyState.IsKeyUp(Keys.F1))
+            if (GlobalKeyboard.InputPressed(InputFlags.Debug1))
                 _drawDebug = !_drawDebug;
-
-            _oldKeyState = state;
         }
 
         protected override void Update(GameTime gameTime) // 60 updates per ~1000ms, non-buffering (slowdown enabled)
@@ -78,6 +83,10 @@ namespace UntitledGame
             {
                 CurrentRoom.Update();
                 HandleKeyboard();
+                foreach(InputManager profile in InputProfiles.Values)
+                {
+                    profile.ParseInput();
+                }
             }
         }
 

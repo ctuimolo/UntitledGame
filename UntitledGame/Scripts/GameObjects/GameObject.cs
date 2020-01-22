@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 
 using UntitledGame.Animations;
+using UntitledGame.Input;
 using UntitledGame.Dynamics;
 
 namespace UntitledGame.GameObjects
@@ -14,11 +15,12 @@ namespace UntitledGame.GameObjects
         public bool         Drawable    { get; protected set; }
         public string       Key         { get; protected set; }
 
-
         public WorldHandler CurrentWorld    { get; protected set; }
         public Vector2      InitPosition    { get; protected set; }
         public Vector2      Position        { get; protected set; }
         public Point        Size            { get; protected set; }
+
+        public virtual void SetController(InputManager controller) { }
 
         public virtual void LoadContent()       { }
         public virtual void Initialize()        { }

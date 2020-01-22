@@ -25,6 +25,11 @@ namespace UntitledGame.Input
         Button10,
         Button11,
         Button12,
+        Escape,
+        Debug1,
+        Debug2,
+        Debug3,
+        Debug4,
     }
 
     public class InputManager
@@ -53,7 +58,13 @@ namespace UntitledGame.Input
         {
             _keyboardDefinitions[InputFlags.Left]       = Keys.A;
             _keyboardDefinitions[InputFlags.Right]      = Keys.D;
+            _keyboardDefinitions[InputFlags.Up]         = Keys.W;
+            _keyboardDefinitions[InputFlags.Down]       = Keys.S;
             _keyboardDefinitions[InputFlags.Button1]    = Keys.Space;
+            _keyboardDefinitions[InputFlags.Button9]    = Keys.P;
+            _keyboardDefinitions[InputFlags.Button10]   = Keys.O;
+            _keyboardDefinitions[InputFlags.Escape]     = Keys.Escape;
+            _keyboardDefinitions[InputFlags.Debug1]     = Keys.F1;
         }
 
         private void ParseKeyboardInputs()

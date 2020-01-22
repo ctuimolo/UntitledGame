@@ -23,8 +23,10 @@ namespace UntitledGame.GameObjects.Player
         private string  _isOverlappingPinkString;
         private string  _listOfCollisions;
 
+        // Input manager, set to single input profile
+        public InputManager Controller  { get; set; }
+
         // Behavior libraries
-        private readonly InputManager               _controller;
         private readonly Player_AnimationLibrary    _animationLibrary;
         private readonly Player_BehaviorFunctions   _behaviorFunctions;
 
@@ -34,7 +36,7 @@ namespace UntitledGame.GameObjects.Player
         // Behavior events. Call this after appending all collisions and logic.
         public BehaviorsDelegate        BehaviorFunctions;
 
-        public Player(WorldHandler setWorld, Vector2 setPosition, string key)
+        public Player(WorldHandler setWorld, Vector2 setPosition, InputManager controller, string key)
         {
             CurrentWorld    = setWorld;
             Key             = key;
@@ -47,17 +49,22 @@ namespace UntitledGame.GameObjects.Player
             Body                    = setWorld.AddBody(this, setPosition, _size);
             Body.ChildHitboxes[0]   = new Hitbox(this, new Vector2(0, 0), _size, "body");
 
-            _controller         = new InputManager();
+            Controller          = controller;
             _animationLibrary   = new Player_AnimationLibrary();
             AnimationHandler    = new AnimationHandler(this);
-            _behaviorFunctions = new Player_BehaviorFunctions(this, Body, AnimationHandler, _controller);
+            _behaviorFunctions  = new Player_BehaviorFunctions(this, Body, AnimationHandler, Controller);
 
             _behaviorFunctions.InitBehaviors();
             _animationLibrary.LoadAnimations(AnimationHandler);
 
             AnimationHandler.ChangeAnimation((int)AnimationStates.Idle); 
             AnimationHandler.Facing = Orientation.Right;
-        } 
+        }
+
+        public override void SetController(InputManager controller)
+        {
+            Controller = controller;
+        }
 
         public override void Update()
         {
@@ -65,7 +72,7 @@ namespace UntitledGame.GameObjects.Player
             {
                 AnimationHandler.UpdateIndex();
                 BehaviorFunctions?.Invoke();
-                _controller.ParseInput();
+                //Controller.ParseInput();
             }
         }
 
