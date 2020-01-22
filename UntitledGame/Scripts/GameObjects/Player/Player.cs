@@ -24,7 +24,6 @@ namespace UntitledGame.GameObjects.Player
         private string  _listOfCollisions;
 
         // Input manager, set to single input profile
-        public InputManager Controller  { get; set; }
 
         // Behavior libraries
         private readonly Player_AnimationLibrary    _animationLibrary;
@@ -36,7 +35,7 @@ namespace UntitledGame.GameObjects.Player
         // Behavior events. Call this after appending all collisions and logic.
         public BehaviorsDelegate        BehaviorFunctions;
 
-        public Player(WorldHandler setWorld, Vector2 setPosition, InputManager controller, string key)
+        public Player(WorldHandler setWorld, Vector2 setPosition, string key)
         {
             CurrentWorld    = setWorld;
             Key             = key;
@@ -49,21 +48,16 @@ namespace UntitledGame.GameObjects.Player
             Body                    = setWorld.AddBody(this, setPosition, _size);
             Body.ChildHitboxes[0]   = new Hitbox(this, new Vector2(0, 0), _size, "body");
 
-            Controller          = controller;
             _animationLibrary   = new Player_AnimationLibrary();
             AnimationHandler    = new AnimationHandler(this);
-            _behaviorFunctions  = new Player_BehaviorFunctions(this, Body, AnimationHandler, Controller);
+            _behaviorFunctions  = new Player_BehaviorFunctions(this, Body, AnimationHandler);
+            _behaviorFunctions.SetController(Game.GlobalKeyboard);
 
             _behaviorFunctions.InitBehaviors();
             _animationLibrary.LoadAnimations(AnimationHandler);
 
             AnimationHandler.ChangeAnimation((int)AnimationStates.Idle); 
             AnimationHandler.Facing = Orientation.Right;
-        }
-
-        public override void SetController(InputManager controller)
-        {
-            Controller = controller;
         }
 
         public override void Update()

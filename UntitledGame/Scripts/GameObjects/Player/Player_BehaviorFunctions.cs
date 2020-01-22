@@ -10,7 +10,7 @@ namespace UntitledGame.GameObjects.Player
         private readonly Player             _player;
         private readonly PhysicsBody        _body;
         private readonly AnimationHandler   _animationHandler;
-        private readonly InputManager       _controller;
+        private InputManager                _controller;
 
         // Local fields for behavior scripts
         private readonly float _walkSpeed       = 3;
@@ -21,12 +21,16 @@ namespace UntitledGame.GameObjects.Player
         public bool isOverlappingOrange;
         public bool isOverlappingPink;
 
-        public Player_BehaviorFunctions(Player player, PhysicsBody body, AnimationHandler animationHandler, InputManager controller)
+        public Player_BehaviorFunctions(Player player, PhysicsBody body, AnimationHandler animationHandler)
         {
             _player             = player;
             _body               = body;
             _animationHandler   = animationHandler;
-            _controller         = controller;
+        }
+
+        public void SetController(InputManager controller)
+        {
+            _controller = controller;
         }
 
         // The order of procedure from owner.Update();
@@ -55,47 +59,50 @@ namespace UntitledGame.GameObjects.Player
 
         private void HandleInput()
         {
-            if (_controller.InputDown(InputFlags.Left) && !_controller.InputDown(InputFlags.Right))
+            if(_controller != null)
             {
-                _body.Velocity.X = -_walkSpeed;
-                _animationHandler.Facing = Orientation.Left;
-                if (_body.IsFloored)
+                if (_controller.InputDown(InputFlags.Left) && !_controller.InputDown(InputFlags.Right))
                 {
-                    _animationHandler.ChangeAnimation((int)AnimationStates.Walking);
+                    _body.Velocity.X = -_walkSpeed;
+                    _animationHandler.Facing = Orientation.Left;
+                    if (_body.IsFloored)
+                    {
+                        _animationHandler.ChangeAnimation((int)AnimationStates.Walking);
+                    }
                 }
-            }
 
-            if (_controller.InputDown(InputFlags.Right) && !_controller.InputDown(InputFlags.Left))
-            {
-                _body.Velocity.X = _walkSpeed;
-                _animationHandler.Facing = Orientation.Right;
-                if (_body.IsFloored)
+                if (_controller.InputDown(InputFlags.Right) && !_controller.InputDown(InputFlags.Left))
                 {
-                    _animationHandler.ChangeAnimation((int)AnimationStates.Walking);
+                    _body.Velocity.X = _walkSpeed;
+                    _animationHandler.Facing = Orientation.Right;
+                    if (_body.IsFloored)
+                    {
+                        _animationHandler.ChangeAnimation((int)AnimationStates.Walking);
+                    }
                 }
-            }
 
-            if (!_controller.InputDown(InputFlags.Left) && !_controller.InputDown(InputFlags.Right))
-            {
-                _body.Velocity.X = 0;
-                if (_body.IsFloored)
+                if (!_controller.InputDown(InputFlags.Left) && !_controller.InputDown(InputFlags.Right))
                 {
-                    _animationHandler.ChangeAnimation((int)AnimationStates.Idle);
+                    _body.Velocity.X = 0;
+                    if (_body.IsFloored)
+                    {
+                        _animationHandler.ChangeAnimation((int)AnimationStates.Idle);
+                    }
                 }
-            }
 
-            if (_controller.InputDown(InputFlags.Left) && _controller.InputDown(InputFlags.Right))
-            {
-                _body.Velocity.X = 0;
-                if (_body.IsFloored)
+                if (_controller.InputDown(InputFlags.Left) && _controller.InputDown(InputFlags.Right))
                 {
-                    _animationHandler.ChangeAnimation((int)AnimationStates.Idle);
+                    _body.Velocity.X = 0;
+                    if (_body.IsFloored)
+                    {
+                        _animationHandler.ChangeAnimation((int)AnimationStates.Idle);
+                    }
                 }
-            }
 
-            if (_controller.InputPressed(InputFlags.Button1))
-            {
-                _body.Velocity.Y = -_jumpStrength;
+                if (_controller.InputPressed(InputFlags.Button1))
+                {
+                    _body.Velocity.Y = -_jumpStrength;
+                }
             }
         }
 
