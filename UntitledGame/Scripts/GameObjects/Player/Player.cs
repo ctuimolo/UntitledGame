@@ -14,8 +14,6 @@ namespace UntitledGame.GameObjects.Player
     {
         // Player physics engine params
         private readonly Point      _size = new Point(20,64);
-        private readonly float      _walkSpeed    = 3;
-        private readonly float      _jumpStrength = 8;
 
         // Debug fields and strings
         private string  _afterCollisionString;
@@ -42,18 +40,17 @@ namespace UntitledGame.GameObjects.Player
             Key             = key;
             Drawable        = true;
 
+            InitPosition = setPosition;
+            Position = setPosition;
+            Size = _size;
+
             Body                    = setWorld.AddBody(this, setPosition, _size);
             Body.ChildHitboxes[0]   = new Hitbox(this, new Vector2(0, 0), _size, "body");
 
             _controller         = new InputManager();
             _animationLibrary   = new Player_AnimationLibrary();
             AnimationHandler    = new AnimationHandler(this);
-
-            InitPosition            = setPosition;
-            Position                = setPosition;
-            Size                    = _size;
-
-            _behaviorFunctions  = new Player_BehaviorFunctions(this, Body, AnimationHandler);
+            _behaviorFunctions = new Player_BehaviorFunctions(this, Body, AnimationHandler, _controller);
 
             _behaviorFunctions.InitBehaviors();
             _animationLibrary.LoadAnimations(AnimationHandler);
@@ -62,59 +59,12 @@ namespace UntitledGame.GameObjects.Player
             AnimationHandler.Facing = Orientation.Right;
         } 
 
-        private void HandleKeyboard()
-        {
-            if (_controller.InputDown(InputFlags.Left) && !_controller.InputDown(InputFlags.Right))
-            {
-                Body.Velocity.X = -_walkSpeed;
-                AnimationHandler.Facing = Orientation.Left;
-                if(Body.IsFloored)
-                {
-                    AnimationHandler.ChangeAnimation((int)AnimationStates.Walking);
-                }
-            }
-
-            if (_controller.InputDown(InputFlags.Right) && !_controller.InputDown(InputFlags.Left))
-            {
-                Body.Velocity.X = _walkSpeed;
-                AnimationHandler.Facing = Orientation.Right;
-                if (Body.IsFloored)
-                {
-                    AnimationHandler.ChangeAnimation((int)AnimationStates.Walking);
-                }
-            }
-
-            if (!_controller.InputDown(InputFlags.Left) && !_controller.InputDown(InputFlags.Right))
-            {
-                Body.Velocity.X = 0;
-                if (Body.IsFloored)
-                {
-                    AnimationHandler.ChangeAnimation((int)AnimationStates.Idle);
-                }
-            }
-
-            if (_controller.InputDown(InputFlags.Left) && _controller.InputDown(InputFlags.Right))
-            {
-                Body.Velocity.X = 0;
-                if (Body.IsFloored)
-                {
-                    AnimationHandler.ChangeAnimation((int)AnimationStates.Idle);
-                }
-            }
-
-            if (_controller.InputPressed(InputFlags.Button1))
-            {
-                Body.Velocity.Y = -_jumpStrength;
-            }
-        }
-
         public override void Update()
         {
             if(CurrentWorld.State == WorldState.Update)
             {
                 AnimationHandler.UpdateIndex();
                 BehaviorFunctions?.Invoke();
-                HandleKeyboard();
                 _controller.ParseInput();
             }
         }
