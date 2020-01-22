@@ -7,7 +7,7 @@ using UntitledGame.GameObjects;
 
 namespace UntitledGame.Animations
 {
-    public enum PlayerOrientation
+    public enum Orientation
     {
         Right,
         Left
@@ -24,7 +24,7 @@ namespace UntitledGame.Animations
         private int _state           = 0;
 
         public GameObject Owner         { get; private set; }
-        public PlayerOrientation Facing { get; set; }
+        public Orientation Facing { get; set; }
 
         public AnimationHandler(GameObject owner)
         {
@@ -89,8 +89,8 @@ namespace UntitledGame.Animations
                 0,
                 Vector2.Zero,
                 1f,
-                Facing == PlayerOrientation.Right ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
-                0f
+                Facing == Orientation.Right ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
+                0.5f
             );
         }
 

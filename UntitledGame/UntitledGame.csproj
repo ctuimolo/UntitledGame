@@ -54,6 +54,7 @@
     <Compile Include="Scripts\GameObjects\Player\Player.cs" />
     <Compile Include="Scripts\GameObjects\Player\Player_AnimationLibrary.cs" />
     <Compile Include="Scripts\GameObjects\Player\Player_BehaviorFunctions.cs" />
+    <Compile Include="Scripts\Input\InputManager.cs" />
     <Compile Include="Scripts\Rooms\Room.cs" />
     <Compile Include="Scripts\Rooms\RoomHandler.cs" />
     <Compile Include="Scripts\Rooms\TestRoom.cs" />
@@ -79,6 +80,7 @@
       <Name>PhysicsWorld</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

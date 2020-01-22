@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 using UntitledGame.Animations;
 using UntitledGame.Dynamics;
+using UntitledGame.Input;
 
 namespace UntitledGame.GameObjects.Player
 {
@@ -16,13 +17,6 @@ namespace UntitledGame.GameObjects.Player
         private readonly float      _walkSpeed    = 3;
         private readonly float      _jumpStrength = 8;
 
-        // Input handler eventually
-        private KeyboardState _oldKeyState;
-        private bool _inputLeft;
-        private bool _inputRight;
-        private bool _inputJump;
-        private bool _inputAction1;
-
         // Debug fields and strings
         private string  _afterCollisionString;
         private string  _PositionDebugString;
@@ -32,7 +26,8 @@ namespace UntitledGame.GameObjects.Player
         private string  _listOfCollisions;
 
         // Behavior libraries
-        private readonly Player_AnimationLibrary    _AnimationLibrary;
+        private readonly InputManager               _controller;
+        private readonly Player_AnimationLibrary    _animationLibrary;
         private readonly Player_BehaviorFunctions   _behaviorFunctions;
 
         // Behavior events delegate. 
@@ -50,7 +45,8 @@ namespace UntitledGame.GameObjects.Player
             Body                    = setWorld.AddBody(this, setPosition, _size);
             Body.ChildHitboxes[0]   = new Hitbox(this, new Vector2(0, 0), _size, "body");
 
-            _AnimationLibrary   = new Player_AnimationLibrary();
+            _controller         = new InputManager();
+            _animationLibrary   = new Player_AnimationLibrary();
             AnimationHandler    = new AnimationHandler(this);
 
             InitPosition            = setPosition;
@@ -60,42 +56,35 @@ namespace UntitledGame.GameObjects.Player
             _behaviorFunctions  = new Player_BehaviorFunctions(this, Body, AnimationHandler);
 
             _behaviorFunctions.InitBehaviors();
-            _AnimationLibrary.LoadAnimations(AnimationHandler);
+            _animationLibrary.LoadAnimations(AnimationHandler);
 
             AnimationHandler.ChangeAnimation((int)AnimationStates.Idle); 
-            AnimationHandler.Facing = PlayerOrientation.Right;
+            AnimationHandler.Facing = Orientation.Right;
         } 
 
         private void HandleKeyboard()
         {
-            KeyboardState state = Keyboard.GetState();
-
-            _inputLeft       = state.IsKeyDown(Keys.A);
-            _inputRight      = state.IsKeyDown(Keys.D);
-            _inputJump       = state.IsKeyDown(Keys.Space);
-            _inputAction1    = state.IsKeyDown(Keys.J);
-
-            if (_inputLeft && !_inputRight )
+            if (_controller.InputDown(InputFlags.Left) && !_controller.InputDown(InputFlags.Right))
             {
                 Body.Velocity.X = -_walkSpeed;
-                AnimationHandler.Facing = PlayerOrientation.Left;
+                AnimationHandler.Facing = Orientation.Left;
                 if(Body.IsFloored)
                 {
                     AnimationHandler.ChangeAnimation((int)AnimationStates.Walking);
                 }
             }
 
-            if (_inputRight  && !_inputLeft)
+            if (_controller.InputDown(InputFlags.Right) && !_controller.InputDown(InputFlags.Left))
             {
                 Body.Velocity.X = _walkSpeed;
-                AnimationHandler.Facing = PlayerOrientation.Right;
+                AnimationHandler.Facing = Orientation.Right;
                 if (Body.IsFloored)
                 {
                     AnimationHandler.ChangeAnimation((int)AnimationStates.Walking);
                 }
             }
 
-            if (!_inputRight  && !_inputLeft)
+            if (!_controller.InputDown(InputFlags.Left) && !_controller.InputDown(InputFlags.Right))
             {
                 Body.Velocity.X = 0;
                 if (Body.IsFloored)
@@ -104,7 +93,7 @@ namespace UntitledGame.GameObjects.Player
                 }
             }
 
-            if (_inputRight  && _inputLeft)
+            if (_controller.InputDown(InputFlags.Left) && _controller.InputDown(InputFlags.Right))
             {
                 Body.Velocity.X = 0;
                 if (Body.IsFloored)
@@ -113,17 +102,10 @@ namespace UntitledGame.GameObjects.Player
                 }
             }
 
-            if (state.IsKeyDown(Keys.Space) && _oldKeyState.IsKeyUp(Keys.Space))
+            if (_controller.InputPressed(InputFlags.Button1))
             {
                 Body.Velocity.Y = -_jumpStrength;
             }
-
-            if (_inputAction1)
-            {
-                //Game.World.AddHitbox(CollisionHandler.Body, new Vector2(10, 10), new Vector2(50, 50), "purple", CollisionType.invoker, "purple");
-            }
-
-            _oldKeyState = state;
         }
 
         public override void Update()
@@ -132,6 +114,7 @@ namespace UntitledGame.GameObjects.Player
             {
                 AnimationHandler.UpdateIndex();
                 BehaviorFunctions?.Invoke();
+                _controller.ParseInput();
                 HandleKeyboard();
             }
         }
