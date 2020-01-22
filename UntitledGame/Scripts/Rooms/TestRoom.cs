@@ -201,7 +201,7 @@ namespace UntitledGame.Rooms.TestRoom
             base.Draw();
             if(World.State == WorldState.Pause)
             {
-                Game.SpriteBatch.DrawString(Debug.Assets.DebugFont, "<< PAUSED >>" , new Vector2(355, 10), Color.White);
+                Game.SpriteBatch.DrawString(Debug.Assets.DebugFont, "<< PAUSED >>" , new Vector2(350, 10), Color.White);
             }
         }
     }

@@ -96,7 +96,7 @@ namespace UntitledGame
                 GraphicsDevice.Clear(Color.Black);
                 SpriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, _view);
 
-                SpriteBatch.DrawString(Debug.Assets.DebugFont, "Toggle debug view:   [F1]", new Vector2(10, 10), Color.White);
+                SpriteBatch.DrawString(Debug.Assets.DebugFont, "Toggle debug view: [F1] Pause: [P] Move: [A][D][Space]", new Vector2(10, 10), Color.White);
                 SpriteBatch.DrawString(Debug.Assets.DebugFont, "_frameCount: " + _frameCount, new Vector2(10, 22), Color.White);
                 SpriteBatch.DrawString(Debug.Assets.DebugFont, "Target FPS: " + _targetFPS, new Vector2(10, 34), Color.White);
                 SpriteBatch.DrawString(Debug.Assets.DebugFont, "Avg FPS:    " + _frameRate, new Vector2(10, 46), Color.White);
