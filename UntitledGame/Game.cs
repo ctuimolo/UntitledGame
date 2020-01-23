@@ -117,7 +117,7 @@ namespace UntitledGame
                 GraphicsDevice.Clear(Color.Black);
                 SpriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, _view);
 
-                SpriteBatch.DrawString(Debug.Assets.DebugFont, "                     DrawDebug:[F1]       Pause:[P]       Action:[Arrows][Z][X]      Roms1&2:[F2][F3]", new Vector2(10, 10), Color.White);
+                SpriteBatch.DrawString(Debug.Assets.DebugFont, "                     DrawDebug:[F1]       Pause:[P]       Action:[Arrows][Z][X]      Rooms1&2:[F2][F3]", new Vector2(10, 10), Color.White);
                 SpriteBatch.DrawString(Debug.Assets.DebugFont, "_frameCount:  " + _frameCount, new Vector2(10, 36), Color.White);
                 SpriteBatch.DrawString(Debug.Assets.DebugFont, "_targetFPS:   " + _targetFPS, new Vector2(10, 48), Color.White);
                 SpriteBatch.DrawString(Debug.Assets.DebugFont, "_frameRate:   " + _frameRate, new Vector2(10, 60), Color.White);

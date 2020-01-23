@@ -48,7 +48,7 @@ namespace UntitledGame.GameObjects.Player
             _player.BehaviorFunctions += CheckPurpleOrange;
             _player.BehaviorFunctions += IdleAnimation;
 
-            // Should be last, most of the time
+            // Should be last, most of the time. Otherwise risk overwiting animation state logic
             _player.BehaviorFunctions += HandleInput;
         }
 
