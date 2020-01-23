@@ -51,13 +51,13 @@ namespace UntitledGame.GameObjects.Player
             Body = CurrentWorld.AddBody(this, InitPosition, Size);
             Body.ChildHitboxes[0] = new Hitbox(this, new Vector2(0, 0), Size, "body");
 
-            _animationLibrary   = new Player_AnimationLibrary();
             AnimationHandler    = new AnimationHandler(this);
-            _behaviorFunctions  = new Player_BehaviorFunctions(this, Body, AnimationHandler);
-            _behaviorFunctions.SetController(Game.GlobalKeyboard);
-
-            _behaviorFunctions.InitBehaviors();
+            _animationLibrary   = new Player_AnimationLibrary();
             _animationLibrary.LoadAnimations(AnimationHandler);
+
+            _behaviorFunctions = new Player_BehaviorFunctions(this, Body, AnimationHandler);
+            _behaviorFunctions.SetController(Game.GlobalKeyboard);
+            _behaviorFunctions.InitBehaviors();
 
             AnimationHandler.ChangeAnimation((int)AnimationStates.Idle);
             AnimationHandler.Facing = Orientation.Right;

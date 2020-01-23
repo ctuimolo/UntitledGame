@@ -2,6 +2,8 @@
 using UntitledGame.Animations;
 using UntitledGame.Input;
 
+using UntitledGame.GameObjects.Player.FixedActions;
+
 namespace UntitledGame.GameObjects.Player
 {
     public class Player_BehaviorFunctions
@@ -29,6 +31,8 @@ namespace UntitledGame.GameObjects.Player
         public bool isOverlappingOrange;
         public bool isOverlappingPink;
 
+        AttackTest _attackTest;
+
         public Player_BehaviorFunctions(Player player, PhysicsBody body, AnimationHandler animationHandler)
         {
             _player             = player;
@@ -50,6 +54,8 @@ namespace UntitledGame.GameObjects.Player
 
             // Should be last, most of the time. Otherwise risk overwiting animation state logic
             _player.BehaviorFunctions += HandleInput;
+
+            _attackTest = new AttackTest(_animationHandler.Animations[(int)AnimationStates.Attack1]);
         }
 
         // Functional game logic below here...
