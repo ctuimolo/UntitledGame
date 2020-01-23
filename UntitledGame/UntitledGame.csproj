@@ -57,7 +57,7 @@
     <Compile Include="Scripts\Input\InputManager.cs" />
     <Compile Include="Scripts\Rooms\Room.cs" />
     <Compile Include="Scripts\Rooms\RoomHandler.cs" />
-    <Compile Include="Scripts\Rooms\TestRoom.cs" />
+    <Compile Include="Scripts\Rooms\TestRoom\TestRoom.cs" />
     <Compile Include="Scripts\GameObjects\Wall.cs" />
     <Compile Include="Scripts\Dynamics\WorldHandler.cs" />
   </ItemGroup>

@@ -40,6 +40,7 @@ namespace UntitledGame.Rooms
                 Environment.Exit(1);
             }
             CachedGameObjects[gameObject.Key] = gameObject;
+            gameObject.LoadContent();
         }
 
         // Spawns a cached object, moves into active obj list and update loop. Physics bodies reset.

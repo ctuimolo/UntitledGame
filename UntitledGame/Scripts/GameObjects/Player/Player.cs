@@ -13,7 +13,7 @@ namespace UntitledGame.GameObjects.Player
     public class Player : GameObject
     {
         // Player physics engine params
-        private readonly Point      _size = new Point(20,64);
+        private readonly Point      _initSize = new Point(20,64);
 
         // Debug fields and strings
         private string  _afterCollisionString;
@@ -26,14 +26,14 @@ namespace UntitledGame.GameObjects.Player
         // Input manager, set to single input profile
 
         // Behavior libraries
-        private readonly Player_AnimationLibrary    _animationLibrary;
-        private readonly Player_BehaviorFunctions   _behaviorFunctions;
+        private Player_AnimationLibrary    _animationLibrary;
+        private Player_BehaviorFunctions   _behaviorFunctions;
 
         // Behavior events delegate. 
         public delegate void BehaviorsDelegate();
 
         // Behavior events. Call this after appending all collisions and logic.
-        public BehaviorsDelegate        BehaviorFunctions;
+        public BehaviorsDelegate BehaviorFunctions;
 
         public Player(WorldHandler setWorld, Vector2 setPosition, string key)
         {
@@ -41,12 +41,15 @@ namespace UntitledGame.GameObjects.Player
             Key             = key;
             Drawable        = true;
 
-            InitPosition = setPosition;
-            Position = setPosition;
-            Size = _size;
+            InitPosition    = setPosition;
+            Position        = setPosition;
+            Size            = _initSize;
+        }
 
-            Body                    = setWorld.AddBody(this, setPosition, _size);
-            Body.ChildHitboxes[0]   = new Hitbox(this, new Vector2(0, 0), _size, "body");
+        public override void LoadContent()
+        {
+            Body = CurrentWorld.AddBody(this, InitPosition, Size);
+            Body.ChildHitboxes[0] = new Hitbox(this, new Vector2(0, 0), Size, "body");
 
             _animationLibrary   = new Player_AnimationLibrary();
             AnimationHandler    = new AnimationHandler(this);
@@ -56,7 +59,7 @@ namespace UntitledGame.GameObjects.Player
             _behaviorFunctions.InitBehaviors();
             _animationLibrary.LoadAnimations(AnimationHandler);
 
-            AnimationHandler.ChangeAnimation((int)AnimationStates.Idle); 
+            AnimationHandler.ChangeAnimation((int)AnimationStates.Idle);
             AnimationHandler.Facing = Orientation.Right;
         }
 
@@ -64,9 +67,8 @@ namespace UntitledGame.GameObjects.Player
         {
             if(CurrentWorld.State == WorldState.Update)
             {
-                AnimationHandler.UpdateIndex();
                 BehaviorFunctions?.Invoke();
-                //Controller.ParseInput();
+                AnimationHandler.UpdateIndex();
             }
         }
 
@@ -78,8 +80,8 @@ namespace UntitledGame.GameObjects.Player
         public override void DrawDebug()
         {
             _PositionDebugString = "Position: \n" +
-                      "X: " + (int)(Body.BoxCollider.X - _size.X / 2) + "\n" +
-                      "Y: " + (int)(Body.BoxCollider.Y - _size.Y / 2) + "\n";
+                      "X: " + (int)(Body.BoxCollider.X - Size.X / 2) + "\n" +
+                      "Y: " + (int)(Body.BoxCollider.Y - Size.Y / 2) + "\n";
 
             _isFlooredString = "Grounded:            " + (Body.IsFloored ? "true" : "false");
             _isOverlappingOrangeString = "Hitbox Collisions:   " + (_behaviorFunctions.isOverlappingOrange ? "true" : "false");

@@ -20,10 +20,7 @@ namespace UntitledGame.GameObjects
         public Vector2      Position        { get; protected set; }
         public Point        Size            { get; protected set; }
 
-        public virtual void SetController(InputManager controller) { }
-
         public virtual void LoadContent()       { }
-        public virtual void Initialize()        { }
         public virtual void Update()            { }
         public virtual void Draw()              { }
         public virtual void DrawDebug()         { }
