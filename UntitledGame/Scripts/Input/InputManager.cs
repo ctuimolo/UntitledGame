@@ -56,11 +56,12 @@ namespace UntitledGame.Input
 
         private void LoadDefaultMapping()
         {
-            _keyboardDefinitions[InputFlags.Left]       = Keys.A;
-            _keyboardDefinitions[InputFlags.Right]      = Keys.D;
-            _keyboardDefinitions[InputFlags.Up]         = Keys.W;
-            _keyboardDefinitions[InputFlags.Down]       = Keys.S;
-            _keyboardDefinitions[InputFlags.Button1]    = Keys.Space;
+            _keyboardDefinitions[InputFlags.Left]       = Keys.Left;
+            _keyboardDefinitions[InputFlags.Right]      = Keys.Right;
+            _keyboardDefinitions[InputFlags.Up]         = Keys.Up;
+            _keyboardDefinitions[InputFlags.Down]       = Keys.Down;
+            _keyboardDefinitions[InputFlags.Button1]    = Keys.Z;
+            _keyboardDefinitions[InputFlags.Button2]    = Keys.X;
             _keyboardDefinitions[InputFlags.Button9]    = Keys.P;
             _keyboardDefinitions[InputFlags.Button10]   = Keys.O;
             _keyboardDefinitions[InputFlags.Escape]     = Keys.Escape;

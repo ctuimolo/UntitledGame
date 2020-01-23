@@ -23,8 +23,9 @@ namespace UntitledGame.Animations
         private int _animationTimer  = 0;
         private int _state           = 0;
 
-        public GameObject Owner         { get; private set; }
-        public Orientation Facing { get; set; }
+        public bool         Finished    { get; private set; } = false;
+        public GameObject   Owner       { get; private set; }
+        public Orientation  Facing      { get; set; }
 
         public AnimationHandler(GameObject owner)
         {
@@ -43,6 +44,7 @@ namespace UntitledGame.Animations
             {
                 _state = state;
                 _drawIndex = _animationDic[_state].StartIndex;
+                Finished = false;
             }
         }
 
@@ -71,6 +73,7 @@ namespace UntitledGame.Animations
                         }
                         else
                         {
+                            Finished = true;
                             _drawIndex--;
                         }
                     }

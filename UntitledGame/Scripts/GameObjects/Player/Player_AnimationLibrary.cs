@@ -11,6 +11,7 @@ namespace UntitledGame.GameObjects.Player
         Walking,
         Rising,
         Falling,
+        Attack1,
     }
 
     public class Player_AnimationLibrary
@@ -50,9 +51,18 @@ namespace UntitledGame.GameObjects.Player
                 new Animation(new Rectangle(0, 0, 110, 110), animationHandler.Owner.Size)
                 {
                     SpriteSheet = Game.Assets.Load<Texture2D>("SpriteSheets/suika_rise"),
-                    Offset = new Vector2(48, 53),
                     FrameCount = 2,
                     FrameDelay = 4,
+                    Loop = false
+                });
+
+            animationHandler.AddAnimation(
+               (int)AnimationStates.Attack1,
+                new Animation(new Rectangle(0, 0, 300, 100), animationHandler.Owner.Size)
+                {
+                    SpriteSheet = Game.Assets.Load<Texture2D>("SpriteSheets/suika_attack1"),
+                    FrameCount = 11,
+                    FrameDelay = 3,
                     Loop = false
                 });
         }

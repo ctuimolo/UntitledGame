@@ -35,7 +35,7 @@ namespace UntitledGame.Dynamics
             foreach(Hitbox hitbox in ChildHitboxes.Values)
             {
                 Game.SpriteBatch.Draw(
-                    Debug.Assets.RedBox,
+                    Debug.Assets.BlueBox,
                     new Vector2(hitbox.Position.X, hitbox.Position.Y),
                     new Rectangle(0, 0, hitbox.Size.X, hitbox.Size.Y),
                     new Color(Color.White, 0.5f),
