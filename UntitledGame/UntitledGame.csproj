@@ -60,6 +60,7 @@
     <Compile Include="Scripts\Rooms\TestRoom\TestRoom.cs" />
     <Compile Include="Scripts\GameObjects\Wall.cs" />
     <Compile Include="Scripts\Dynamics\WorldHandler.cs" />
+    <Compile Include="Scripts\Rooms\TestRoom\TestRoom2.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using UntitledGame.Input;
 using UntitledGame.Rooms;
 using UntitledGame.Rooms.TestRoom;
+using UntitledGame.Rooms.TestRoom2;
 
 namespace UntitledGame
 {
@@ -55,10 +56,14 @@ namespace UntitledGame
             InputProfiles["global_keyboard"] = new InputManager();
             GlobalKeyboard = InputProfiles["global_keyboard"];
 
-            Rooms.AddRoom(new TestRoom(new Point(1000,1000), "test_room"));
-            CurrentRoom = Rooms.GetRoom("test_room");
+            Rooms.AddRoom(new TestRoom(new Point(1000,1000), "test_1_fuji"));
+            CurrentRoom = Rooms.GetRoom("test_1_fuji");
             CurrentRoom.LoadContent();
             CurrentRoom.InitializeRoom();
+
+            Rooms.AddRoom(new TestRoom2(new Point(1000, 1000), "test_2_yamato"));
+            Rooms.GetRoom("test_2_yamato").LoadContent();
+            Rooms.GetRoom("test_2_yamato").InitializeRoom();
 
             _view = Matrix.Identity;
         }
@@ -75,6 +80,12 @@ namespace UntitledGame
 
             if (GlobalKeyboard.InputPressed(InputFlags.Debug1))
                 _drawDebug = !_drawDebug;
+
+            if (GlobalKeyboard.InputPressed(InputFlags.Debug2))
+                CurrentRoom = Rooms.GetRoom("test_1_fuji");
+
+            if (GlobalKeyboard.InputPressed(InputFlags.Debug3))
+                CurrentRoom = Rooms.GetRoom("test_2_yamato");
         }
 
         protected override void Update(GameTime gameTime) // 60 updates per ~1000ms, non-buffering (slowdown enabled)
@@ -105,10 +116,10 @@ namespace UntitledGame
                 GraphicsDevice.Clear(Color.Black);
                 SpriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, _view);
 
-                SpriteBatch.DrawString(Debug.Assets.DebugFont, "Toggle debug view: [F1] Pause: [P] Move: [A][D][Space]", new Vector2(10, 10), Color.White);
-                SpriteBatch.DrawString(Debug.Assets.DebugFont, "_frameCount: " + _frameCount, new Vector2(10, 22), Color.White);
-                SpriteBatch.DrawString(Debug.Assets.DebugFont, "Target FPS: " + _targetFPS, new Vector2(10, 34), Color.White);
-                SpriteBatch.DrawString(Debug.Assets.DebugFont, "Avg FPS:    " + _frameRate, new Vector2(10, 46), Color.White);
+                SpriteBatch.DrawString(Debug.Assets.DebugFont, "                     DrawDebug:[F1]       Pause:[P]       Move:[A][D][Space]       Roms1&2:[F2][F3]", new Vector2(10, 10), Color.White);
+                SpriteBatch.DrawString(Debug.Assets.DebugFont, "_frameCount:  " + _frameCount, new Vector2(10, 36), Color.White);
+                SpriteBatch.DrawString(Debug.Assets.DebugFont, "_targetFPS:   " + _targetFPS, new Vector2(10, 48), Color.White);
+                SpriteBatch.DrawString(Debug.Assets.DebugFont, "_frameRate:   " + _frameRate, new Vector2(10, 60), Color.White);
 
                 CurrentRoom.Draw();
 

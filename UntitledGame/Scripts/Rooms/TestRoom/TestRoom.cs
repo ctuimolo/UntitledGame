@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 
 using UntitledGame.Dynamics;
+using UntitledGame.Input;
 using UntitledGame.GameObjects;
 using UntitledGame.GameObjects.Player;
 using UntitledGame.GameObjects.Wall;
@@ -12,7 +13,7 @@ namespace UntitledGame.Rooms.TestRoom
 {
     public class TestRoom : Room
     {
-        private KeyboardState       _oldKeyState;
+        private InputManager _controller;
 
         public TestRoom(Point worldSize, string setKey) : base(worldSize, setKey)
         {
@@ -23,6 +24,8 @@ namespace UntitledGame.Rooms.TestRoom
 
         public override void LoadContent()
         {
+            _controller = Game.GlobalKeyboard;
+
             LoadGameObject(new Wall(World, new Rectangle(0, 420, 800, 80),  "wall_01"));
             LoadGameObject(new Wall(World, new Rectangle(560, 302, 40, 20), "wall_02"));
             LoadGameObject(new Wall(World, new Rectangle(0, 0, 4, 480),     "wall_03"));
@@ -179,15 +182,11 @@ namespace UntitledGame.Rooms.TestRoom
 
         private void HandleKeyboard()
         {
-            KeyboardState state = Keyboard.GetState();
-
-            if (state.IsKeyDown(Keys.F1) && _oldKeyState.IsKeyUp(Keys.F1))
+            if (_controller.InputPressed(InputFlags.Debug1))
                 _drawDebug = !_drawDebug;
 
-            if (state.IsKeyDown(Keys.P) && _oldKeyState.IsKeyUp(Keys.P))
+            if (_controller.InputPressed(InputFlags.Button9))
                 World.State = (World.State == WorldState.Pause ? WorldState.Update : WorldState.Pause);
-
-            _oldKeyState = state;
         }
 
         public override void Update()
@@ -199,9 +198,10 @@ namespace UntitledGame.Rooms.TestRoom
         public override void Draw()
         {
             base.Draw();
-            if(World.State == WorldState.Pause)
+            Game.SpriteBatch.DrawString(Debug.Assets.DebugFont, "CURRENT ROOM: " + Key, new Vector2(10, 24), Color.LightGray);
+            if (World.State == WorldState.Pause)
             {
-                Game.SpriteBatch.DrawString(Debug.Assets.DebugFont, "<< PAUSED >>" , new Vector2(350, 10), Color.White);
+                Game.SpriteBatch.DrawString(Debug.Assets.DebugFont, "<< PAUSED >>" , new Vector2(350, 48), Color.White);
             }
         }
     }

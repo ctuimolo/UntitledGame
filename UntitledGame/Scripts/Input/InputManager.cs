@@ -65,6 +65,9 @@ namespace UntitledGame.Input
             _keyboardDefinitions[InputFlags.Button10]   = Keys.O;
             _keyboardDefinitions[InputFlags.Escape]     = Keys.Escape;
             _keyboardDefinitions[InputFlags.Debug1]     = Keys.F1;
+            _keyboardDefinitions[InputFlags.Debug2]     = Keys.F2;
+            _keyboardDefinitions[InputFlags.Debug3]     = Keys.F3;
+            _keyboardDefinitions[InputFlags.Debug4]     = Keys.F4;
         }
 
         private void ParseKeyboardInputs()
