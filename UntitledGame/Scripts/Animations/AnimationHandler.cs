@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using System;
 using System.Collections.Generic;
 
 using UntitledGame.GameObjects;
@@ -23,7 +24,9 @@ namespace UntitledGame.Animations
         public Dictionary<int, Animation> Animations { get; private set; }
         public Animation    CurrentAnimation         { get; private set; }
 
-        public bool         Finished    { get; private set; } = false;
+        public bool     Finished        { get; private set; } = false;
+        public int      CurrentFrame    { get; private set; }
+
         public GameObject   Owner       { get; private set; }
         public Orientation  Facing      { get; set; }
 
@@ -43,23 +46,25 @@ namespace UntitledGame.Animations
             if(_state != state)
             {
                 _state = state;
-                _drawIndex = Animations[_state].StartIndex;
+                _drawIndex   = Animations[_state].StartIndex;
+                CurrentFrame = _drawIndex;
                 Finished = false;
             }
         }
 
-        public void SetDrawIndex(int set_drawIndex)
+        public void SetDrawIndex(int setDrawIndex)
         {
-            if (set_drawIndex >= CurrentAnimation.FrameCount)
+            if (setDrawIndex >= CurrentAnimation.FrameCount)
                 _drawIndex = 0;
             else
-                _drawIndex = set_drawIndex;
+                _drawIndex = setDrawIndex;
         }
 
         public void UpdateIndex()
         {
             if (CurrentAnimation != null && CurrentAnimation.Play)
             {
+                CurrentFrame++;
                 _animationTimer++;
                 if (_animationTimer >= CurrentAnimation.FrameDelay)
                 {
@@ -70,11 +75,13 @@ namespace UntitledGame.Animations
                         if (CurrentAnimation.Loop)
                         {
                             _drawIndex = CurrentAnimation.LoopIndex;
+                            CurrentFrame = _drawIndex;
                         }
                         else
                         {
                             Finished = true;
                             _drawIndex--;
+                            CurrentFrame--;
                         }
                     }
                 }

@@ -22,6 +22,10 @@ namespace UntitledGame.GameObjects.Player
 
         private State _state;
 
+        // Fixed actions (i.e., attack animation, scripted events based on animation frames)
+        private FixedAction _currentFixedAction;
+        private AttackTest  _attackTest;
+
         // Local fields for behavior scripts
         private readonly float _walkSpeed       = 3;
         private readonly float _jumpStrength    = 8;
@@ -31,13 +35,13 @@ namespace UntitledGame.GameObjects.Player
         public bool isOverlappingOrange;
         public bool isOverlappingPink;
 
-        AttackTest _attackTest;
-
         public Player_BehaviorFunctions(Player player, PhysicsBody body, AnimationHandler animationHandler)
         {
             _player             = player;
             _body               = body;
             _animationHandler   = animationHandler;
+
+            _attackTest = new AttackTest(_animationHandler.Animations[(int)AnimationStates.Attack1]);
         }
 
         public void SetController(InputManager controller)
@@ -48,16 +52,21 @@ namespace UntitledGame.GameObjects.Player
         // The order of procedure from owner.Update();
         public void InitBehaviors()
         {
+            _player.BehaviorFunctions += InvokeFixedAction;
             _player.BehaviorFunctions += CheckAnimationState;
             _player.BehaviorFunctions += CheckPurpleOrange;
             _player.BehaviorFunctions += IdleAnimation;
 
             // Should be last, most of the time. Otherwise risk overwiting animation state logic
             _player.BehaviorFunctions += HandleInput;
-
-            _attackTest = new AttackTest(_animationHandler.Animations[(int)AnimationStates.Attack1]);
         }
 
+        private void InvokeFixedAction()
+        {
+            _currentFixedAction?.InvokeFrame(_animationHandler.CurrentFrame);
+        }
+
+        #region BehaviorScripts
         // Functional game logic below here...
         public void IdleAnimation()
         {
@@ -81,6 +90,7 @@ namespace UntitledGame.GameObjects.Player
                 if(_animationHandler.Finished)
                 {
                     _state = State.Idle;
+                    _currentFixedAction = null;
                 }
             }
         }
@@ -96,6 +106,7 @@ namespace UntitledGame.GameObjects.Player
                         _body.Velocity.X = 0;
                         _animationHandler.ChangeAnimation((int)AnimationStates.Attack1);
                         _state = State.Busy;
+                        _currentFixedAction = _attackTest;
                     }
                 }
 
@@ -169,6 +180,7 @@ namespace UntitledGame.GameObjects.Player
             }
 
         }
+        #endregion
 
     }
 }
