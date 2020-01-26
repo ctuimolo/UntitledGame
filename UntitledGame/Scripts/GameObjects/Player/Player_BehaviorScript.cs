@@ -25,7 +25,6 @@ namespace UntitledGame.GameObjects.Player
         private readonly AnimationHandler   _animationHandler;
         private InputManager                _controller;
 
-        private State _state = State.Idle;
 
         // Fixed actions (i.e., attack animation, scripted events based on animation frames)
         private FixedAction _currentFixedAction;
@@ -85,8 +84,6 @@ namespace UntitledGame.GameObjects.Player
 
         public void CheckIdleState()
         {
-            if (_state == State.Idle)
-            {
                 if (_body.IsFloored)
                 {
                     if (!_controller.InputDown(InputFlags.Left) && !_controller.InputDown(InputFlags.Right) ||
@@ -109,24 +106,19 @@ namespace UntitledGame.GameObjects.Player
                         _animationHandler.ChangeAnimation((int)AnimationStates.Falling);
                     }
                 }
-            }
+            
         }
 
         private void CheckJumpInput()
         {
             if (_controller.InputPressed(InputFlags.Button1))
             {
-                if (_state == State.Idle)
-                {
                     _body.Velocity.Y = -_jumpStrength;
-                }
             }
         }
 
         private void CheckMoveInput()
         {
-            if(_state == State.Idle)
-            {
                 if (_controller.InputDown(InputFlags.Left) && !_controller.InputDown(InputFlags.Right))
                 {
                     _body.Velocity.X = -_walkSpeed;
@@ -152,18 +144,16 @@ namespace UntitledGame.GameObjects.Player
                 {
                     _body.Velocity.X = 0;
                 }
-            }
         }
 
         private void CheckAttack1Input()
         {
             if (_controller.InputPressed(InputFlags.Button2))
             {
-                if (_body.IsFloored && _state == State.Idle)
+                if (_body.IsFloored)
                 {
                     _body.Velocity.X = 0;
                     _animationHandler.ChangeAnimation((int)AnimationStates.Attack1);
-                    _state = State.Busy;
                     _currentFixedAction = _attackTest;
                     _player.BehaviorFunctions = _attack1Script;
                 }
@@ -175,7 +165,6 @@ namespace UntitledGame.GameObjects.Player
             _currentFixedAction?.InvokeFrame(_animationHandler.CurrentFrame);
             if(_animationHandler.Finished)
             {
-                _state = State.Idle;
                 _currentFixedAction = null;
                 _player.BehaviorFunctions = _idleScript;
             }
@@ -204,96 +193,96 @@ namespace UntitledGame.GameObjects.Player
             } 
         }
 
-        public void CheckAnimationState()
-        {
-            if(_state == State.Busy)
-            {
-                if(_animationHandler.Finished)
-                {
-                    _state = State.Idle;
-                    _currentFixedAction = null;
-                }
-            }
-        }
+        //public void CheckAnimationState()
+        //{
+        //    if(_state == State.Busy)
+        //    {
+        //        if(_animationHandler.Finished)
+        //        {
+        //            _state = State.Idle;
+        //            _currentFixedAction = null;
+        //        }
+        //    }
+        //}
 
-        private void HandleInput()
-        {
-            if(_controller != null)
-            {
-                if (_controller.InputPressed(InputFlags.Button2))
-                {
-                    if (_body.IsFloored && _state == State.Idle)
-                    {
-                        _body.Velocity.X = 0;
-                        _animationHandler.ChangeAnimation((int)AnimationStates.Attack1);
-                        _state = State.Busy;
-                        _currentFixedAction = _attackTest;
-                    }
-                }
+        //private void HandleInput()
+        //{
+        //    if(_controller != null)
+        //    {
+        //        if (_controller.InputPressed(InputFlags.Button2))
+        //        {
+        //            if (_body.IsFloored && _state == State.Idle)
+        //            {
+        //                _body.Velocity.X = 0;
+        //                _animationHandler.ChangeAnimation((int)AnimationStates.Attack1);
+        //                _state = State.Busy;
+        //                _currentFixedAction = _attackTest;
+        //            }
+        //        }
 
-                if (_controller.InputPressed(InputFlags.Button3))
-                {
-                    if (_body.IsFloored && _state == State.Idle)
-                    {
-                        _body.Velocity.X = 0;
-                        _animationHandler.ChangeAnimation((int)AnimationStates.Attack1);
-                        _state = State.Busy;
-                        _currentFixedAction = _attackTest2;
-                    }
-                }
+        //        if (_controller.InputPressed(InputFlags.Button3))
+        //        {
+        //            if (_body.IsFloored && _state == State.Idle)
+        //            {
+        //                _body.Velocity.X = 0;
+        //                _animationHandler.ChangeAnimation((int)AnimationStates.Attack1);
+        //                _state = State.Busy;
+        //                _currentFixedAction = _attackTest2;
+        //            }
+        //        }
 
-                if (_controller.InputDown(InputFlags.Left) && !_controller.InputDown(InputFlags.Right))
-                {
-                    if (_state != State.Busy)
-                    {
-                        _body.Velocity.X = -_walkSpeed;
-                        _player.State.Facing = Orientation.Left;
-                        _animationHandler.Facing = _player.State.Facing;
-                        if (_body.IsFloored)
-                        {
-                            _animationHandler.ChangeAnimation((int)AnimationStates.Walking);
-                            _state = State.Idle;
-                        }
-                    }
-                }
+        //        if (_controller.InputDown(InputFlags.Left) && !_controller.InputDown(InputFlags.Right))
+        //        {
+        //            if (_state != State.Busy)
+        //            {
+        //                _body.Velocity.X = -_walkSpeed;
+        //                _player.State.Facing = Orientation.Left;
+        //                _animationHandler.Facing = _player.State.Facing;
+        //                if (_body.IsFloored)
+        //                {
+        //                    _animationHandler.ChangeAnimation((int)AnimationStates.Walking);
+        //                    _state = State.Idle;
+        //                }
+        //            }
+        //        }
 
-                if (_controller.InputDown(InputFlags.Right) && !_controller.InputDown(InputFlags.Left))
-                {
-                    if (_state != State.Busy)
-                    {
-                        _body.Velocity.X = _walkSpeed;
-                        _player.State.Facing = Orientation.Right;
-                        _animationHandler.Facing = _player.State.Facing;
-                        if (_body.IsFloored)
-                        {
-                            _animationHandler.ChangeAnimation((int)AnimationStates.Walking);
-                            _state = State.Idle;
-                        }
-                    }
-                }
+        //        if (_controller.InputDown(InputFlags.Right) && !_controller.InputDown(InputFlags.Left))
+        //        {
+        //            if (_state != State.Busy)
+        //            {
+        //                _body.Velocity.X = _walkSpeed;
+        //                _player.State.Facing = Orientation.Right;
+        //                _animationHandler.Facing = _player.State.Facing;
+        //                if (_body.IsFloored)
+        //                {
+        //                    _animationHandler.ChangeAnimation((int)AnimationStates.Walking);
+        //                    _state = State.Idle;
+        //                }
+        //            }
+        //        }
 
-                if (!_controller.InputDown(InputFlags.Left) && !_controller.InputDown(InputFlags.Right) ||
-                     _controller.InputDown(InputFlags.Left) && _controller.InputDown(InputFlags.Right) )
-                {
-                    if(_state != State.Busy) {
-                        _body.Velocity.X = 0;
-                        if (_body.IsFloored)
-                        {
-                            _animationHandler.ChangeAnimation((int)AnimationStates.Idle);
-                            _state = State.Idle;
-                        }
-                    }
-                }
+        //        if (!_controller.InputDown(InputFlags.Left) && !_controller.InputDown(InputFlags.Right) ||
+        //             _controller.InputDown(InputFlags.Left) && _controller.InputDown(InputFlags.Right) )
+        //        {
+        //            if(_state != State.Busy) {
+        //                _body.Velocity.X = 0;
+        //                if (_body.IsFloored)
+        //                {
+        //                    _animationHandler.ChangeAnimation((int)AnimationStates.Idle);
+        //                    _state = State.Idle;
+        //                }
+        //            }
+        //        }
 
-                if (_controller.InputPressed(InputFlags.Button1))
-                {
-                    if (_state != State.Busy)
-                    {
-                        _body.Velocity.Y = -_jumpStrength;
-                    }
-                }
-            }
-        }
+        //        if (_controller.InputPressed(InputFlags.Button1))
+        //        {
+        //            if (_state != State.Busy)
+        //            {
+        //                _body.Velocity.Y = -_jumpStrength;
+        //            }
+        //        }
+        //    }
+        //}
 
         public void CheckPurpleOrange()
         {
