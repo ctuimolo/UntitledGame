@@ -56,7 +56,7 @@
     <Compile Include="Scripts\GameObjects\Player\FixedActions\AttackTest.cs" />
     <Compile Include="Scripts\GameObjects\Player\Player.cs" />
     <Compile Include="Scripts\GameObjects\Player\Player_AnimationLibrary.cs" />
-    <Compile Include="Scripts\GameObjects\Player\Player_BehaviorFunctions.cs" />
+    <Compile Include="Scripts\GameObjects\Player\Player_BehaviorScript.cs" />
     <Compile Include="Scripts\Input\InputManager.cs" />
     <Compile Include="Scripts\Rooms\Room.cs" />
     <Compile Include="Scripts\Rooms\RoomHandler.cs" />

@@ -11,7 +11,7 @@ namespace UntitledGame.GameObjects.Player
         public Orientation Facing = Orientation.Right;
     }
 
-    public class Player_BehaviorFunctions
+    public class Player_BehaviorScript
     {
         enum State
         {
@@ -25,12 +25,16 @@ namespace UntitledGame.GameObjects.Player
         private readonly AnimationHandler   _animationHandler;
         private InputManager                _controller;
 
-        private State _state;
+        private State _state = State.Idle;
 
         // Fixed actions (i.e., attack animation, scripted events based on animation frames)
         private FixedAction _currentFixedAction;
         private AttackTest   _attackTest;
         private AttackTest2  _attackTest2;
+
+        private Player.BehaviorsDelegate _idleScript;
+        private Player.BehaviorsDelegate _attack1Script;
+
 
         // Local fields for behavior scripts
         private readonly float _walkSpeed       = 3;
@@ -41,7 +45,7 @@ namespace UntitledGame.GameObjects.Player
         public bool isOverlappingOrange;
         public bool isOverlappingPink;
 
-        public Player_BehaviorFunctions(Player player, PhysicsBody body, AnimationHandler animationHandler)
+        public Player_BehaviorScript(Player player, PhysicsBody body, AnimationHandler animationHandler)
         {
             _player             = player;
             _body               = body;
@@ -59,18 +63,121 @@ namespace UntitledGame.GameObjects.Player
         // The order of procedure from owner.Update();
         public void InitBehaviors()
         {
-            _player.BehaviorFunctions += InvokeFixedAction;
-            _player.BehaviorFunctions += CheckAnimationState;
-            _player.BehaviorFunctions += CheckPurpleOrange;
-            _player.BehaviorFunctions += IdleAnimation;
+            //_idleScript += InvokeFixedAction;
+            //_idleScript += CheckAnimationState;
+            //_idleScript += CheckPurpleOrange;
+            //_idleScript += IdleAnimation;
 
-            // Should be last, most of the time. Otherwise risk overwiting animation state logic
-            _player.BehaviorFunctions += HandleInput;
+            //// Should be last, most of the time. Otherwise risk overwiting animation state logic
+            //_idleScript += HandleInput;
+
+            //_player.BehaviorFunctions = _idleScript;
+
+            _idleScript += CheckJumpInput;
+            _idleScript += CheckMoveInput;
+            _idleScript += CheckIdleState;
+            _idleScript += CheckAttack1Input;
+
+            _attack1Script += InvokeFixedAction;
+
+            _player.BehaviorFunctions = _idleScript;
+        }
+
+        public void CheckIdleState()
+        {
+            if (_state == State.Idle)
+            {
+                if (_body.IsFloored)
+                {
+                    if (!_controller.InputDown(InputFlags.Left) && !_controller.InputDown(InputFlags.Right) ||
+                         _controller.InputDown(InputFlags.Left) && _controller.InputDown(InputFlags.Right))
+                    {
+                        if (_body.IsFloored)
+                        {
+                            _animationHandler.ChangeAnimation((int)AnimationStates.Idle);
+                        }
+                    }
+                }
+                else
+                {
+                    if (_body.Velocity.Y <= 0)
+                    {
+                        _animationHandler.ChangeAnimation((int)AnimationStates.Rising);
+                    }
+                    else
+                    {
+                        _animationHandler.ChangeAnimation((int)AnimationStates.Falling);
+                    }
+                }
+            }
+        }
+
+        private void CheckJumpInput()
+        {
+            if (_controller.InputPressed(InputFlags.Button1))
+            {
+                if (_state == State.Idle)
+                {
+                    _body.Velocity.Y = -_jumpStrength;
+                }
+            }
+        }
+
+        private void CheckMoveInput()
+        {
+            if(_state == State.Idle)
+            {
+                if (_controller.InputDown(InputFlags.Left) && !_controller.InputDown(InputFlags.Right))
+                {
+                    _body.Velocity.X = -_walkSpeed;
+                    _player.State.Facing = Orientation.Left;
+                    if (_body.IsFloored)
+                    {
+                        _animationHandler.ChangeAnimation((int)AnimationStates.Walking);
+                    }
+                }
+
+                if (_controller.InputDown(InputFlags.Right) && !_controller.InputDown(InputFlags.Left))
+                {
+                    _body.Velocity.X = _walkSpeed;
+                    _player.State.Facing = Orientation.Right;
+                    if (_body.IsFloored)
+                    {
+                        _animationHandler.ChangeAnimation((int)AnimationStates.Walking);
+                    }
+                }
+
+                if (!_controller.InputDown(InputFlags.Left) && !_controller.InputDown(InputFlags.Right) ||
+                     _controller.InputDown(InputFlags.Left) && _controller.InputDown(InputFlags.Right))
+                {
+                    _body.Velocity.X = 0;
+                }
+            }
+        }
+
+        private void CheckAttack1Input()
+        {
+            if (_controller.InputPressed(InputFlags.Button2))
+            {
+                if (_body.IsFloored && _state == State.Idle)
+                {
+                    _body.Velocity.X = 0;
+                    _animationHandler.ChangeAnimation((int)AnimationStates.Attack1);
+                    _state = State.Busy;
+                    _currentFixedAction = _attackTest;
+                }
+            }
         }
 
         private void InvokeFixedAction()
         {
             _currentFixedAction?.InvokeFrame(_animationHandler.CurrentFrame);
+            if(_animationHandler.Finished)
+            {
+                _state = State.Idle;
+                _currentFixedAction = null;
+                _player.BehaviorFunctions = _idleScript;
+            }
         }
 
         public static void SetVelocity(Player player, float x, float y)

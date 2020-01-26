@@ -40,13 +40,13 @@ namespace UntitledGame.GameObjects.Player.FixedActions
 
         private void TestMe()
         {
-            Player_BehaviorFunctions.SetVelocity(_player, 2, 0);
+            Player_BehaviorScript.SetVelocity(_player, 2, 0);
         }
 
 
         private void TestMe2()
         {
-            Player_BehaviorFunctions.SetVelocity(_player, 2, _player.Body.Velocity.Y);
+            Player_BehaviorScript.SetVelocity(_player, 2, _player.Body.Velocity.Y);
         }
 
         public override void InvokeFrame(int animationFrame)

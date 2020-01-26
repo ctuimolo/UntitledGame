@@ -26,8 +26,8 @@ namespace UntitledGame.GameObjects.Player
         // Input manager, set to single input profile
 
         // Behavior libraries
-        private Player_AnimationLibrary    _animationLibrary;
-        private Player_BehaviorFunctions   _behaviorFunctions;
+        private Player_AnimationLibrary _animationLibrary;
+        private Player_BehaviorScript   _behaviorScript;
 
         // Behavior events delegate. 
         public delegate void BehaviorsDelegate();
@@ -60,9 +60,9 @@ namespace UntitledGame.GameObjects.Player
             _animationLibrary.LoadAnimations(AnimationHandler);
 
             State = new Player_State();
-            _behaviorFunctions = new Player_BehaviorFunctions(this, Body, AnimationHandler);
-            _behaviorFunctions.SetController(Game.GlobalKeyboard);
-            _behaviorFunctions.InitBehaviors();
+            _behaviorScript = new Player_BehaviorScript(this, Body, AnimationHandler);
+            _behaviorScript.SetController(Game.GlobalKeyboard);
+            _behaviorScript.InitBehaviors();
 
             AnimationHandler.ChangeAnimation((int)AnimationStates.Idle);
             AnimationHandler.Facing = Orientation.Right;
@@ -73,7 +73,9 @@ namespace UntitledGame.GameObjects.Player
             base.Update();
             if(CurrentWorld.State == WorldState.Update)
             {
+                //_behaviorScript.CheckState();
                 BehaviorFunctions?.Invoke();
+                AnimationHandler.Facing = State.Facing;
                 AnimationHandler.UpdateIndex();
             }
         }
@@ -90,8 +92,8 @@ namespace UntitledGame.GameObjects.Player
                       "Y: " + (int)(Body.BoxCollider.Y - Size.Y / 2) + "\n";
 
             _isFlooredString = "Grounded:            " + (Body.IsFloored ? "true" : "false");
-            _isOverlappingOrangeString = "Hitbox Collisions:   " + (_behaviorFunctions.isOverlappingOrange ? "true" : "false");
-            _isOverlappingPinkString = "Hitbox Collisions:   " + (_behaviorFunctions.isOverlappingPink ? "true" : "false");
+            _isOverlappingOrangeString = "Hitbox Collisions:   " + (_behaviorScript.isOverlappingOrange ? "true" : "false");
+            _isOverlappingPinkString = "Hitbox Collisions:   " + (_behaviorScript.isOverlappingPink ? "true" : "false");
             _afterCollisionString = "Collisions present:  " + (Body.CurrentCollisions.Count > 0 ? "true" : "false");
 
             Game.SpriteBatch.DrawString(
