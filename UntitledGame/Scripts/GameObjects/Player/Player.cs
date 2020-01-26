@@ -60,7 +60,7 @@ namespace UntitledGame.GameObjects.Player
             _animationLibrary.LoadAnimations(AnimationHandler);
 
             State = new Player_State();
-            _behaviorScript = new Player_BehaviorScript(this, Body, AnimationHandler);
+            _behaviorScript = new Player_BehaviorScript(this, AnimationHandler);
             _behaviorScript.SetController(Game.GlobalKeyboard);
             _behaviorScript.InitBehaviors();
 

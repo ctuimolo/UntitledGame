@@ -44,10 +44,10 @@ namespace UntitledGame.GameObjects.Player
         public bool isOverlappingOrange;
         public bool isOverlappingPink;
 
-        public Player_BehaviorScript(Player player, PhysicsBody body, AnimationHandler animationHandler)
+        public Player_BehaviorScript(Player player, AnimationHandler animationHandler)
         {
             _player             = player;
-            _body               = body;
+            _body               = player.Body;
             _animationHandler   = animationHandler;
 
             _attackTest = new AttackTest(_animationHandler.Animations[(int)AnimationStates.Attack1], player);
@@ -159,7 +159,7 @@ namespace UntitledGame.GameObjects.Player
 
         private void CheckAttack2Input()
         {
-            if (_controller.InputPressed(InputFlags.Button2))
+            if (_controller.InputPressed(InputFlags.Button3))
             {
                 if (_body.IsFloored)
                 {
