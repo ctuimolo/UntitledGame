@@ -73,7 +73,7 @@ namespace UntitledGame.GameObjects.Player
             base.Update();
             if(CurrentWorld.State == WorldState.Update)
             {
-                //_behaviorScript.CheckState();
+                _behaviorScript.CheckState();
                 BehaviorFunctions?.Invoke();
                 AnimationHandler.Facing = State.Facing;
                 AnimationHandler.UpdateIndex();

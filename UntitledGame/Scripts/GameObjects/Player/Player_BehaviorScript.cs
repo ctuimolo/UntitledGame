@@ -33,7 +33,7 @@ namespace UntitledGame.GameObjects.Player
 
         private Player.BehaviorsDelegate _idleScript;
         private Player.BehaviorsDelegate _attack1Script;
-
+        private Player.BehaviorsDelegate _attack2Script;
 
         // Local fields for behavior scripts
         private readonly float _walkSpeed       = 3;
@@ -62,24 +62,26 @@ namespace UntitledGame.GameObjects.Player
         // The order of procedure from owner.Update();
         public void InitBehaviors()
         {
-            //_idleScript += InvokeFixedAction;
-            //_idleScript += CheckAnimationState;
-            //_idleScript += CheckPurpleOrange;
-            //_idleScript += IdleAnimation;
-
-            //// Should be last, most of the time. Otherwise risk overwiting animation state logic
-            //_idleScript += HandleInput;
-
-            //_player.BehaviorFunctions = _idleScript;
-
+            // Creating scripts: add/remove methods to delegate to determine behavior
             _idleScript += CheckJumpInput;
             _idleScript += CheckMoveInput;
             _idleScript += CheckIdleState;
             _idleScript += CheckAttack1Input;
+            _idleScript += CheckAttack2Input;
+            _idleScript += CheckPurpleOrange;
 
+            // Invoke fixed actions for auto initing to Idle upon animation finish
             _attack1Script += InvokeFixedAction;
+            _attack2Script += InvokeFixedAction;
 
+            // Set owner BehaviorFunctions delegate to the desired script from init and other behaviors
             _player.BehaviorFunctions = _idleScript;
+        }
+
+        public void CheckState()
+        {
+            isOverlappingOrange = false;
+            isOverlappingPink   = false;
         }
 
         public void CheckIdleState()
@@ -119,31 +121,26 @@ namespace UntitledGame.GameObjects.Player
 
         private void CheckMoveInput()
         {
-                if (_controller.InputDown(InputFlags.Left) && !_controller.InputDown(InputFlags.Right))
+            if (_controller.InputDown(InputFlags.Left) && !_controller.InputDown(InputFlags.Right))
+            {
+                _body.Velocity.X = -_walkSpeed;
+                _player.State.Facing = Orientation.Left;
+                if (_body.IsFloored)
                 {
-                    _body.Velocity.X = -_walkSpeed;
-                    _player.State.Facing = Orientation.Left;
-                    if (_body.IsFloored)
-                    {
-                        _animationHandler.ChangeAnimation((int)AnimationStates.Walking);
-                    }
+                    _animationHandler.ChangeAnimation((int)AnimationStates.Walking);
                 }
-
-                if (_controller.InputDown(InputFlags.Right) && !_controller.InputDown(InputFlags.Left))
+            }else if (_controller.InputDown(InputFlags.Right) && !_controller.InputDown(InputFlags.Left))
+            {
+                _body.Velocity.X = _walkSpeed;
+                _player.State.Facing = Orientation.Right;
+                if (_body.IsFloored)
                 {
-                    _body.Velocity.X = _walkSpeed;
-                    _player.State.Facing = Orientation.Right;
-                    if (_body.IsFloored)
-                    {
-                        _animationHandler.ChangeAnimation((int)AnimationStates.Walking);
-                    }
+                    _animationHandler.ChangeAnimation((int)AnimationStates.Walking);
                 }
-
-                if (!_controller.InputDown(InputFlags.Left) && !_controller.InputDown(InputFlags.Right) ||
-                     _controller.InputDown(InputFlags.Left) && _controller.InputDown(InputFlags.Right))
-                {
-                    _body.Velocity.X = 0;
-                }
+            }else
+            {
+                _body.Velocity.X = 0;
+            }
         }
 
         private void CheckAttack1Input()
@@ -156,6 +153,20 @@ namespace UntitledGame.GameObjects.Player
                     _animationHandler.ChangeAnimation((int)AnimationStates.Attack1);
                     _currentFixedAction = _attackTest;
                     _player.BehaviorFunctions = _attack1Script;
+                }
+            }
+        }
+
+        private void CheckAttack2Input()
+        {
+            if (_controller.InputPressed(InputFlags.Button2))
+            {
+                if (_body.IsFloored)
+                {
+                    _body.Velocity.X = 0;
+                    _animationHandler.ChangeAnimation((int)AnimationStates.Attack1);
+                    _currentFixedAction = _attackTest2;
+                    _player.BehaviorFunctions = _attack2Script;
                 }
             }
         }
@@ -176,120 +187,8 @@ namespace UntitledGame.GameObjects.Player
             player.Body.Velocity.Y = y;
         }
 
-        #region BehaviorScripts
-        // Functional game logic below here...
-        public void IdleAnimation()
-        {
-            if (!_body.IsFloored)
-            {
-                if (_body.Velocity.Y <= 0)
-                {
-                    _animationHandler.ChangeAnimation((int)AnimationStates.Rising);
-                }
-                else
-                {
-                   _animationHandler.ChangeAnimation((int)AnimationStates.Falling);
-                }
-            } 
-        }
-
-        //public void CheckAnimationState()
-        //{
-        //    if(_state == State.Busy)
-        //    {
-        //        if(_animationHandler.Finished)
-        //        {
-        //            _state = State.Idle;
-        //            _currentFixedAction = null;
-        //        }
-        //    }
-        //}
-
-        //private void HandleInput()
-        //{
-        //    if(_controller != null)
-        //    {
-        //        if (_controller.InputPressed(InputFlags.Button2))
-        //        {
-        //            if (_body.IsFloored && _state == State.Idle)
-        //            {
-        //                _body.Velocity.X = 0;
-        //                _animationHandler.ChangeAnimation((int)AnimationStates.Attack1);
-        //                _state = State.Busy;
-        //                _currentFixedAction = _attackTest;
-        //            }
-        //        }
-
-        //        if (_controller.InputPressed(InputFlags.Button3))
-        //        {
-        //            if (_body.IsFloored && _state == State.Idle)
-        //            {
-        //                _body.Velocity.X = 0;
-        //                _animationHandler.ChangeAnimation((int)AnimationStates.Attack1);
-        //                _state = State.Busy;
-        //                _currentFixedAction = _attackTest2;
-        //            }
-        //        }
-
-        //        if (_controller.InputDown(InputFlags.Left) && !_controller.InputDown(InputFlags.Right))
-        //        {
-        //            if (_state != State.Busy)
-        //            {
-        //                _body.Velocity.X = -_walkSpeed;
-        //                _player.State.Facing = Orientation.Left;
-        //                _animationHandler.Facing = _player.State.Facing;
-        //                if (_body.IsFloored)
-        //                {
-        //                    _animationHandler.ChangeAnimation((int)AnimationStates.Walking);
-        //                    _state = State.Idle;
-        //                }
-        //            }
-        //        }
-
-        //        if (_controller.InputDown(InputFlags.Right) && !_controller.InputDown(InputFlags.Left))
-        //        {
-        //            if (_state != State.Busy)
-        //            {
-        //                _body.Velocity.X = _walkSpeed;
-        //                _player.State.Facing = Orientation.Right;
-        //                _animationHandler.Facing = _player.State.Facing;
-        //                if (_body.IsFloored)
-        //                {
-        //                    _animationHandler.ChangeAnimation((int)AnimationStates.Walking);
-        //                    _state = State.Idle;
-        //                }
-        //            }
-        //        }
-
-        //        if (!_controller.InputDown(InputFlags.Left) && !_controller.InputDown(InputFlags.Right) ||
-        //             _controller.InputDown(InputFlags.Left) && _controller.InputDown(InputFlags.Right) )
-        //        {
-        //            if(_state != State.Busy) {
-        //                _body.Velocity.X = 0;
-        //                if (_body.IsFloored)
-        //                {
-        //                    _animationHandler.ChangeAnimation((int)AnimationStates.Idle);
-        //                    _state = State.Idle;
-        //                }
-        //            }
-        //        }
-
-        //        if (_controller.InputPressed(InputFlags.Button1))
-        //        {
-        //            if (_state != State.Busy)
-        //            {
-        //                _body.Velocity.Y = -_jumpStrength;
-        //            }
-        //        }
-        //    }
-        //}
-
         public void CheckPurpleOrange()
         {
-
-            isOverlappingOrange = false;
-            isOverlappingPink = false;
-
             foreach (Hitbox collision in _body.CurrentCollisions)
             {
                 if (collision.Data.Value == "orange")
@@ -301,9 +200,6 @@ namespace UntitledGame.GameObjects.Player
                     isOverlappingPink = true;
                 }
             }
-
         }
-        #endregion
-
     }
 }
