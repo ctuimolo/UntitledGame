@@ -165,6 +165,7 @@ namespace UntitledGame.GameObjects.Player
                     _animationHandler.ChangeAnimation((int)AnimationStates.Attack1);
                     _state = State.Busy;
                     _currentFixedAction = _attackTest;
+                    _player.BehaviorFunctions = _attack1Script;
                 }
             }
         }
