@@ -11,7 +11,7 @@ namespace UntitledGame.GameObjects.Player
         public Orientation Facing = Orientation.Right;
     }
 
-    public class Player_BehaviorScript
+    public partial class Player_BehaviorScript
     {
         enum State
         {
