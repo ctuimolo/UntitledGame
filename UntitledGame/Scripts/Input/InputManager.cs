@@ -62,6 +62,8 @@ namespace UntitledGame.Input
             _keyboardDefinitions[InputFlags.Down]       = Keys.Down;
             _keyboardDefinitions[InputFlags.Button1]    = Keys.Z;
             _keyboardDefinitions[InputFlags.Button2]    = Keys.X;
+            _keyboardDefinitions[InputFlags.Button3]    = Keys.A;
+            _keyboardDefinitions[InputFlags.Button4]    = Keys.S;
             _keyboardDefinitions[InputFlags.Button9]    = Keys.P;
             _keyboardDefinitions[InputFlags.Button10]   = Keys.O;
             _keyboardDefinitions[InputFlags.Escape]     = Keys.Escape;

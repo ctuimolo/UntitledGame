@@ -11,8 +11,10 @@ namespace UntitledGame.Dynamics
 {
     public class PhysicsBody
     {
-        public Dictionary<int, Hitbox>  ChildHitboxes       { get; private set; }
-        public List<Hitbox>             CurrentCollisions   { get; private set; }
+        public Dictionary<string, Hitbox>  ChildHitboxes       { get; private set; }
+        public List<string> HitboxesToRemove { get; private set; }
+
+        public List<Hitbox>     CurrentCollisions   { get; private set; }
         public bool IsFloored   { get; set; }
 
         public readonly IBox        BoxCollider;
@@ -26,8 +28,20 @@ namespace UntitledGame.Dynamics
             Owner       = owner;
             BoxCollider = body;
 
-            ChildHitboxes       = new Dictionary<int, Hitbox>();
+            ChildHitboxes       = new Dictionary<string, Hitbox>();
+            HitboxesToRemove    = new List<string>();
             CurrentCollisions   = new List<Hitbox>();
+        }
+
+        public void ClearHitboxes()
+        {
+            foreach(string key in HitboxesToRemove)
+            {
+                Owner.CurrentWorld.RemoveHitbox(ChildHitboxes[key]);
+                ChildHitboxes[key].Timer = ChildHitboxes[key].InitTimer;
+                ChildHitboxes.Remove(key);
+            }
+            HitboxesToRemove.Clear();
         }
         
         public void DrawDebug()
@@ -35,7 +49,7 @@ namespace UntitledGame.Dynamics
             foreach(Hitbox hitbox in ChildHitboxes.Values)
             {
                 Game.SpriteBatch.Draw(
-                    Debug.Assets.BlueBox,
+                    hitbox.DebugSprite,
                     new Vector2(hitbox.Position.X, hitbox.Position.Y),
                     new Rectangle(0, 0, hitbox.Size.X, hitbox.Size.Y),
                     new Color(Color.White, 0.5f),

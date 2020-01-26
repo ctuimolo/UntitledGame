@@ -34,6 +34,7 @@ namespace UntitledGame.GameObjects.Player
 
         // Behavior events. Call this after appending all collisions and logic.
         public BehaviorsDelegate BehaviorFunctions;
+        public Player_State State;
 
         public Player(WorldHandler setWorld, Vector2 setPosition, string key)
         {
@@ -49,12 +50,16 @@ namespace UntitledGame.GameObjects.Player
         public override void LoadContent()
         {
             Body = CurrentWorld.AddBody(this, InitPosition, Size);
-            Body.ChildHitboxes[0] = new Hitbox(this, new Vector2(0, 0), Size, "body");
+            Body.ChildHitboxes[Key + "_body"] = new Hitbox(this, new Vector2(0, 0), Size, "body")
+            {
+                DebugSprite = Debug.Assets.BlueBox,
+            };
 
             AnimationHandler    = new AnimationHandler(this);
             _animationLibrary   = new Player_AnimationLibrary();
             _animationLibrary.LoadAnimations(AnimationHandler);
 
+            State = new Player_State();
             _behaviorFunctions = new Player_BehaviorFunctions(this, Body, AnimationHandler);
             _behaviorFunctions.SetController(Game.GlobalKeyboard);
             _behaviorFunctions.InitBehaviors();
@@ -65,6 +70,7 @@ namespace UntitledGame.GameObjects.Player
 
         public override void Update()
         {
+            base.Update();
             if(CurrentWorld.State == WorldState.Update)
             {
                 BehaviorFunctions?.Invoke();

@@ -128,6 +128,8 @@ namespace UntitledGame.Dynamics
                             return CollisionResponses.Slide;
                         });
 
+                    body.ClearHitboxes();
+
                     foreach (Hitbox hitbox in body.ChildHitboxes.Values)
                     {
                         hitbox.Position.X = body.BoxCollider.X + hitbox.Offset.X;
@@ -141,6 +143,15 @@ namespace UntitledGame.Dynamics
                                 IsAABBOverlap(hitbox, other))
                             {
                                 body.CurrentCollisions.Add(other);
+                            }
+                        }
+
+                        if(hitbox.Timer > 0)
+                        {
+                            hitbox.Timer --;
+                            if(hitbox.Timer == 0)
+                            {
+                                body.HitboxesToRemove.Add(hitbox.Key);
                             }
                         }
                     }

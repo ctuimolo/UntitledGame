@@ -66,6 +66,8 @@ namespace UntitledGame
             Rooms.GetRoom("test_2_yamato").LoadContent();
             Rooms.GetRoom("test_2_yamato").InitializeRoom();
 
+            CurrentRoom = Rooms.GetRoom("test_2_yamato");
+
             _view = Matrix.Identity;
         }
 

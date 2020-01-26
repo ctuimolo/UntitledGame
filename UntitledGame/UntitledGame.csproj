@@ -52,6 +52,7 @@
     <Compile Include="Scripts\GameObjects\GameObject.cs" />
     <Compile Include="Scripts\Dynamics\HitBox.cs" />
     <Compile Include="Scripts\Dynamics\PhysicsBody.cs" />
+    <Compile Include="Scripts\GameObjects\Player\FixedActions\AttackTest2.cs" />
     <Compile Include="Scripts\GameObjects\Player\FixedActions\AttackTest.cs" />
     <Compile Include="Scripts\GameObjects\Player\Player.cs" />
     <Compile Include="Scripts\GameObjects\Player\Player_AnimationLibrary.cs" />

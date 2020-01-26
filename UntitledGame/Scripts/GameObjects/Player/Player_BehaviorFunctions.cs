@@ -6,6 +6,11 @@ using UntitledGame.GameObjects.Player.FixedActions;
 
 namespace UntitledGame.GameObjects.Player
 {
+    public class Player_State
+    {
+        public Orientation Facing = Orientation.Right;
+    }
+
     public class Player_BehaviorFunctions
     {
         enum State
@@ -24,7 +29,8 @@ namespace UntitledGame.GameObjects.Player
 
         // Fixed actions (i.e., attack animation, scripted events based on animation frames)
         private FixedAction _currentFixedAction;
-        private AttackTest  _attackTest;
+        private AttackTest   _attackTest;
+        private AttackTest2  _attackTest2;
 
         // Local fields for behavior scripts
         private readonly float _walkSpeed       = 3;
@@ -41,7 +47,8 @@ namespace UntitledGame.GameObjects.Player
             _body               = body;
             _animationHandler   = animationHandler;
 
-            _attackTest = new AttackTest(_animationHandler.Animations[(int)AnimationStates.Attack1]);
+            _attackTest = new AttackTest(_animationHandler.Animations[(int)AnimationStates.Attack1], player);
+            _attackTest2 = new AttackTest2(_animationHandler.Animations[(int)AnimationStates.Attack1], player);
         }
 
         public void SetController(InputManager controller)
@@ -64,6 +71,12 @@ namespace UntitledGame.GameObjects.Player
         private void InvokeFixedAction()
         {
             _currentFixedAction?.InvokeFrame(_animationHandler.CurrentFrame);
+        }
+
+        public static void SetVelocity(Player player, float x, float y)
+        {
+            player.Body.Velocity.X = x;
+            player.Body.Velocity.Y = y;
         }
 
         #region BehaviorScripts
@@ -110,12 +123,24 @@ namespace UntitledGame.GameObjects.Player
                     }
                 }
 
+                if (_controller.InputPressed(InputFlags.Button3))
+                {
+                    if (_body.IsFloored && _state == State.Idle)
+                    {
+                        _body.Velocity.X = 0;
+                        _animationHandler.ChangeAnimation((int)AnimationStates.Attack1);
+                        _state = State.Busy;
+                        _currentFixedAction = _attackTest2;
+                    }
+                }
+
                 if (_controller.InputDown(InputFlags.Left) && !_controller.InputDown(InputFlags.Right))
                 {
                     if (_state != State.Busy)
                     {
                         _body.Velocity.X = -_walkSpeed;
-                        _animationHandler.Facing = Orientation.Left;
+                        _player.State.Facing = Orientation.Left;
+                        _animationHandler.Facing = _player.State.Facing;
                         if (_body.IsFloored)
                         {
                             _animationHandler.ChangeAnimation((int)AnimationStates.Walking);
@@ -129,7 +154,8 @@ namespace UntitledGame.GameObjects.Player
                     if (_state != State.Busy)
                     {
                         _body.Velocity.X = _walkSpeed;
-                        _animationHandler.Facing = Orientation.Right;
+                        _player.State.Facing = Orientation.Right;
+                        _animationHandler.Facing = _player.State.Facing;
                         if (_body.IsFloored)
                         {
                             _animationHandler.ChangeAnimation((int)AnimationStates.Walking);

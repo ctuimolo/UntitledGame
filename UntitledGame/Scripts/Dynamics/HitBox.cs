@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 
 using UntitledGame.GameObjects;
+using UntitledGame.Animations;
 
 namespace UntitledGame.Dynamics
 {
@@ -13,6 +14,9 @@ namespace UntitledGame.Dynamics
 
     public class Hitbox
     {
+        private bool    _flippedX = false;
+        private Vector2 _initOffset;
+
         // Monogame drawing fields
         public GameObject   Owner       { get; private set; } = null;
         public string       Key         { get; protected set; }
@@ -21,15 +25,21 @@ namespace UntitledGame.Dynamics
         public Vector2 Offset;
         public Vector2 Position;
         public Point   Size;
+        public int     InitTimer;
+        public int     Timer;
         public CollisionPackage Data { get; set; }
 
         public delegate void enact();
 
-        public Hitbox(GameObject owner, Vector2 offset, Point size, string key)
+        public Hitbox(GameObject owner, Vector2 offset, Point size, string key, int timer = -1)
         {
-            Key     = key;
-            Offset  = offset;
-            Size    = size;
+            _initOffset = offset;
+
+            Key         = key;
+            Offset      = offset;
+            Size        = size;
+            InitTimer   = timer;
+            Timer       = timer;
 
             if (owner != null )
             {
@@ -38,6 +48,23 @@ namespace UntitledGame.Dynamics
             } else {
                 Position = Offset;
             }
+        }
+
+        public void InitPosition(Orientation direction)
+        {
+            if(direction == Orientation.Left && !_flippedX)
+            {
+                Offset.X = _initOffset.X * -1 - Size.X + Owner.Size.X;
+                _flippedX = true;
+            }
+
+            if (direction == Orientation.Right && _flippedX)
+            {
+                Offset.X = _initOffset.X;
+                _flippedX = false;
+            }
+
+            Position = new Vector2(Owner.Body.BoxCollider.X + Offset.X, Owner.Body.BoxCollider.Y + Offset.Y);
         }
 
         public void DrawDebug()
