@@ -6,7 +6,7 @@ namespace UntitledGame.Animations
     public enum OffsetType
     {
         CenterBottom,
-        Center
+        None,
     }
 
     public class Animation
