@@ -46,6 +46,7 @@ namespace UntitledGame.Animations
             if(_state != state)
             {
                 _state = state;
+                CurrentAnimation = Animations[_state];
                 _drawIndex   = Animations[_state].StartIndex;
                 CurrentFrame = _drawIndex;
                 Finished = false;

@@ -227,7 +227,9 @@ namespace UntitledGame.GameObjects.Player
             _animationHandler.ChangeAnimation((int)AnimationStates.Attack2_3);
             if (_animationHandler.Finished)
             {
-                Console.WriteLine("FINISHED");
+                //Console.WriteLine("FINISHED");
+                _currentFixedAction = null;
+                _player.BehaviorFunctions = _idleScript;
             }
         }
 
