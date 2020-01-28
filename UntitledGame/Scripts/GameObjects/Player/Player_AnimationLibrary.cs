@@ -105,8 +105,9 @@ namespace UntitledGame.GameObjects.Player
                 {
                     SpriteSheet = Game.Assets.Load<Texture2D>("SpriteSheets/suika_attack2_3"),
                     FrameCount = 8,
-                    FrameDelay = 3,
-                    Loop = false
+                    FrameDelay = 6,
+                    Loop = false,
+                    Offset = new Vector2(60,44),
                 });
         }
     }

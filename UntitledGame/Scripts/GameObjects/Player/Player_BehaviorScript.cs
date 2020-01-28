@@ -1,4 +1,8 @@
-﻿using UntitledGame.Dynamics;
+﻿using System;
+
+using PhysicsWorld.Responses;
+
+using UntitledGame.Dynamics;
 using UntitledGame.Animations;
 using UntitledGame.Input;
 
@@ -25,15 +29,18 @@ namespace UntitledGame.GameObjects.Player
         private readonly AnimationHandler   _animationHandler;
         private InputManager                _controller;
 
-
         // Fixed actions (i.e., attack animation, scripted events based on animation frames)
-        private FixedAction _currentFixedAction;
+        private FixedAction  _currentFixedAction;
         private AttackTest   _attackTest;
-        private AttackTest2  _attackTest2;
+        private AttackTest2  _attackTest2_land;
+
+        public static bool _attack2Launched = false;
 
         private Player.BehaviorsDelegate _idleScript;
         private Player.BehaviorsDelegate _attack1Script;
-        private Player.BehaviorsDelegate _attack2Script;
+        private Player.BehaviorsDelegate _attack2Script_startup;
+        private Player.BehaviorsDelegate _attack2Script_airborne;
+        private Player.BehaviorsDelegate _attack2Script_land;
 
         // Local fields for behavior scripts
         private readonly float _walkSpeed       = 3;
@@ -51,7 +58,7 @@ namespace UntitledGame.GameObjects.Player
             _animationHandler   = animationHandler;
 
             _attackTest = new AttackTest(_animationHandler.Animations[(int)AnimationStates.Attack1], player);
-            _attackTest2 = new AttackTest2(_animationHandler.Animations[(int)AnimationStates.Attack1], player);
+            _attackTest2_land = new AttackTest2(_animationHandler.Animations[(int)AnimationStates.Attack2_3], player);
         }
 
         public void SetController(InputManager controller)
@@ -71,8 +78,12 @@ namespace UntitledGame.GameObjects.Player
             _idleScript += CheckPurpleOrange;
 
             // Invoke fixed actions for auto initing to Idle upon animation finish
-            _attack1Script += InvokeFixedAction;
-            _attack2Script += InvokeFixedAction;
+            _attack1Script += FA_ReturnToIdle;
+            _attack2Script_startup += FA_Attack2_GotoAirborne;
+            _attack2Script_airborne += FA_Attack2_CheckLand;
+            _attack2Script_airborne += FA_Attack2_Airborne;
+            //_attack2Script_land += FA_ReturnToIdle;
+            _attack2Script_land += FA_Attack2_Slide;
 
             // Set owner BehaviorFunctions delegate to the desired script from init and other behaviors
             _player.BehaviorFunctions = _idleScript;
@@ -156,20 +167,67 @@ namespace UntitledGame.GameObjects.Player
                 if (_body.IsFloored)
                 {
                     _body.Velocity.X = 0;
-                    _animationHandler.ChangeAnimation((int)AnimationStates.Attack1);
-                    _currentFixedAction = _attackTest2;
-                    _player.BehaviorFunctions = _attack2Script;
+                    _animationHandler.ChangeAnimation((int)AnimationStates.Attack2_1);
+                    _currentFixedAction = null;
+                    _player.BehaviorFunctions = _attack2Script_startup;
                 }
             }
         }
 
-        private void InvokeFixedAction()
+        private void FA_ReturnToIdle()
         {
             _currentFixedAction?.InvokeFrame(_animationHandler.CurrentFrame);
             if(_animationHandler.Finished)
             {
                 _currentFixedAction = null;
                 _player.BehaviorFunctions = _idleScript;
+            }
+        }
+
+        private void FA_Attack2_GotoAirborne()
+        {
+            _currentFixedAction?.InvokeFrame(_animationHandler.CurrentFrame);
+            if (_animationHandler.Finished)
+            {
+                _currentFixedAction = null;
+                _player.BehaviorFunctions = _attack2Script_airborne;
+                _attack2Launched = true;
+                _body.Velocity.Y = -6;
+                _body.Velocity.X = 4;
+            }
+        }
+
+        private void FA_Attack2_Airborne()
+        {
+            if(!_body.IsFloored)
+            {
+                if (_body.Velocity.Y <= 0)
+                {
+                    _animationHandler.ChangeAnimation((int)AnimationStates.Attack2_2_rise);
+                }
+                else
+                {
+                    _animationHandler.ChangeAnimation((int)AnimationStates.Attack2_2_fall);
+                }
+            }
+        }
+
+        private void FA_Attack2_CheckLand()
+        {
+            if (_body.IsFloored)
+            {
+                _body.Velocity.X = 0;
+                _currentFixedAction = _attackTest2_land;
+                _player.BehaviorFunctions = _attack2Script_land;
+            }
+        }
+
+        private void FA_Attack2_Slide()
+        {
+            _animationHandler.ChangeAnimation((int)AnimationStates.Attack2_3);
+            if (_animationHandler.Finished)
+            {
+                Console.WriteLine("FINISHED");
             }
         }
 

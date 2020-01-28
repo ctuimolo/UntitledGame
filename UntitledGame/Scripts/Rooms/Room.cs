@@ -120,6 +120,7 @@ namespace UntitledGame.Rooms
 
             if (_drawDebug)
             {
+                Game.SpriteBatch.DrawString(Debug.Assets.DebugFont, "_attack2Launched: " + UntitledGame.GameObjects.Player.Player_BehaviorScript._attack2Launched, new Vector2(100, 400), Color.White);
                 World.DrawDebug();
             }
         }

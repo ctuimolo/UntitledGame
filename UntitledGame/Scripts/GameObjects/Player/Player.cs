@@ -91,10 +91,10 @@ namespace UntitledGame.GameObjects.Player
                       "X: " + (int)(Body.BoxCollider.X - Size.X / 2) + "\n" +
                       "Y: " + (int)(Body.BoxCollider.Y - Size.Y / 2) + "\n";
 
-            _isFlooredString = "Grounded:            " + (Body.IsFloored ? "true" : "false");
-            _isOverlappingOrangeString = "Hitbox Collisions:   " + (_behaviorScript.isOverlappingOrange ? "true" : "false");
-            _isOverlappingPinkString = "Hitbox Collisions:   " + (_behaviorScript.isOverlappingPink ? "true" : "false");
-            _afterCollisionString = "Collisions present:  " + (Body.CurrentCollisions.Count > 0 ? "true" : "false");
+            _isFlooredString            = "Grounded:            " + (Body.IsFloored ? "true" : "false");
+            _isOverlappingOrangeString  = "Hitbox Collisions:   " + (_behaviorScript.isOverlappingOrange ? "true" : "false");
+            _isOverlappingPinkString    = "Hitbox Collisions:   " + (_behaviorScript.isOverlappingPink ? "true" : "false");
+            _afterCollisionString       = "Collisions present:  " + (Body.CurrentCollisions.Count > 0 ? "true" : "false");
 
             Game.SpriteBatch.DrawString(
                 Debug.Assets.DebugFont,
