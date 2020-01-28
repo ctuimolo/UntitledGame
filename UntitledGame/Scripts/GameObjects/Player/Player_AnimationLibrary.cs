@@ -12,6 +12,10 @@ namespace UntitledGame.GameObjects.Player
         Rising,
         Falling,
         Attack1,
+        Attack2_1,
+        Attack2_2_rise,
+        Attack2_2_fall,
+        Attack2_3,
     }
 
     public class Player_AnimationLibrary
@@ -62,6 +66,45 @@ namespace UntitledGame.GameObjects.Player
                 {
                     SpriteSheet = Game.Assets.Load<Texture2D>("SpriteSheets/suika_attack1"),
                     FrameCount = 11,
+                    FrameDelay = 3,
+                    Loop = false
+                });
+
+            animationHandler.AddAnimation(
+               (int)AnimationStates.Attack2_1,
+                new Animation(new Rectangle(0, 0, 100, 100), animationHandler.Owner.Size)
+                {
+                    SpriteSheet = Game.Assets.Load<Texture2D>("SpriteSheets/suika_attack2_1"),
+                    FrameCount = 4,
+                    FrameDelay = 3,
+                    Loop = false
+                });
+
+            animationHandler.AddAnimation(
+               (int)AnimationStates.Attack2_2_rise,
+                new Animation(new Rectangle(0, 0, 140, 80), animationHandler.Owner.Size)
+                {
+                    SpriteSheet = Game.Assets.Load<Texture2D>("SpriteSheets/suika_attack2_2"),
+                    FrameCount = 1,
+                    Loop = false
+                });
+
+            animationHandler.AddAnimation(
+               (int)AnimationStates.Attack2_2_fall,
+                new Animation(new Rectangle(0, 0, 140, 80), animationHandler.Owner.Size)
+                {
+                    SpriteSheet = Game.Assets.Load<Texture2D>("SpriteSheets/suika_attack2_2"),
+                    FrameCount = 1,
+                    Loop = false,
+                    StartIndex = 1,
+                });
+
+            animationHandler.AddAnimation(
+               (int)AnimationStates.Attack2_3,
+                new Animation(new Rectangle(0, 0, 140, 120), animationHandler.Owner.Size)
+                {
+                    SpriteSheet = Game.Assets.Load<Texture2D>("SpriteSheets/suika_attack2_3"),
+                    FrameCount = 8,
                     FrameDelay = 3,
                     Loop = false
                 });

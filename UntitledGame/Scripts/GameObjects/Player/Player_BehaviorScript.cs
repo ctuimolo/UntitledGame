@@ -65,7 +65,7 @@ namespace UntitledGame.GameObjects.Player
             // Creating scripts: add/remove methods to delegate to determine behavior
             _idleScript += CheckJumpInput;
             _idleScript += CheckMoveInput;
-            _idleScript += CheckIdleState;
+            _idleScript += CheckAirborne;
             _idleScript += CheckAttack1Input;
             _idleScript += CheckAttack2Input;
             _idleScript += CheckPurpleOrange;
@@ -84,38 +84,26 @@ namespace UntitledGame.GameObjects.Player
             isOverlappingPink   = false;
         }
 
-        public void CheckIdleState()
+        public void CheckAirborne()
         {
-                if (_body.IsFloored)
+            if (!_body.IsFloored)
+            { 
+                if (_body.Velocity.Y <= 0)
                 {
-                    if (!_controller.InputDown(InputFlags.Left) && !_controller.InputDown(InputFlags.Right) ||
-                         _controller.InputDown(InputFlags.Left) && _controller.InputDown(InputFlags.Right))
-                    {
-                        if (_body.IsFloored)
-                        {
-                            _animationHandler.ChangeAnimation((int)AnimationStates.Idle);
-                        }
-                    }
+                    _animationHandler.ChangeAnimation((int)AnimationStates.Rising);
                 }
                 else
                 {
-                    if (_body.Velocity.Y <= 0)
-                    {
-                        _animationHandler.ChangeAnimation((int)AnimationStates.Rising);
-                    }
-                    else
-                    {
-                        _animationHandler.ChangeAnimation((int)AnimationStates.Falling);
-                    }
+                    _animationHandler.ChangeAnimation((int)AnimationStates.Falling);
                 }
-            
+            }
         }
 
         private void CheckJumpInput()
         {
             if (_controller.InputPressed(InputFlags.Button1))
             {
-                    _body.Velocity.Y = -_jumpStrength;
+                _body.Velocity.Y = -_jumpStrength;
             }
         }
 
@@ -139,6 +127,10 @@ namespace UntitledGame.GameObjects.Player
                 }
             }else
             {
+                if (_body.IsFloored)
+                {
+                    _animationHandler.ChangeAnimation((int)AnimationStates.Idle);
+                }
                 _body.Velocity.X = 0;
             }
         }
