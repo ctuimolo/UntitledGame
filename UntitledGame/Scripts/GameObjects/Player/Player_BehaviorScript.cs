@@ -1,12 +1,8 @@
 ﻿using System;
 
-using PhysicsWorld.Responses;
-
 using UntitledGame.Dynamics;
 using UntitledGame.Animations;
 using UntitledGame.Input;
-
-using UntitledGame.GameObjects.Player.FixedActions;
 
 namespace UntitledGame.GameObjects.Player
 {
@@ -32,12 +28,9 @@ namespace UntitledGame.GameObjects.Player
         // Fixed actions (i.e., attack animation, scripted events based on animation frames)
         private FixedAction  _currentFixedAction;
         private AttackTest   _attackTest;
-        private AttackTest2  _attackTest2_land;
-
-        public static bool _attack2Launched = false;
+        private AttackTest2  _attackTest2;
 
         private Player.BehaviorsDelegate _idleScript;
-        private Player.BehaviorsDelegate _attack1Script;
         private Player.BehaviorsDelegate _attack2Script_startup;
         private Player.BehaviorsDelegate _attack2Script_airborne;
         private Player.BehaviorsDelegate _attack2Script_land;
@@ -57,8 +50,8 @@ namespace UntitledGame.GameObjects.Player
             _body               = player.Body;
             _animationHandler   = animationHandler;
 
-            _attackTest = new AttackTest(_animationHandler.Animations[(int)AnimationStates.Attack1], player);
-            _attackTest2_land = new AttackTest2(_animationHandler.Animations[(int)AnimationStates.Attack2_3], player);
+            _attackTest = new AttackTest(_animationHandler.Animations[(int)AnimationStates.Attack1], this);
+            _attackTest2 = new AttackTest2(_animationHandler.Animations[(int)AnimationStates.Attack2_3], this);
         }
 
         public void SetController(InputManager controller)
@@ -78,7 +71,6 @@ namespace UntitledGame.GameObjects.Player
             _idleScript += CheckPurpleOrange;
 
             // Invoke fixed actions for auto initing to Idle upon animation finish
-            _attack1Script += FA_ReturnToIdle;
             _attack2Script_startup += FA_Attack2_GotoAirborne;
             _attack2Script_airborne += FA_Attack2_CheckLand;
             _attack2Script_airborne += FA_Attack2_Airborne;
@@ -154,8 +146,8 @@ namespace UntitledGame.GameObjects.Player
                 {
                     _body.Velocity.X = 0;
                     _animationHandler.ChangeAnimation((int)AnimationStates.Attack1);
-                    _currentFixedAction = _attackTest;
-                    _player.BehaviorFunctions = _attack1Script;
+                    //_currentFixedAction = _attackTest;
+                    _player.BehaviorFunctions = _attackTest.Attack1Script;
                 }
             }
         }
@@ -176,7 +168,7 @@ namespace UntitledGame.GameObjects.Player
 
         private void FA_ReturnToIdle()
         {
-            _currentFixedAction?.InvokeFrame(_animationHandler.CurrentFrame);
+            //_currentFixedAction?.InvokeFrame(_animationHandler.CurrentFrame);
             if(_animationHandler.Finished)
             {
                 _currentFixedAction = null;
@@ -191,7 +183,6 @@ namespace UntitledGame.GameObjects.Player
             {
                 _currentFixedAction = null;
                 _player.BehaviorFunctions = _attack2Script_airborne;
-                _attack2Launched = true;
                 _body.Velocity.Y = -6;
                 _body.Velocity.X = 4;
             }
@@ -217,7 +208,7 @@ namespace UntitledGame.GameObjects.Player
             if (_body.IsFloored)
             {
                 _body.Velocity.X = 0;
-                _currentFixedAction = _attackTest2_land;
+                _currentFixedAction       = null;
                 _player.BehaviorFunctions = _attack2Script_land;
             }
         }

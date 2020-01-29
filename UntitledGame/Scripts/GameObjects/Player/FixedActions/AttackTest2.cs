@@ -5,34 +5,27 @@ using System;
 using UntitledGame.Dynamics;
 using UntitledGame.Animations;
 
-namespace UntitledGame.GameObjects.Player.FixedActions
+namespace UntitledGame.GameObjects.Player
 {
-    public class AttackTest2 : FixedAction
+    public partial class Player_BehaviorScript
     {
-        private Player _player;
-
-        public AttackTest2(Animation animation, Player player) : base(animation)
+        private class AttackTest2 : FixedAction
         {
-            _player = player;
-            _frameActions = new Action[animation.FrameCount * animation.FrameDelay];
+            private Player _player;
+            private Hitbox _hitbox1;
 
-            _frameActions[1] = TestMe;
-            _frameActions[2] = TestMe;
-            _frameActions[3] = TestMe;
-            _frameActions[4] = TestMe;
-            _frameActions[5] = TestMe;
-            _frameActions[6] = TestMe;
-            _frameActions[7] = TestMe;
-        }
+            private Player_BehaviorScript _behaviorScript;
 
-        private void TestMe()
-        {
-            Console.WriteLine("From TestMe");
-        }
+            public Player.BehaviorsDelegate Attack1Script { get; private set; }
 
-        public override void InvokeFrame(int animationFrame)
-        {
-            _frameActions[animationFrame]?.Invoke();
+            public AttackTest2(Animation animation, Player_BehaviorScript behaviorScript) : base(animation)
+            {
+            }
+
+            public override void InvokeFrame(int animationFrame)
+            {
+                _frameActions[animationFrame]?.Invoke();
+            }
         }
     }
 }

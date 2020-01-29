@@ -91,7 +91,6 @@ namespace UntitledGame.Animations
 
         public void DrawFrame()
         {
-            CurrentAnimation = Animations[_state];
             Game.SpriteBatch.Draw(
                 CurrentAnimation.SpriteSheet,
                 new Vector2(Owner.Body.BoxCollider.X, Owner.Body.BoxCollider.Y) - CurrentAnimation.Offset,
