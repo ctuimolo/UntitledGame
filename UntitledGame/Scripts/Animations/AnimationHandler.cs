@@ -91,17 +91,20 @@ namespace UntitledGame.Animations
 
         public void DrawFrame()
         {
-            Game.SpriteBatch.Draw(
-                CurrentAnimation.SpriteSheet,
-                new Vector2(Owner.Body.BoxCollider.X, Owner.Body.BoxCollider.Y) - CurrentAnimation.Offset,
-                CurrentAnimation.GetDrawRect(_drawIndex),
-                Color.White,
-                0,
-                Vector2.Zero,
-                1f,
-                Facing == Orientation.Right ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
-                0.5f
-            );
+            if(CurrentAnimation != null)
+            {
+                Game.SpriteBatch.Draw(
+                    CurrentAnimation.SpriteSheet,
+                    new Vector2(Owner.Body.BoxCollider.X, Owner.Body.BoxCollider.Y) - CurrentAnimation.Offset,
+                    CurrentAnimation.GetDrawRect(_drawIndex),
+                    Color.White,
+                    0,
+                    Vector2.Zero,
+                    1f,
+                    Facing == Orientation.Right ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
+                    0.5f
+                );
+            }
         }
 
         public void DrawDebug()

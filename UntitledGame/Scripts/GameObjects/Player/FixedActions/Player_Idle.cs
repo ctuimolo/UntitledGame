@@ -14,8 +14,6 @@ namespace UntitledGame.GameObjects.Player
         private class Player_Idle : FixedAction
         {
             private Player          _player;
-            private Hitbox          _hitbox1;
-            private InputManager    _controller;
             private PhysicsBody     _body;
 
             private readonly float _walkSpeed = 3;
@@ -27,7 +25,6 @@ namespace UntitledGame.GameObjects.Player
             {
                 _player         = behaviorScript._player;
                 _behaviorScript = behaviorScript;
-                _controller     = behaviorScript._controller;
                 _body           = behaviorScript._body;
 
                 BehaviorFunctions += CheckJumpInput;
@@ -54,8 +51,8 @@ namespace UntitledGame.GameObjects.Player
 
             private void CheckJumpInput()
             {
-                if(_controller != null)
-                    if (_controller.InputPressed(InputFlags.Button1))
+                if(_behaviorScript._controller != null)
+                    if (_behaviorScript._controller.InputPressed(InputFlags.Button1))
                     {
                         _body.Velocity.Y = -_jumpStrength;
                     }
@@ -63,18 +60,18 @@ namespace UntitledGame.GameObjects.Player
 
             private void CheckMoveInput()
             {
-                if (_controller != null)
+                if (_behaviorScript._controller != null)
                 {
-                    if (_controller.InputDown(InputFlags.Left) && !_controller.InputDown(InputFlags.Right))
+                    if (_behaviorScript._controller.InputDown(InputFlags.Left) && !_behaviorScript._controller.InputDown(InputFlags.Right))
                     {
-                    _body.Velocity.X = -_walkSpeed;
-                    _player.State.Facing = Orientation.Left;
-                    if (_body.IsFloored)
-                    {
-                        _animationHandler.ChangeAnimation((int)AnimationStates.Walking);
+                        _body.Velocity.X = -_walkSpeed;
+                        _player.State.Facing = Orientation.Left;
+                        if (_body.IsFloored)
+                        {
+                            _animationHandler.ChangeAnimation((int)AnimationStates.Walking);
+                        }
                     }
-                    }
-                    else if (_controller.InputDown(InputFlags.Right) && !_controller.InputDown(InputFlags.Left))
+                    else if (_behaviorScript._controller.InputDown(InputFlags.Right) && !_behaviorScript._controller.InputDown(InputFlags.Left))
                     {
                         _body.Velocity.X = _walkSpeed;
                         _player.State.Facing = Orientation.Right;
@@ -96,14 +93,13 @@ namespace UntitledGame.GameObjects.Player
 
             private void CheckAttack1Input()
             {
-                if(_controller != null)
-                    if (_controller.InputPressed(InputFlags.Button2))
+                if(_behaviorScript._controller != null)
+                    if (_behaviorScript._controller.InputPressed(InputFlags.Button2))
                     {
                         if (_body.IsFloored)
                         {
                             _body.Velocity.X = 0;
                             _animationHandler.ChangeAnimation((int)AnimationStates.Attack1);
-                            //_currentFixedAction = _attackTest;
                             _player.BehaviorFunctions = _behaviorScript._attackTest.BehaviorFunctions;
                         }
                     }
@@ -111,14 +107,13 @@ namespace UntitledGame.GameObjects.Player
 
             private void CheckAttack2Input()
             {
-                if (_controller != null) 
-                    if (_controller.InputPressed(InputFlags.Button3))
+                if (_behaviorScript._controller != null) 
+                    if (_behaviorScript._controller.InputPressed(InputFlags.Button3))
                     {
                         if (_body.IsFloored)
                         {
                             _body.Velocity.X = 0;
                             _animationHandler.ChangeAnimation((int)AnimationStates.Attack2_1);
-                            //_currentFixedAction = null;
                             _player.BehaviorFunctions = _behaviorScript._attack2Script_startup;
                         }
                     }
