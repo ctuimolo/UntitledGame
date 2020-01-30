@@ -26,14 +26,14 @@ namespace UntitledGame.GameObjects.Player
         private InputManager                _controller;
 
         // Fixed actions (i.e., attack animation, scripted events based on animation frames)
-        private FixedAction  _currentFixedAction;
-        private AttackTest   _attackTest;
-        private AttackTest2  _attackTest2;
+        //private Player_Idle     _idleScript;
+        private AttackTest      _attackTest;
+        private AttackTest2     _attackTest2;
 
-        private Player.BehaviorsDelegate _idleScript;
-        private Player.BehaviorsDelegate _attack2Script_startup;
-        private Player.BehaviorsDelegate _attack2Script_airborne;
-        private Player.BehaviorsDelegate _attack2Script_land;
+        private Action _idlescript;
+        private Action _attack2Script_startup;
+        private Action _attack2Script_airborne;
+        private Action _attack2Script_land;
 
         // Local fields for behavior scripts
         private readonly float _walkSpeed       = 3;
@@ -50,11 +50,12 @@ namespace UntitledGame.GameObjects.Player
             _body               = player.Body;
             _animationHandler   = animationHandler;
 
-            _attackTest = new AttackTest(_animationHandler.Animations[(int)AnimationStates.Attack1], this);
-            _attackTest2 = new AttackTest2(_animationHandler.Animations[(int)AnimationStates.Attack2_3], this);
+            //_idleScript     = new Player_Idle(this);
+            _attackTest     = new AttackTest(this);
+            _attackTest2    = new AttackTest2(_animationHandler.Animations[(int)AnimationStates.Attack2_3], this);
         }
 
-        public void SetController(InputManager controller)
+        public void SetController(ref InputManager controller)
         {
             _controller = controller;
         }
@@ -63,12 +64,12 @@ namespace UntitledGame.GameObjects.Player
         public void InitBehaviors()
         {
             // Creating scripts: add/remove methods to delegate to determine behavior
-            _idleScript += CheckJumpInput;
-            _idleScript += CheckMoveInput;
-            _idleScript += CheckAirborne;
-            _idleScript += CheckAttack1Input;
-            _idleScript += CheckAttack2Input;
-            _idleScript += CheckPurpleOrange;
+            _idlescript += CheckJumpInput;
+            _idlescript += CheckMoveInput;
+            _idlescript += CheckAirborne;
+            _idlescript += CheckAttack1Input;
+            _idlescript += CheckAttack2Input;
+            _idlescript += CheckPurpleOrange;
 
             // Invoke fixed actions for auto initing to Idle upon animation finish
             _attack2Script_startup += FA_Attack2_GotoAirborne;
@@ -78,7 +79,7 @@ namespace UntitledGame.GameObjects.Player
             _attack2Script_land += FA_Attack2_Slide;
 
             // Set owner BehaviorFunctions delegate to the desired script from init and other behaviors
-            _player.BehaviorFunctions = _idleScript;
+            _player.BehaviorFunctions = _idlescript;
         }
 
         public void CheckState()
@@ -147,7 +148,7 @@ namespace UntitledGame.GameObjects.Player
                     _body.Velocity.X = 0;
                     _animationHandler.ChangeAnimation((int)AnimationStates.Attack1);
                     //_currentFixedAction = _attackTest;
-                    _player.BehaviorFunctions = _attackTest.Attack1Script;
+                    _player.BehaviorFunctions = _attackTest.BehaviorFunctions;
                 }
             }
         }
@@ -160,7 +161,7 @@ namespace UntitledGame.GameObjects.Player
                 {
                     _body.Velocity.X = 0;
                     _animationHandler.ChangeAnimation((int)AnimationStates.Attack2_1);
-                    _currentFixedAction = null;
+                    //_currentFixedAction = null;
                     _player.BehaviorFunctions = _attack2Script_startup;
                 }
             }
@@ -171,17 +172,17 @@ namespace UntitledGame.GameObjects.Player
             //_currentFixedAction?.InvokeFrame(_animationHandler.CurrentFrame);
             if(_animationHandler.Finished)
             {
-                _currentFixedAction = null;
-                _player.BehaviorFunctions = _idleScript;
+                //_currentFixedAction = null;
+                _player.BehaviorFunctions = _idlescript;
             }
         }
 
         private void FA_Attack2_GotoAirborne()
         {
-            _currentFixedAction?.InvokeFrame(_animationHandler.CurrentFrame);
+            //_currentFixedAction?.InvokeFrame(_animationHandler.CurrentFrame);
             if (_animationHandler.Finished)
             {
-                _currentFixedAction = null;
+                //_currentFixedAction = null;
                 _player.BehaviorFunctions = _attack2Script_airborne;
                 _body.Velocity.Y = -6;
                 _body.Velocity.X = 4;
@@ -208,7 +209,7 @@ namespace UntitledGame.GameObjects.Player
             if (_body.IsFloored)
             {
                 _body.Velocity.X = 0;
-                _currentFixedAction       = null;
+                //_currentFixedAction       = null;
                 _player.BehaviorFunctions = _attack2Script_land;
             }
         }
@@ -219,8 +220,8 @@ namespace UntitledGame.GameObjects.Player
             if (_animationHandler.Finished)
             {
                 //Console.WriteLine("FINISHED");
-                _currentFixedAction = null;
-                _player.BehaviorFunctions = _idleScript;
+                //_currentFixedAction = null;
+                _player.BehaviorFunctions = _idlescript;
             }
         }
 

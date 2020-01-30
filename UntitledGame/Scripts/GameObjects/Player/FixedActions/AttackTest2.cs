@@ -18,13 +18,13 @@ namespace UntitledGame.GameObjects.Player
 
             public Player.BehaviorsDelegate Attack1Script { get; private set; }
 
-            public AttackTest2(Animation animation, Player_BehaviorScript behaviorScript) : base(animation)
+            public AttackTest2(Animation animation, Player_BehaviorScript behaviorScript) : base(behaviorScript._animationHandler)
             {
             }
 
-            public override void InvokeFrame(int animationFrame)
+            protected override void InvokeFrame()
             {
-                _frameActions[animationFrame]?.Invoke();
+                _frameActions[0]?.Invoke();
             }
         }
     }

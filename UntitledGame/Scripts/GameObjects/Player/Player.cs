@@ -28,12 +28,13 @@ namespace UntitledGame.GameObjects.Player
         // Behavior libraries
         private Player_AnimationLibrary _animationLibrary;
         private Player_BehaviorScript   _behaviorScript;
+        private InputManager _controller;
 
         // Behavior events delegate. 
         public delegate void BehaviorsDelegate();
 
         // Behavior events. Call this after appending all collisions and logic.
-        public BehaviorsDelegate BehaviorFunctions;
+        public Action BehaviorFunctions;
         public Player_State State;
 
         public Player(WorldHandler setWorld, Vector2 setPosition, string key)
@@ -59,9 +60,11 @@ namespace UntitledGame.GameObjects.Player
             _animationLibrary   = new Player_AnimationLibrary();
             _animationLibrary.LoadAnimations(AnimationHandler);
 
+            _controller = Game.GlobalKeyboard;
+
             State = new Player_State();
             _behaviorScript = new Player_BehaviorScript(this, AnimationHandler);
-            _behaviorScript.SetController(Game.GlobalKeyboard);
+            _behaviorScript.SetController(ref _controller);
             _behaviorScript.InitBehaviors();
 
             AnimationHandler.ChangeAnimation((int)AnimationStates.Idle);

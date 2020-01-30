@@ -4,14 +4,23 @@ namespace UntitledGame.Animations
 {
     public class FixedAction
     {
-        protected Animation _animation { get; set; }
+        protected AnimationHandler  _animationHandler;
+        protected Animation         _animation;
+
         protected Action[]  _frameActions;
 
-        public FixedAction(Animation animation)
+        public Action BehaviorFunctions { get; protected set; }
+
+        public FixedAction(AnimationHandler animationHandler)
         {
-            _animation = animation;
+            _animationHandler = animationHandler;
+            BehaviorFunctions = InvokeFrame;
         }
 
-        public virtual void InvokeFrame(int animationFrame) { }
+        protected virtual void InvokeFrame()
+        {
+            if(_animationHandler != null && _frameActions != null)
+                _frameActions[_animationHandler.CurrentFrame]?.Invoke();
+        }
     }
 }
