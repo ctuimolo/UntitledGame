@@ -44,6 +44,8 @@ namespace UntitledGame.GameObjects.Player
             _FA_Idle        = new Player_Idle(this);
             _attackTest     = new AttackTest(this);
             _attackTest2    = new AttackTest2(this);
+
+            _player.InitialFunctions += CheckPurpleOrange;
         }
 
         public void SetController(ref InputManager controller)
@@ -56,12 +58,6 @@ namespace UntitledGame.GameObjects.Player
         {
             // Set owner BehaviorFunctions delegate to the desired script from init and other behaviors
             _player.BehaviorFunctions = _FA_Idle.BehaviorFunctions;
-        }
-
-        public void CheckState()
-        {
-            isOverlappingOrange = false;
-            isOverlappingPink   = false;
         }
 
         private void FA_ReturnToIdle()
@@ -77,5 +73,24 @@ namespace UntitledGame.GameObjects.Player
             player.Body.Velocity.X = x;
             player.Body.Velocity.Y = y;
         }
+
+        public void CheckPurpleOrange()
+        {
+            isOverlappingOrange = false;
+            isOverlappingPink = false;
+
+            foreach (Hitbox collision in _body.CurrentCollisions)
+            {
+                if (collision.Data.Value == "orange")
+                {
+                    isOverlappingOrange = true;
+                }
+                if (collision.Data.Value == "purple")
+                {
+                    isOverlappingPink = true;
+                }
+            }
+        }
+
     }
 }

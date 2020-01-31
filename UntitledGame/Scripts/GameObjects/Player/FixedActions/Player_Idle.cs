@@ -32,7 +32,6 @@ namespace UntitledGame.GameObjects.Player
                 BehaviorFunctions += CheckAirborne;
                 BehaviorFunctions += CheckAttack1Input;
                 BehaviorFunctions += CheckAttack2Input;
-                BehaviorFunctions += CheckPurpleOrange;
             }
             public void CheckAirborne()
             {
@@ -117,21 +116,6 @@ namespace UntitledGame.GameObjects.Player
                             _player.BehaviorFunctions = _behaviorScript._attackTest2.BehaviorFunctions;
                         }
                     }
-            }
-
-            public void CheckPurpleOrange()
-            {
-                foreach (Hitbox collision in _body.CurrentCollisions)
-                {
-                    if (collision.Data.Value == "orange")
-                    {
-                        _behaviorScript.isOverlappingOrange = true;
-                    }
-                    if (collision.Data.Value == "purple")
-                    {
-                        _behaviorScript.isOverlappingPink = true;
-                    }
-                }
             }
         }
     }
