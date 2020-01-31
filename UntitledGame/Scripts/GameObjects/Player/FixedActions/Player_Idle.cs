@@ -114,7 +114,7 @@ namespace UntitledGame.GameObjects.Player
                         {
                             _body.Velocity.X = 0;
                             _animationHandler.ChangeAnimation((int)AnimationStates.Attack2_1);
-                            _player.BehaviorFunctions = _behaviorScript._attack2Script_startup;
+                            _player.BehaviorFunctions = _behaviorScript._attackTest2.BehaviorFunctions;
                         }
                     }
             }
