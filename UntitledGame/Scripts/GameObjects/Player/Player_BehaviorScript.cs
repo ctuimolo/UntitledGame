@@ -91,6 +91,5 @@ namespace UntitledGame.GameObjects.Player
                 }
             }
         }
-
     }
 }
