@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using System;
@@ -46,6 +47,20 @@ namespace UntitledGame.Input
         private KeyboardState _oldKbState;
         private GamePadState  _oldGpState;
 
+        private Rectangle _d4_SpriteIndex = new Rectangle( 0, 56, 28, 28);
+        private Rectangle _d6_SpriteIndex = new Rectangle(28, 28, 28, 28);
+        private Rectangle _d8_SpriteIndex = new Rectangle( 0,  0, 28, 28);
+        private Rectangle _d2_SpriteIndex = new Rectangle(28, 84, 28, 28);
+        private Rectangle _d1_SpriteIndex = new Rectangle( 0, 84, 28, 28);
+        private Rectangle _d3_SpriteIndex = new Rectangle(28, 56, 28, 28);
+        private Rectangle _d7_SpriteIndex = new Rectangle( 0, 28, 28, 28);
+        private Rectangle _d9_SpriteIndex = new Rectangle(28,  0, 28, 28);
+
+        private Rectangle _currentDirection;
+        private bool _hasHistory;
+        private int _Xaxis;
+        private int _Yaxis;
+
         public InputManager()
         {
             _keyboardDefinitions = new Dictionary<InputFlags, Keys>();
@@ -77,6 +92,70 @@ namespace UntitledGame.Input
         {
             _oldKbState = _kbState;
             _kbState = Keyboard.GetState();
+
+            _hasHistory = false;
+            _Xaxis = 0;
+            _Yaxis = 0;
+
+            if(InputDown(InputFlags.Left))
+            {
+                _Xaxis -=1;
+            }
+            if(InputDown(InputFlags.Right))
+            {
+                _Xaxis +=1;
+            }
+            if (InputDown(InputFlags.Up))
+            {
+                _Yaxis +=1;
+            }
+            if (InputDown(InputFlags.Down))
+            {
+                _Yaxis -=1;
+            }
+
+            if (_Xaxis < 0 && _Yaxis < 0)
+            {
+                _hasHistory = true;
+                _currentDirection = _d1_SpriteIndex;
+            }
+            if (_Xaxis == 0 && _Yaxis < 0)
+            {
+                _hasHistory = true;
+                _currentDirection = _d2_SpriteIndex;
+            }
+            if(_Xaxis > 0 && _Yaxis < 0)
+            {
+                _hasHistory = true;
+                _currentDirection = _d3_SpriteIndex;
+            }
+
+            if(_Xaxis < 0 && _Yaxis == 0)
+            {
+                _hasHistory = true;
+                _currentDirection = _d4_SpriteIndex;
+            }
+            if(_Xaxis > 0 && _Yaxis == 0)
+            {
+                _hasHistory = true;
+                _currentDirection = _d6_SpriteIndex;
+            }
+
+            if(_Xaxis < 0 && _Yaxis > 0)
+            {
+                _hasHistory = true;
+                _currentDirection = _d7_SpriteIndex;
+            }
+            if(_Xaxis == 0 && _Yaxis > 0)
+            {
+                _hasHistory = true;
+                _currentDirection = _d8_SpriteIndex;
+            }
+            if(_Xaxis > 0 && _Yaxis > 0)
+            {
+                _hasHistory = true;
+                _currentDirection = _d9_SpriteIndex;
+            }        
         }
 
         private void ParseGamepadInputs()
@@ -130,6 +209,24 @@ namespace UntitledGame.Input
             }
 
             return false;
+        }
+
+        public void DrawHistory()
+        {
+            if(_hasHistory)
+            {
+                Game.SpriteBatch.Draw(
+                    Debug.Assets.InputHandler_Sheet,
+                    new Vector2(20, 80),
+                    _currentDirection,
+                    Color.White,
+                    0,
+                    Vector2.Zero,
+                    1f,
+                    SpriteEffects.None,
+                    0f
+                );
+            }
         }
     }
 }

@@ -14,5 +14,7 @@ namespace UntitledGame.Debug
         public static Texture2D     PinkBox     = Game.Assets.Load<Texture2D>("Debug/pink");
         public static Texture2D     GreyBox     = Game.Assets.Load<Texture2D>("Debug/grey");
         public static Texture2D     BlackBox    = Game.Assets.Load<Texture2D>("Debug/black");
+        
+        public static Texture2D     InputHandler_Sheet = Game.Assets.Load<Texture2D>("UI/InputHandler_Sheet");
     }
 }

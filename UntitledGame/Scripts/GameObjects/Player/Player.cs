@@ -87,6 +87,7 @@ namespace UntitledGame.GameObjects.Player
         public override void Draw()
         {
             AnimationHandler.DrawFrame();
+            _controller.DrawHistory();
         }
 
         public override void DrawDebug()
