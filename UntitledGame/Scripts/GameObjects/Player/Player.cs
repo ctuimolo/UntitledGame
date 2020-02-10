@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using UntitledGame.Animations;
 using UntitledGame.Dynamics;
 using UntitledGame.Input;
+using UntitledGame.Input.Replay;
 
 namespace UntitledGame.GameObjects.Player
 {
@@ -28,7 +29,8 @@ namespace UntitledGame.GameObjects.Player
         // Behavior libraries
         private Player_AnimationLibrary _animationLibrary;
         private Player_BehaviorScript   _behaviorScript;
-        private InputManager _controller;
+        private InputManager    _controller;
+        private InputRecord     _keyboardRecord;
 
         // Behavior events delegate. 
         public delegate void BehaviorsDelegate();
@@ -61,7 +63,9 @@ namespace UntitledGame.GameObjects.Player
             _animationLibrary   = new Player_AnimationLibrary();
             _animationLibrary.LoadAnimations(AnimationHandler);
 
-            _controller = Game.GlobalKeyboard;
+            _controller     = Game.GlobalKeyboard;
+            _keyboardRecord = new InputRecord(_controller);
+            _keyboardRecord.InitKBRecord();
 
             State = new Player_State();
             _behaviorScript = new Player_BehaviorScript(this, AnimationHandler);
@@ -87,7 +91,9 @@ namespace UntitledGame.GameObjects.Player
         public override void Draw()
         {
             AnimationHandler.DrawFrame();
-            _controller.DrawHistory();
+            _keyboardRecord.InsertKBRecord();
+            _keyboardRecord.DrawHistory();
+            //_controller.DrawHistory();
         }
 
         public override void DrawDebug()
