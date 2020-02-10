@@ -64,7 +64,7 @@ namespace UntitledGame.Input.Replay
             //Rectangle drawRect = GetDpadDrawRect(_kbRecord[_currFrame - 1]);
             //if (drawRect != _null ) 
             //{
-            Game.SpriteBatch.Draw(
+                Game.SpriteBatch.Draw(
                     Debug.Assets.InputHandler_Sheet,
                     new Vector2(20, 80),
                     GetDpadDrawRect(_kbRecord[frame0]),
@@ -119,17 +119,17 @@ namespace UntitledGame.Input.Replay
                     SpriteEffects.None,
                     0f
                 );
-            Game.SpriteBatch.DrawString(
-                    Debug.Assets.DebugFont,
-                    _currFrame.ToString(),
-                    new Vector2(60, 90),
-                    Color.White,
-                    0,
-                    Vector2.Zero,
-                    1f,
-                    SpriteEffects.None,
-                    0f
-                );
+                Game.SpriteBatch.DrawString(
+                        Debug.Assets.DebugFont,
+                        _currFrame.ToString(),
+                        new Vector2(60, 90),
+                        Color.White,
+                        0,
+                        Vector2.Zero,
+                        1f,
+                        SpriteEffects.None,
+                        0f
+                    );
             //}
         }
 

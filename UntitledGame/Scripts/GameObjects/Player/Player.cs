@@ -85,15 +85,14 @@ namespace UntitledGame.GameObjects.Player
                 BehaviorFunctions?.Invoke();
                 AnimationHandler.Facing = State.Facing;
                 AnimationHandler.UpdateIndex();
+                _keyboardRecord.InsertKBRecord();
             }
         }
 
         public override void Draw()
         {
             AnimationHandler.DrawFrame();
-            _keyboardRecord.InsertKBRecord();
             _keyboardRecord.DrawHistory();
-            //_controller.DrawHistory();
         }
 
         public override void DrawDebug()
