@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace UntitledGame.Debug
 {
@@ -16,5 +17,14 @@ namespace UntitledGame.Debug
         public static Texture2D     BlackBox    = Game.Assets.Load<Texture2D>("Debug/black");
         
         public static Texture2D     InputHandler_Sheet = Game.Assets.Load<Texture2D>("UI/InputHandler_Sheet");
+        public static Rectangle     D_Null = new Rectangle(0, 0, 0, 0);
+        public static Rectangle     D4_SpriteIndex = new Rectangle(0, 56, 28, 28);
+        public static Rectangle     D6_SpriteIndex = new Rectangle(28, 28, 28, 28);
+        public static Rectangle     D8_SpriteIndex = new Rectangle(0, 0, 28, 28);
+        public static Rectangle     D2_SpriteIndex = new Rectangle(28, 84, 28, 28);
+        public static Rectangle     D1_SpriteIndex = new Rectangle(0, 84, 28, 28);
+        public static Rectangle     D3_SpriteIndex = new Rectangle(28, 56, 28, 28);
+        public static Rectangle     D7_SpriteIndex = new Rectangle(0, 28, 28, 28);
+        public static Rectangle     D9_SpriteIndex = new Rectangle(28, 0, 28, 28);
     }
 }

@@ -47,6 +47,8 @@ namespace UntitledGame.Input
         private KeyboardState _oldKbState;
         private GamePadState  _oldGpState;
 
+        public InputRecord History      { get; set; }
+
         public InputManager()
         {
             _keyboardDefinitions = new Dictionary<InputFlags, Keys>();

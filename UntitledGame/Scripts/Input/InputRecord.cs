@@ -4,28 +4,25 @@ using Microsoft.Xna.Framework.Input;
 
 using System.Collections.Generic;
 
-namespace UntitledGame.Input.Replay
+namespace UntitledGame.Input
 {
+    public struct HistoricalKBState
+    {
+        public KeyboardState State;
+        public int FrameStamp;
+    }
+
     public class InputRecord
     {
-        private KeyboardState[] _kbRecord;
-        private GamePadState[]  _gpRecord;
-        private int _recordSize = 8192;
-        private int _currFrame  = 0;
+        private HistoricalKBState[] _kbRecord;
+        private GamePadState[]      _gpRecord;
+        private int _recordSize     = 8192;
+        private int _maxFrame       = 8192;
+        private int _currFrame      = -1;
+        private int _historyCount   = 0;
 
         private InputManager _controller;
-        private Rectangle _null = new Rectangle(0,0,0,0);
-        private Rectangle _d4_SpriteIndex = new Rectangle(0, 56, 28, 28);
-        private Rectangle _d6_SpriteIndex = new Rectangle(28, 28, 28, 28);
-        private Rectangle _d8_SpriteIndex = new Rectangle(0, 0, 28, 28);
-        private Rectangle _d2_SpriteIndex = new Rectangle(28, 84, 28, 28);
-        private Rectangle _d1_SpriteIndex = new Rectangle(0, 84, 28, 28);
-        private Rectangle _d3_SpriteIndex = new Rectangle(28, 56, 28, 28);
-        private Rectangle _d7_SpriteIndex = new Rectangle(0, 28, 28, 28);
-        private Rectangle _d9_SpriteIndex = new Rectangle(28, 0, 28, 28);
 
-        private Rectangle _currentDirection;
-        private bool _hasHistory;
         private int _Xaxis;
         private int _Yaxis;
 
@@ -36,7 +33,7 @@ namespace UntitledGame.Input.Replay
 
         public void InitKBRecord()
         {
-            _kbRecord = new KeyboardState[_recordSize];
+            _kbRecord = new HistoricalKBState[_recordSize];
         }
 
         public void InitGPRecord()
@@ -44,98 +41,101 @@ namespace UntitledGame.Input.Replay
             _gpRecord = new GamePadState[_recordSize];
         }
 
-        public void InsertKBRecord()
+        public void UpdateInputRecordIndex()
+        {
+            if(_currFrame < _maxFrame)
+                _currFrame++;
+        }
+
+        public void InsertKBRecord(KeyboardState state)
         {
             if(_currFrame < _recordSize)
             {
-                _kbRecord[_currFrame] = _controller.GetKBState();
-                _currFrame++;
+                _kbRecord[_currFrame].State      = state;
+                _kbRecord[_currFrame].FrameStamp = _currFrame;
+                _currFrame = -1;
+                _historyCount++;
             }
         }
 
         public void DrawHistory()
         {
-            int frame0 = (_currFrame - 1 > 0) ? _currFrame - 1 : 0;
-            int frame1 = (_currFrame - 2 > 0) ? _currFrame - 2 : 0;
-            int frame2 = (_currFrame - 3 > 0) ? _currFrame - 3 : 0;
-            int frame3 = (_currFrame - 4 > 0) ? _currFrame - 4 : 0;
-            int frame4 = (_currFrame - 5 > 0) ? _currFrame - 5 : 0;
+            int frame0 = (_historyCount - 1 > 0) ? _historyCount - 1 : 0;
+            int frame1 = (_historyCount - 2 > 0) ? _historyCount - 2 : 0;
+            int frame2 = (_historyCount - 3 > 0) ? _historyCount - 3 : 0;
+            int frame3 = (_historyCount - 4 > 0) ? _historyCount - 4 : 0;
+            int frame4 = (_historyCount - 5 > 0) ? _historyCount - 5 : 0;
 
-            //Rectangle drawRect = GetDpadDrawRect(_kbRecord[_currFrame - 1]);
-            //if (drawRect != _null ) 
-            //{
-                Game.SpriteBatch.Draw(
-                    Debug.Assets.InputHandler_Sheet,
-                    new Vector2(20, 80),
-                    GetDpadDrawRect(_kbRecord[frame0]),
-                    Color.White,
-                    0,
-                    Vector2.Zero,
-                    1f,
-                    SpriteEffects.None,
-                    0f
-                );
-                Game.SpriteBatch.Draw(
-                    Debug.Assets.InputHandler_Sheet,
-                    new Vector2(20, 110),
-                    GetDpadDrawRect(_kbRecord[frame1]),
-                    Color.White,
-                    0,
-                    Vector2.Zero,
-                    1f,
-                    SpriteEffects.None,
-                    0f
-                );
-                Game.SpriteBatch.Draw(
-                    Debug.Assets.InputHandler_Sheet,
-                    new Vector2(20, 140),
-                    GetDpadDrawRect(_kbRecord[frame2]),
-                    Color.White,
-                    0,
-                    Vector2.Zero,
-                    1f,
-                    SpriteEffects.None,
-                    0f
-                );
-                Game.SpriteBatch.Draw(
-                    Debug.Assets.InputHandler_Sheet,
-                    new Vector2(20, 170),
-                    GetDpadDrawRect(_kbRecord[frame3]),
-                    Color.White,
-                    0,
-                    Vector2.Zero,
-                    1f,
-                    SpriteEffects.None,
-                    0f
-                );
-                Game.SpriteBatch.Draw(
-                    Debug.Assets.InputHandler_Sheet,
-                    new Vector2(20, 200),
-                    GetDpadDrawRect(_kbRecord[frame4]),
-                    Color.White,
-                    0,
-                    Vector2.Zero,
-                    1f,
-                    SpriteEffects.None,
-                    0f
-                );
-                Game.SpriteBatch.DrawString(
-                        Debug.Assets.DebugFont,
-                        _currFrame.ToString(),
-                        new Vector2(60, 90),
-                        Color.White,
-                        0,
-                        Vector2.Zero,
-                        1f,
-                        SpriteEffects.None,
-                        0f
-                    );
-            //}
+            Game.SpriteBatch.Draw(
+                Debug.Assets.InputHandler_Sheet,
+                new Vector2(20, 80),
+                GetDpadDrawRect(_kbRecord[frame0].State),
+                Color.White,
+                0,
+                Vector2.Zero,
+                1f,
+                SpriteEffects.None,
+                0f
+            );
+            Game.SpriteBatch.Draw(
+                Debug.Assets.InputHandler_Sheet,
+                new Vector2(20, 110),
+                GetDpadDrawRect(_kbRecord[frame1].State),
+                Color.White,
+                0,
+                Vector2.Zero,
+                1f,
+                SpriteEffects.None,
+                0f
+            );
+            Game.SpriteBatch.Draw(
+                Debug.Assets.InputHandler_Sheet,
+                new Vector2(20, 140),
+                GetDpadDrawRect(_kbRecord[frame2].State),
+                Color.White,
+                0,
+                Vector2.Zero,
+                1f,
+                SpriteEffects.None,
+                0f
+            );
+            Game.SpriteBatch.Draw(
+                Debug.Assets.InputHandler_Sheet,
+                new Vector2(20, 170),
+                GetDpadDrawRect(_kbRecord[frame3].State),
+                Color.White,
+                0,
+                Vector2.Zero,
+                1f,
+                SpriteEffects.None,
+                0f
+            );
+            Game.SpriteBatch.Draw(
+                Debug.Assets.InputHandler_Sheet,
+                new Vector2(20, 200),
+                GetDpadDrawRect(_kbRecord[frame4].State),
+                Color.White,
+                0,
+                Vector2.Zero,
+                1f,
+                SpriteEffects.None,
+                0f
+            );
+            Game.SpriteBatch.DrawString(
+                Debug.Assets.DebugFont,
+                _currFrame.ToString(),
+                new Vector2(60, 90),
+                Color.White,
+                0,
+                Vector2.Zero,
+                1f,
+                SpriteEffects.None,
+                0f
+            );
         }
 
         public Rectangle GetDpadDrawRect(KeyboardState state)
         {
-            _hasHistory = false;
             _Xaxis = 0;
             _Yaxis = 0;
 
@@ -158,48 +158,40 @@ namespace UntitledGame.Input.Replay
 
             if (_Xaxis < 0 && _Yaxis < 0)
             {
-                _hasHistory = true;
-                return _d1_SpriteIndex;
+                return Debug.Assets.D1_SpriteIndex;
             }
             if (_Xaxis == 0 && _Yaxis < 0)
             {
-                _hasHistory = true;
-                return _d2_SpriteIndex;
+                return Debug.Assets.D2_SpriteIndex;
             }
             if (_Xaxis > 0 && _Yaxis < 0)
             {
-                _hasHistory = true;
-                return _d3_SpriteIndex;
+                return Debug.Assets.D3_SpriteIndex;
             }
 
             if (_Xaxis < 0 && _Yaxis == 0)
             {
-                _hasHistory = true;
-                return _d4_SpriteIndex;
+                return Debug.Assets.D4_SpriteIndex;
             }
             if (_Xaxis > 0 && _Yaxis == 0)
             {
-                _hasHistory = true;
-                return _d6_SpriteIndex;
+                return Debug.Assets.D6_SpriteIndex;
             }
 
             if (_Xaxis < 0 && _Yaxis > 0)
             {
-                _hasHistory = true;
-                return _d7_SpriteIndex;
+                return Debug.Assets.D7_SpriteIndex;
             }
             if (_Xaxis == 0 && _Yaxis > 0)
             {
-                _hasHistory = true;
-                return _d8_SpriteIndex;
+                return Debug.Assets.D8_SpriteIndex;
             }
             if (_Xaxis > 0 && _Yaxis > 0)
             {
-                _hasHistory = true;
-                return _d9_SpriteIndex;
+                return Debug.Assets.D9_SpriteIndex;
             }
 
-            return _null;
+            return Debug.Assets.D_Null;
         }
     }
 }
