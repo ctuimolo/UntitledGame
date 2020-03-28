@@ -9,8 +9,7 @@ namespace UntitledGame.GameObjects
 
     public abstract class GameObject
     {
-        protected   AnimationHandler  AnimationHandler    { get; set; }
-
+        public AnimationHandler  AnimationHandler { get; protected set; }
         public PhysicsBody  Body        { get; protected set; }
         public bool         Drawable    { get; protected set; }
         public string       Key         { get; protected set; }
@@ -21,9 +20,7 @@ namespace UntitledGame.GameObjects
         public Vector2      InitPosition    { get; protected set; }
         public Point        Size            { get; protected set; }
 
-        public virtual void LoadContent()       { }
-        public virtual void Draw()              { }
-        public virtual void DrawDebug()         { }
+        public virtual void LoadContent()   { }
 
         public virtual void Update()
         {
@@ -33,6 +30,10 @@ namespace UntitledGame.GameObjects
                 Position.Y = Body.BoxCollider.Y;
             }
         }
+
+        public virtual void LateUpdate()    { }
+        public virtual void Draw()          { }
+        public virtual void DrawDebug()     { }
 
         public virtual void Destruct()
         {

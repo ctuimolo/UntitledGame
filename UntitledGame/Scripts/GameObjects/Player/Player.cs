@@ -66,7 +66,7 @@ namespace UntitledGame.GameObjects.Player
             _controller.History.InitKBRecord();
 
             State = new Player_State();
-            _behaviorScript = new Player_BehaviorScript(this, AnimationHandler);
+            _behaviorScript = new Player_BehaviorScript(this);
             _behaviorScript.SetController(ref _controller);
             _behaviorScript.InitBehaviors();
 

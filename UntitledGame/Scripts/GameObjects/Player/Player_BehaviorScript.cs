@@ -35,17 +35,15 @@ namespace UntitledGame.GameObjects.Player
         public bool isOverlappingOrange;
         public bool isOverlappingPink;
 
-        public Player_BehaviorScript(Player player, AnimationHandler animationHandler)
+        public Player_BehaviorScript(Player player)
         {
             _player             = player;
             _body               = player.Body;
-            _animationHandler   = animationHandler;
+            _animationHandler   = player.AnimationHandler;
 
             _FA_Idle        = new Player_Idle(this);
             _attackTest     = new AttackTest(this);
             _attackTest2    = new AttackTest2(this);
-
-            _player.InitialFunctions += CheckPurpleOrange;
         }
 
         public void SetController(ref InputManager controller)
@@ -56,7 +54,10 @@ namespace UntitledGame.GameObjects.Player
         // The order of procedure from owner.Update();
         public void InitBehaviors()
         {
-            // Set owner BehaviorFunctions delegate to the desired script from init and other behaviors
+            // Init delegate enacts first
+            _player.InitialFunctions += CheckPurpleOrange;
+
+            // Set owner BehaviorFunctions delegate to the desired script
             _player.BehaviorFunctions = _FA_Idle.BehaviorFunctions;
         }
 

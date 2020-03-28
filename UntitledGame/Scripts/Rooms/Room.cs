@@ -105,6 +105,12 @@ namespace UntitledGame.Rooms
             {
                 obj.Update();
             }
+
+            // late update/mostly enact actions
+            foreach (GameObject obj in ActiveGameObjects)
+            {
+                obj.LateUpdate();
+            }
         }
 
         public virtual void Draw()
