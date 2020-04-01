@@ -107,7 +107,7 @@ namespace UntitledGame.GameObjects.Player
             Game.SpriteBatch.DrawString(
                 Debug.Assets.DebugFont,
                 "collision packages: " + Body.CurrentCollisions.Count,
-                new Vector2(10, 124),
+                new Vector2(10, 140),
                 Color.GreenYellow);
 
             _listOfCollisions = "";
@@ -121,7 +121,7 @@ namespace UntitledGame.GameObjects.Player
                 Game.SpriteBatch.DrawString(
                     Debug.Assets.DebugFont,
                     _listOfCollisions,
-                    new Vector2(10, 136),
+                    new Vector2(10, 152),
                     Color.GreenYellow);
             }
 

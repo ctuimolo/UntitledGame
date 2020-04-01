@@ -109,7 +109,8 @@ namespace UntitledGame.Animations
 
         public void DrawDebug()
         {
-            Game.SpriteBatch.DrawString(Debug.Assets.DebugFont, "_drawIndex  : " + _drawIndex, new Vector2(10, 100), Color.Pink);
+            Game.SpriteBatch.DrawString(Debug.Assets.DebugFont, "_drawIndex   : " + _drawIndex, new Vector2(10, 100), Color.Pink);
+            Game.SpriteBatch.DrawString(Debug.Assets.DebugFont, "CurrentFrame : " + CurrentFrame, new Vector2(10, 112), Color.Pink);
             CurrentAnimation.DrawDebug();
         }
     }
