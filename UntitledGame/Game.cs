@@ -11,6 +11,8 @@ using UntitledGame.Rooms;
 using UntitledGame.Rooms.TestRoom;
 using UntitledGame.Rooms.TestRoom2;
 
+using UntitledGame.Audio;
+
 namespace UntitledGame
 {
     public class Game : Microsoft.Xna.Framework.Game
@@ -46,6 +48,10 @@ namespace UntitledGame
             TargetElapsedTime       = TimeSpan.FromTicks(TimeSpan.TicksPerSecond / _targetFPS);
             Content.RootDirectory   = "Content";
             Assets = Content;
+
+            // Arbitrary audio test //
+            AudioTest tester = new AudioTest();
+            /////////////////////////
         }
 
         protected override void LoadContent()

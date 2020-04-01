@@ -54,11 +54,11 @@ namespace UntitledGame.GameObjects.Player
         // The order of procedure from owner.Update();
         public void InitBehaviors()
         {
-            // Init delegate enacts first
-            _player.InitialFunctions += CheckPurpleOrange;
+            // Static delegate enacts first, for ease of logic
+            _player.FirstBehaviorFunctions += CheckPurpleOrange;
 
             // Set owner BehaviorFunctions delegate to the desired script
-            _player.BehaviorFunctions = _FA_Idle.BehaviorFunctions;
+            _player.BehaviorFunctions += _FA_Idle.BehaviorFunctions;
         }
 
         private void FA_ReturnToIdle()

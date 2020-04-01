@@ -34,7 +34,7 @@ namespace UntitledGame.GameObjects.Player
         public delegate void BehaviorsDelegate();
 
         // Behavior events. Call this after appending all collisions and logic.
-        public Action InitialFunctions;
+        public Action FirstBehaviorFunctions;
         public Action BehaviorFunctions;
         public Player_State State;
 
@@ -76,14 +76,14 @@ namespace UntitledGame.GameObjects.Player
 
         public override void Update()
         {
-            base.Update();
             if(CurrentWorld.State == WorldState.Update)
             {
-                InitialFunctions?.Invoke();
+                base.Update();
+                FirstBehaviorFunctions?.Invoke();
                 BehaviorFunctions?.Invoke();
+                _controller.History.UpdateInputRecordIndex();
                 AnimationHandler.Facing = State.Facing;
                 AnimationHandler.UpdateIndex();
-                _controller.History.UpdateInputRecordIndex();
             }
         }
 

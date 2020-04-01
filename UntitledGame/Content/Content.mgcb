@@ -10,6 +10,7 @@
 
 #-------------------------------- References --------------------------------#
 
+/reference:..\..\NAudioPipelineLoader\bin\Release\NAudioPipelineLoader.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -259,4 +260,15 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:UI/InputHandler_Sheet.png
+
+#begin Audio/sample.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/sample.ogg
+
+#begin Audio/sample2.ogg
+/importer:VorbisWaveReaderImporter
+/processor:PassThroughProcessor
+/build:Audio/sample2.ogg
 
