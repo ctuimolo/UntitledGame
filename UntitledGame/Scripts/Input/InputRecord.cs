@@ -121,17 +121,17 @@ namespace UntitledGame.Input
                 SpriteEffects.None,
                 0f
             );
-            Game.SpriteBatch.DrawString(
-                Debug.Assets.DebugFont,
-                _currFrame.ToString(),
-                new Vector2(60, 90),
-                Color.White,
-                0,
-                Vector2.Zero,
-                1f,
-                SpriteEffects.None,
-                0f
-            );
+            //Game.SpriteBatch.DrawString(
+            //    Debug.Assets.DebugFont,
+            //    _currFrame.ToString(),
+            //    new Vector2(60, 90),
+            //    Color.White,
+            //    0,
+            //    Vector2.Zero,
+            //    1f,
+            //    SpriteEffects.None,
+            //    0f
+            //);
         }
 
         public Rectangle GetDpadDrawRect(KeyboardState state)

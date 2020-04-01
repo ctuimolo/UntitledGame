@@ -112,6 +112,5 @@ namespace UntitledGame.Animations
             Game.SpriteBatch.DrawString(Debug.Assets.DebugFont, "_drawIndex  : " + _drawIndex, new Vector2(10, 100), Color.Pink);
             CurrentAnimation.DrawDebug();
         }
-        
     }
 }
