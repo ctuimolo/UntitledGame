@@ -20,6 +20,7 @@ namespace UntitledGame.Animations
         private int _drawIndex       = 0;
         private int _animationTimer  = 0;
         private int _state           = 0;
+        private int _stateQueue      = -1;
 
         public Dictionary<int, Animation> Animations { get; private set; }
         public Animation    CurrentAnimation         { get; private set; }
@@ -32,8 +33,8 @@ namespace UntitledGame.Animations
 
         public AnimationHandler(GameObject owner)
         {
-            Owner          = owner;
-            Animations   = new Dictionary<int, Animation>();
+            Owner       = owner;
+            Animations  = new Dictionary<int, Animation>();
         }
 
         public void AddAnimation(int key, Animation animation)
@@ -45,6 +46,8 @@ namespace UntitledGame.Animations
         {
             if(_state != state)
             {
+                _stateQueue = state;
+
                 _state = state;
                 _drawIndex = Animations[_state].StartIndex;
                 _animationTimer = 0;
@@ -67,24 +70,39 @@ namespace UntitledGame.Animations
         {
             if (CurrentAnimation != null && CurrentAnimation.Play)
             {
-                CurrentFrame++;
-                _animationTimer++;
-                if (_animationTimer >= CurrentAnimation.FrameDelay)
+                if (_stateQueue > -1)
                 {
+                    // Enter: animation state was queued to change; reset animation instead of incrementing
+                    CurrentFrame = _drawIndex * CurrentAnimation.FrameDelay;
+                    _state = _stateQueue;
+                    _drawIndex = Animations[_state].StartIndex;
                     _animationTimer = 0;
-                    _drawIndex++;
-                    if (_drawIndex >= CurrentAnimation.FrameCount)
+                    _stateQueue = -1;
+
+                    CurrentAnimation = Animations[_state];
+                    Finished = false;
+                } else if(!Finished)
+                {
+                    // Enter: increment current animation frame
+                    CurrentFrame++;
+                    _animationTimer++;
+                    if (_animationTimer >= CurrentAnimation.FrameDelay)
                     {
-                        if (CurrentAnimation.Loop)
+                        _animationTimer = 0;
+                        _drawIndex++;
+                        if (_drawIndex >= CurrentAnimation.FrameCount)
                         {
-                            _drawIndex = CurrentAnimation.LoopIndex;
-                            CurrentFrame = _drawIndex;
-                        }
-                        else
-                        {
-                            Finished = true;
-                            _drawIndex--;
-                            CurrentFrame--;
+                            if (CurrentAnimation.Loop)
+                            {
+                                _drawIndex = CurrentAnimation.LoopIndex;
+                                CurrentFrame = _drawIndex * CurrentAnimation.FrameDelay - 1;
+                            }
+                            else
+                            {
+                                _drawIndex--;
+                                CurrentFrame--;
+                                Finished = true;
+                            }
                         }
                     }
                 }
