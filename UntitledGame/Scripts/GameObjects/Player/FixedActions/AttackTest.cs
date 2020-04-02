@@ -29,7 +29,7 @@ namespace UntitledGame.GameObjects.Player
                     DebugSprite = Debug.Assets.RedBox,
                 };
 
-                _frameActions[16] = TestMe;
+                _frameActions[17] = TestMe;
                 BehaviorFunctions += _behaviorScript.FA_ReturnToIdle;
             }
 
