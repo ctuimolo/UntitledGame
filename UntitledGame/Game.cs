@@ -36,6 +36,7 @@ namespace UntitledGame
         public static ContentManager        Assets          { get; private set; }
         public static RoomHandler           Rooms           { get; private set; }
         public static Room                  CurrentRoom     { get; private set; }
+        public static Random                Rng             { get; private set; }
 
         public Game()
         {
@@ -59,6 +60,7 @@ namespace UntitledGame
             InputProfiles   = new Dictionary<string, InputManager>();
             SpriteBatch     = new SpriteBatch(Graphics.GraphicsDevice);
             Rooms           = new RoomHandler();
+            Rng             = new Random();
 
             InputProfiles["global_keyboard"] = new InputManager();
             GlobalKeyboard = InputProfiles["global_keyboard"];

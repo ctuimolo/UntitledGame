@@ -21,6 +21,7 @@ namespace UntitledGame.Animations
         public int      LoopIndex  { get; set; }
         public bool     Loop       { get; set; } = true;
         public bool     Play       { get; set; } = true;
+        public bool     InitState  { get; set; } = false;
 
         public OffsetType OffsetType = OffsetType.CenterBottom;
 

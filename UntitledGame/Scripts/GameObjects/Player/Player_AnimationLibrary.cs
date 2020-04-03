@@ -29,6 +29,7 @@ namespace UntitledGame.GameObjects.Player
                     SpriteSheet = Game.Assets.Load<Texture2D>("SpriteSheets/suika_idle"),
                     FrameCount = 18,
                     FrameDelay = 6,
+                    InitState  = true,
                 });
 
             animationHandler.AddAnimation(

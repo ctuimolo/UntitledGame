@@ -108,24 +108,28 @@ namespace UntitledGame.Dynamics
                         body.BoxCollider.Y + body.Velocity.Y, 
                         (collision) =>
                         {
-                            if (body.Velocity.Y > 0 && collision.Hit.Normal.Y < 0)
+                            if((CollisionCategory)collision.Other.Data == CollisionCategory.wall)
                             {
-                                body.Velocity.Y = 0;
-                                body.IsFloored = true;
-                            }
-                            else if (body.Velocity.Y < 0 && collision.Hit.Normal.Y > 0)
-                            {
-                                body.Velocity.Y = 0;
-                            }
-                            if (body.Velocity.X > 0 && collision.Hit.Normal.X < 0)
-                            {
-                                body.Velocity.X = 0;
-                            }
-                            else if (body.Velocity.X < 0 && collision.Hit.Normal.X > 0)
-                            {
-                                body.Velocity.X = 0;
-                            }
-                            return CollisionResponses.Slide;
+                                if (body.Velocity.Y > 0 && collision.Hit.Normal.Y < 0)
+                                {
+                                    body.Velocity.Y = 0;
+                                    body.IsFloored = true;
+                                }
+                                else if (body.Velocity.Y < 0 && collision.Hit.Normal.Y > 0)
+                                {
+                                    body.Velocity.Y = 0;
+                                }
+                                if (body.Velocity.X > 0 && collision.Hit.Normal.X < 0)
+                                {
+                                    body.Velocity.X = 0;
+                                }
+                                else if (body.Velocity.X < 0 && collision.Hit.Normal.X > 0)
+                                {
+                                    body.Velocity.X = 0;
+                                }
+                                return CollisionResponses.Slide;
+                            } else
+                                return CollisionResponses.None;
                         });
 
                     body.ClearHitboxes();
@@ -139,7 +143,6 @@ namespace UntitledGame.Dynamics
                         {
                             if (!body.CurrentCollisions.Contains(other)     &&
                                 !ReferenceEquals(body.Owner, other.Owner)   &&
-                                other.Data != null                          &&
                                 IsAABBOverlap(hitbox, other))
                             {
                                 body.CurrentCollisions.Add(other);

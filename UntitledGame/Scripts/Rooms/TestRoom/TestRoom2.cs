@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
+using System;
 using System.Collections.Generic;
 
 using UntitledGame.Dynamics;
@@ -8,6 +9,7 @@ using UntitledGame.Input;
 using UntitledGame.GameObjects;
 using UntitledGame.GameObjects.Player;
 using UntitledGame.GameObjects.Wall;
+using UntitledGame.GameObjects.Sakazaki;
 
 namespace UntitledGame.Rooms.TestRoom2
 {
@@ -32,7 +34,9 @@ namespace UntitledGame.Rooms.TestRoom2
             LoadGameObject(new Wall(World, new Rectangle(0, 0, 800, 4),     "wall_04"));
 
             LoadGameObject(new Player(World, new Vector2(350, 300), "player_1"));
-
+            LoadGameObject(new Sakazaki(World, new Vector2(Game.Rng.Next(80, 720), 100), "sakazaki_1"));
+            LoadGameObject(new Sakazaki(World, new Vector2(Game.Rng.Next(80, 720), 100), "sakazaki_2"));
+            LoadGameObject(new Sakazaki(World, new Vector2(Game.Rng.Next(80, 720), 100), "sakazaki_3"));
         }
 
         public override void InitializeRoom()
@@ -42,6 +46,9 @@ namespace UntitledGame.Rooms.TestRoom2
             Instantiate("wall_03");
             Instantiate("wall_04");
             Instantiate("player_1");
+            Instantiate("sakazaki_1");
+            Instantiate("sakazaki_2");
+            Instantiate("sakazaki_3");
         }
 
         private void HandleKeyboard()

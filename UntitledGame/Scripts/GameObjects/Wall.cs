@@ -25,7 +25,7 @@ namespace UntitledGame.GameObjects.Wall
             Drawable     = true;
 
             Body = CurrentWorld.AddBody(this, Position, Size, false);
-            Body.BoxCollider.Data = this;
+            Body.SetCollisionCategory(CollisionCategory.wall);
         }
 
         public override void Update()

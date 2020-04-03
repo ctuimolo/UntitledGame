@@ -9,6 +9,12 @@ using UntitledGame.GameObjects;
 
 namespace UntitledGame.Dynamics
 {
+    public enum CollisionCategory
+    {
+        wall,
+        dynamic,
+    }
+
     public class PhysicsBody
     {
         public Dictionary<string, Hitbox>  ChildHitboxes       { get; private set; }
@@ -23,14 +29,20 @@ namespace UntitledGame.Dynamics
         public bool     GravityEnabled      { get; set; } = true;
         public Vector2  Velocity = new Vector2(0, 0);
 
-        public PhysicsBody(GameObject owner, IBox body)
+        public PhysicsBody(GameObject owner, IBox body, CollisionCategory collisionCategory = CollisionCategory.dynamic)
         {
-            Owner       = owner;
-            BoxCollider = body;
+            Owner            = owner;
+            BoxCollider      = body;
+            BoxCollider.Data = collisionCategory;
 
             ChildHitboxes       = new Dictionary<string, Hitbox>();
             HitboxesToRemove    = new List<string>();
             CurrentCollisions   = new List<Hitbox>();
+        }
+
+        public void SetCollisionCategory (CollisionCategory category)
+        {
+            BoxCollider.Data = category;
         }
 
         public void ClearHitboxes()

@@ -31,7 +31,7 @@ namespace UntitledGame.Animations
         public GameObject   Owner       { get; private set; }
         public Orientation  Facing      { get; set; }
 
-        public AnimationHandler(GameObject owner)
+        public AnimationHandler(GameObject owner, int initState = 0)
         {
             Owner       = owner;
             Animations  = new Dictionary<int, Animation>();
@@ -40,6 +40,10 @@ namespace UntitledGame.Animations
         public void AddAnimation(int key, Animation animation)
         {
             Animations.Add(key, animation);
+            if(animation.InitState)
+            {
+                CurrentAnimation = animation;
+            }
         }
 
         public void ChangeAnimation(int state)
