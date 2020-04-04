@@ -24,7 +24,7 @@ namespace UntitledGame.GameObjects
 
         public virtual void Update()
         {
-            if(Position != null && Body.BoxCollider != null)
+            if(Position != null && Body != null)
             {
                 Position.X = Body.BoxCollider.X;
                 Position.Y = Body.BoxCollider.Y;

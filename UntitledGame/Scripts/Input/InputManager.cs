@@ -31,6 +31,7 @@ namespace UntitledGame.Input
         Debug2,
         Debug3,
         Debug4,
+        Debug5,
     }
 
     public class InputManager
@@ -84,6 +85,7 @@ namespace UntitledGame.Input
             _keyboardDefinitions[InputFlags.Debug2]     = Keys.F2;
             _keyboardDefinitions[InputFlags.Debug3]     = Keys.F3;
             _keyboardDefinitions[InputFlags.Debug4]     = Keys.F4;
+            _keyboardDefinitions[InputFlags.Debug5]     = Keys.F5;
         }
 
         private void ParseKeyboardInputs()

@@ -6,10 +6,22 @@ using UntitledGame.Animations;
 
 namespace UntitledGame.Dynamics
 {
-    public class CollisionPackage
+    public enum CollisionType
+    {
+        None,
+        Attack,
+        SomethingElse,
+    }
+
+    // Play around with what exactly to do with this
+    // generic package for collision communication
+
+    public struct CollisionPackage
     {
         public string Value;
         public string String;
+        public CollisionType Type;
+        public Orientation Orientation;
     }
 
     public class Hitbox
@@ -27,7 +39,7 @@ namespace UntitledGame.Dynamics
         public Point   Size;
         public int     InitTimer;
         public int     Timer;
-        public CollisionPackage Data { get; set; }
+        public CollisionPackage Data;
 
         public delegate void enact();
 
@@ -73,7 +85,7 @@ namespace UntitledGame.Dynamics
                 DebugSprite,
                 new Vector2(Position.X, Position.Y),
                 new Rectangle(0, 0, Size.X, Size.Y),
-                new Color(Color.White, 0.1f),
+                new Color(Color.White, 0.01f),
                 0f,
                 Vector2.Zero,
                 1f,

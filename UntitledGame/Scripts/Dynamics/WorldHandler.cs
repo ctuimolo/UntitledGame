@@ -7,6 +7,7 @@ using PhysicsWorld;
 using PhysicsWorld.Responses;
 
 using UntitledGame.GameObjects;
+using UntitledGame.Rooms;
 
 namespace UntitledGame.Dynamics
 {
@@ -25,6 +26,7 @@ namespace UntitledGame.Dynamics
         public WorldState State     { get; set; } = WorldState.Update;
         public float Gravity        { get; set; } = 0.6f;
         public float MaxFallSpeed   { get; set; } = 12f;
+        public Room  OwnerRoom      { get; set; } = null;
 
         public WorldHandler(Point worldSize)
         {
@@ -132,7 +134,28 @@ namespace UntitledGame.Dynamics
                                 return CollisionResponses.None;
                         });
 
-                    body.ClearHitboxes();
+                    /*
+                     * If you've come across this code block and are concerned about the order of operations,
+                     * remember, the collisions this stage are "post" last frame, but "pre" this frame
+                     * 
+                     *  1. Physics world Update 
+                     *      1a. Move physics bodies
+                     *      1b. Move Hitboxes with the bodies <--- You are here
+                     *          1b.a. Pass collision packages 
+                     *          1b.b. Increment hitbox timers
+                     *      1c. Clear world hitboxes whose lifespans are up
+                     *      
+                     *  2. Game world Update
+                     *      2a. Enact behaviors based upon the collisions from (1)
+                     *      2b. Stage the world changes before the next (1)
+                     *          (i.e., add new hitboxes/bodies to the physics world somewhere in here)
+                     *      
+                     * The ordering of substeps in (1) are not necessarily rigid
+                     * Just make sure the end-state of (1) is completed sometime before (2)
+                     *  
+                     *  - 2020.4.3 
+                     *  - もら
+                     */
 
                     foreach (Hitbox hitbox in body.ChildHitboxes.Values)
                     {
@@ -158,16 +181,19 @@ namespace UntitledGame.Dynamics
                             }
                         }
                     }
+                    body.ClearHitboxes();
                 }
             }
         }
 
         public void DrawDebug()
         {
-            foreach(Hitbox hitbox in _worldHitboxes.Values)
-            {
-                hitbox.DrawDebug();
-            }
+            // Deprecated, moved debug drawing to game object-level
+            // keeping around as a gravemark for the debug boxes in old debug room test_1_fuji
+            //foreach (Hitbox hitbox in _worldHitboxes.Values)
+            //{
+            //    //hitbox.DrawDebug();
+            //}
         }
     }
 }

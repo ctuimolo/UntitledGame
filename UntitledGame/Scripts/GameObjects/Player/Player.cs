@@ -52,12 +52,17 @@ namespace UntitledGame.GameObjects.Player
         public override void LoadContent()
         {
             Body = CurrentWorld.AddBody(this, InitPosition, Size);
-            Body.ChildHitboxes[Key + "_body"] = new Hitbox(this, new Vector2(0, 0), Size, "body")
+            Body.ChildHitboxes[Key + "_body"] = new Hitbox(this, new Vector2(0, 0), Size, Key + "_body")
             {
                 DebugSprite = Debug.Assets.BlueBox,
+                Data = new CollisionPackage()
+                {
+                    Value = Key
+                }
             };
+            //CurrentWorld.AddHitbox(Body.ChildHitboxes[Key + "_body"]);
 
-            AnimationHandler    = new AnimationHandler(this);
+            AnimationHandler = new AnimationHandler(this);
             _animationLibrary   = new Player_AnimationLibrary();
             _animationLibrary.LoadAnimations(AnimationHandler);
 

@@ -16,6 +16,7 @@ namespace UntitledGame.Rooms
         protected Dictionary<string, GameObject> CachedGameObjects { get; set; }
         protected List<GameObject> ActiveGameObjects;
         protected List<GameObject> DrawableGameObjects;
+        protected List<GameObject> QueuedGameObjects;
         
         public WorldHandler World   { get; protected set; }
         public string       Key     { get; protected set; }
@@ -24,6 +25,7 @@ namespace UntitledGame.Rooms
         {
             World   = new WorldHandler(worldSize);
             Key     = setKey;
+            World.OwnerRoom = this;
         }
 
         public Room(WorldHandler sharedWorld, string setKey)
@@ -32,7 +34,15 @@ namespace UntitledGame.Rooms
             Key     = setKey;
         }
 
-        public void LoadGameObject(GameObject gameObject)
+        // public function for queing a game object to be loaded at the end of this update loop
+        public void QueueGameObject(GameObject gameObject)
+        {
+            LoadGameObject(gameObject);
+            QueuedGameObjects.Add(gameObject);
+        }
+
+        // cache an object into memory
+        protected void LoadGameObject(GameObject gameObject)
         {
             if(CachedGameObjects.ContainsKey(gameObject.Key))
             {
@@ -43,8 +53,18 @@ namespace UntitledGame.Rooms
             gameObject.LoadContent();
         }
 
+        // Instantiate all the queued objects
+        protected void InstantiateQueue()
+        {
+            foreach (GameObject gameObject in QueuedGameObjects)
+            {
+                Instantiate(gameObject.Key);
+            }
+            QueuedGameObjects.Clear();
+        }
+
         // Spawns a cached object, moves into active obj list and update loop. Physics bodies reset.
-        public void Instantiate(string key)
+        protected void Instantiate(string key)
         {
             if (!CachedGameObjects.ContainsKey(key))
             {
@@ -52,6 +72,13 @@ namespace UntitledGame.Rooms
                 return;
             }
             ActiveGameObjects.Add(CachedGameObjects[key]);
+            if(CachedGameObjects[key].Body != null)
+            {
+                foreach (Hitbox childHitbox in CachedGameObjects[key].Body.ChildHitboxes.Values)
+                {
+                    World.AddHitbox(childHitbox);
+                }
+            }
             if(CachedGameObjects[key].Drawable)
             {
                 DrawableGameObjects.Add(CachedGameObjects[key]);
@@ -63,7 +90,7 @@ namespace UntitledGame.Rooms
         }
 
         // Remove a cached object from update loop, does not deallocate. Physics bodies crushed and moved to (-1,-1)
-        public void Remove(string key)
+        protected void Remove(string key)
         {
             if (!CachedGameObjects.ContainsKey(key))
             {
@@ -78,7 +105,7 @@ namespace UntitledGame.Rooms
             }
         }
 
-        public void Destruct(string key)
+        protected void Destruct(string key)
         {
             if (!CachedGameObjects.ContainsKey(key))
             {
@@ -111,6 +138,8 @@ namespace UntitledGame.Rooms
             {
                 obj.LateUpdate();
             }
+
+            InstantiateQueue();
         }
 
         public virtual void Draw()

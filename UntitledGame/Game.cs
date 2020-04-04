@@ -61,6 +61,7 @@ namespace UntitledGame
             SpriteBatch     = new SpriteBatch(Graphics.GraphicsDevice);
             Rooms           = new RoomHandler();
             Rng             = new Random();
+            Debug.Assets.InitDebugAssets();
 
             InputProfiles["global_keyboard"] = new InputManager();
             GlobalKeyboard = InputProfiles["global_keyboard"];
@@ -103,12 +104,12 @@ namespace UntitledGame
         {
             if(IsActive)
             {
-                CurrentRoom.Update();
                 HandleKeyboard();
-                foreach(InputManager profile in InputProfiles.Values)
+                foreach (InputManager profile in InputProfiles.Values)
                 {
                     profile.ParseInput();
                 }
+                CurrentRoom.Update();
             }
         }
 
@@ -133,7 +134,6 @@ namespace UntitledGame
                 SpriteBatch.DrawString(Debug.Assets.DebugFont, "_frameRate:   " + _frameRate, new Vector2(10, 60), Color.White);
 
                 CurrentRoom.Draw();
-
                 SpriteBatch.End();
 
                 base.Draw(gameTime);

@@ -60,7 +60,9 @@
     <Compile Include="Scripts\GameObjects\Player\Player_AnimationLibrary.cs" />
     <Compile Include="Scripts\GameObjects\Player\Player_BehaviorScript.cs" />
     <Compile Include="Scripts\GameObjects\Sakazaki\FixedActions\Sakazaki_Idle.cs" />
+    <Compile Include="Scripts\GameObjects\Sakazaki\FixedActions\Sakazaki_Knockdown.cs" />
     <Compile Include="Scripts\GameObjects\Sakazaki\Sakazaki.cs" />
+    <Compile Include="Scripts\GameObjects\Sakazaki\SakazakiSpawner.cs" />
     <Compile Include="Scripts\GameObjects\Sakazaki\Sakazaki_AnimationLibrary.cs" />
     <Compile Include="Scripts\GameObjects\Sakazaki\Sakazaki_BehaviorScript.cs" />
     <Compile Include="Scripts\Input\InputManager.cs" />

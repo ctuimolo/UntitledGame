@@ -15,6 +15,8 @@ namespace UntitledGame.Rooms.TestRoom
     {
         private InputManager _controller;
 
+        private List<Hitbox> _debugHitboxes;
+
         public TestRoom(Point worldSize, string setKey) : base(worldSize, setKey)
         {
             CachedGameObjects   = new Dictionary<string, GameObject>();
@@ -46,106 +48,113 @@ namespace UntitledGame.Rooms.TestRoom
             LoadGameObject(new Player(World, new Vector2(250, 130), "player_1"));
 
             #region test misc. purple/orange hitboxes...
-            World.AddHitbox(new Hitbox(null, new Vector2(420, 310), new Point(30, 60), "spuds")
+            _debugHitboxes = new List<Hitbox>()
             {
-                DebugSprite = Debug.Assets.OrangeBox,
-                Data = new CollisionPackage
+                new Hitbox(null, new Vector2(420, 310), new Point(30, 60), "spuds")
                 {
-                    Value = "orange",
-                }
-            });;
+                    DebugSprite = Debug.Assets.OrangeBox,
+                    Data = new CollisionPackage
+                    {
+                        Value = "orange",
+                    }
+                },
 
-            World.AddHitbox(new Hitbox(null, new Vector2(550, 290), new Point(20, 120), "cats")
-            {
-                DebugSprite = Debug.Assets.PurpleBox,
-                Data = new CollisionPackage
+                new Hitbox(null, new Vector2(550, 290), new Point(20, 120), "cats")
                 {
-                    Value = "purple",
-                }
-            });
+                    DebugSprite = Debug.Assets.PurpleBox,
+                    Data = new CollisionPackage
+                    {
+                        Value = "purple",
+                    }
+                },
 
-            World.AddHitbox(new Hitbox(null, new Vector2(60, 290), new Point(40, 40), "bruh")
-            {
-                DebugSprite = Debug.Assets.OrangeBox,
-                Data = new CollisionPackage
+                new Hitbox(null, new Vector2(60, 290), new Point(40, 40), "bruh")
                 {
-                    Value = "orange",
-                }
-            });
+                    DebugSprite = Debug.Assets.OrangeBox,
+                    Data = new CollisionPackage
+                    {
+                        Value = "orange",
+                    }
+                },
 
-            World.AddHitbox(new Hitbox(null, new Vector2(440, 290), new Point(80, 40), "crunchy")
-            {
-                DebugSprite = Debug.Assets.PurpleBox,
-                Data = new CollisionPackage
+                new Hitbox(null, new Vector2(440, 290), new Point(80, 40), "crunchy")
                 {
-                    Value = "purple",
-                }
-            });
+                    DebugSprite = Debug.Assets.PurpleBox,
+                    Data = new CollisionPackage
+                    {
+                        Value = "purple",
+                    }
+                },
 
-            World.AddHitbox(new Hitbox(null, new Vector2(300, 250), new Point(40, 20), "trash")
-            {
-                DebugSprite = Debug.Assets.OrangeBox,
-                Data = new CollisionPackage
+                new Hitbox(null, new Vector2(300, 250), new Point(40, 20), "trash")
                 {
-                    Value = "orange",
-                }
-            });
+                    DebugSprite = Debug.Assets.OrangeBox,
+                    Data = new CollisionPackage
+                    {
+                        Value = "orange",
+                    }
+                },
 
-            World.AddHitbox(new Hitbox(null, new Vector2(280, 340), new Point(20, 50), "curly")
-            {
-                DebugSprite = Debug.Assets.PurpleBox,
-                Data = new CollisionPackage
+                new Hitbox(null, new Vector2(280, 340), new Point(20, 50), "curly")
                 {
-                    Value = "purple",
-                }
-            });
+                    DebugSprite = Debug.Assets.PurpleBox,
+                    Data = new CollisionPackage
+                    {
+                        Value = "purple",
+                    }
+                },
 
-            World.AddHitbox(new Hitbox(null, new Vector2(300, 340), new Point(20, 50), "d00d")
-            {
-                DebugSprite = Debug.Assets.OrangeBox,
-                Data = new CollisionPackage
+                new Hitbox(null, new Vector2(300, 340), new Point(20, 50), "d00d")
                 {
-                    Value = "orange",
-                }
-            });
+                    DebugSprite = Debug.Assets.OrangeBox,
+                    Data = new CollisionPackage
+                    {
+                        Value = "orange",
+                    }
+                },
 
-            World.AddHitbox(new Hitbox(null, new Vector2(320, 340), new Point(20, 50), "very nice")
-            {
-                DebugSprite = Debug.Assets.PurpleBox,
-                Data = new CollisionPackage
+                new Hitbox(null, new Vector2(320, 340), new Point(20, 50), "very nice")
                 {
-                    Value = "purple",
-                }
-            });
+                    DebugSprite = Debug.Assets.PurpleBox,
+                    Data = new CollisionPackage
+                    {
+                        Value = "purple",
+                    }
+                },
 
-            World.AddHitbox(new Hitbox(null, new Vector2(580, 120), new Point(66, 12), "cute funny")
-            {
-                DebugSprite = Debug.Assets.PurpleBox,
-                Data = new CollisionPackage
+                new Hitbox(null, new Vector2(580, 120), new Point(66, 12), "cute funny")
                 {
-                    Value = "purple",
-                }
-            });
+                    DebugSprite = Debug.Assets.PurpleBox,
+                    Data = new CollisionPackage
+                    {
+                        Value = "purple",
+                    }
+                },
 
-            World.AddHitbox(new Hitbox(null, new Vector2(400, 620), new Point(40, 40), "popcorn")
-            {
-                DebugSprite = Debug.Assets.OrangeBox,
-                Data = new CollisionPackage
+                new Hitbox(null, new Vector2(400, 620), new Point(40, 40), "popcorn")
                 {
-                    Value = "orange",
-                }
-            });
+                    DebugSprite = Debug.Assets.OrangeBox,
+                    Data = new CollisionPackage
+                    {
+                        Value = "orange",
+                    }
+                },
 
-            World.AddHitbox(new Hitbox(null, new Vector2(21, 400), new Point(24, 50), "bruh bruh bruh")
-            {
-                DebugSprite = Debug.Assets.PurpleBox,
-                Data = new CollisionPackage
+                new Hitbox(null, new Vector2(21, 400), new Point(24, 50), "bruh bruh bruh")
                 {
-                    Value = "purple",
-                    String = "bruh bruh bruh",
+                    DebugSprite = Debug.Assets.PurpleBox,
+                    Data = new CollisionPackage
+                    {
+                        Value = "purple",
+                        String = "bruh bruh bruh",
+                    }
                 }
-            });
+            };
             #endregion
+            foreach(Hitbox hitbox in _debugHitboxes)
+            {
+                World.AddHitbox(hitbox);
+            }
         }
 
         public override void InitializeRoom()
@@ -202,6 +211,11 @@ namespace UntitledGame.Rooms.TestRoom
             if (World.State == WorldState.Pause)
             {
                 Game.SpriteBatch.DrawString(Debug.Assets.DebugFont, "<< PAUSED >>" , new Vector2(350, 48), Color.White);
+            }
+
+            foreach (Hitbox hitbox in _debugHitboxes)
+            {
+               hitbox.DrawDebug();
             }
         }
     }

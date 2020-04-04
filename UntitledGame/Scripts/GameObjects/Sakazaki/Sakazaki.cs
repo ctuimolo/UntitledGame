@@ -43,9 +43,13 @@ namespace UntitledGame.GameObjects.Sakazaki
         public override void LoadContent()
         {
             Body = CurrentWorld.AddBody(this, InitPosition, Size);
-            Body.ChildHitboxes[Key + "_body"] = new Hitbox(this, new Vector2(0, 0), Size, "body")
+            Body.ChildHitboxes[Key + "_body"] = new Hitbox(this, new Vector2(0, 0), Size, Key + "_body")
             {
                 DebugSprite = Debug.Assets.BlueBox,
+                Data = new CollisionPackage()
+                {
+                    Value = Key
+                }
             };
 
             AnimationHandler    = new AnimationHandler(this);

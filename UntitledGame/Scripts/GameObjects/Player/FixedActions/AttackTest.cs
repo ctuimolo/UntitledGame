@@ -27,6 +27,11 @@ namespace UntitledGame.GameObjects.Player
                 _hitbox1 = new Hitbox(_player, new Vector2(53, 14), new Point(80, 16), _player.Key + "_AttackTest_hitbox1", 2)
                 {
                     DebugSprite = Debug.Assets.RedBox,
+                    Data = new CollisionPackage()
+                    {
+                        Value   = "From player",
+                        Type    = CollisionType.Attack,
+                    },
                 };
 
                 _frameActions[17] = TestMe;
@@ -35,8 +40,11 @@ namespace UntitledGame.GameObjects.Player
 
             private void TestMe()
             {
+                _hitbox1.Data.Orientation = _player.AnimationHandler.Facing;
                 _hitbox1.InitPosition(_player.State.Facing);
+                // TODO: need to add these childhitbox controls to physics body
                 _player.Body.ChildHitboxes[_hitbox1.Key] = _hitbox1;
+                _player.CurrentWorld.AddHitbox(_hitbox1);
             }
         }
     }

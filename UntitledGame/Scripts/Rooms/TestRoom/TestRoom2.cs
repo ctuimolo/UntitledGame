@@ -19,9 +19,10 @@ namespace UntitledGame.Rooms.TestRoom2
 
         public TestRoom2(Point worldSize, string setKey) : base(worldSize, setKey)
         {
-            CachedGameObjects = new Dictionary<string, GameObject>();
-            ActiveGameObjects = new List<GameObject>();
+            CachedGameObjects   = new Dictionary<string, GameObject>();
+            ActiveGameObjects   = new List<GameObject>();
             DrawableGameObjects = new List<GameObject>();
+            QueuedGameObjects   = new List<GameObject>();
         }
 
         public override void LoadContent()
@@ -34,9 +35,11 @@ namespace UntitledGame.Rooms.TestRoom2
             LoadGameObject(new Wall(World, new Rectangle(0, 0, 800, 4),     "wall_04"));
 
             LoadGameObject(new Player(World, new Vector2(350, 300), "player_1"));
-            LoadGameObject(new Sakazaki(World, new Vector2(Game.Rng.Next(80, 720), 100), "sakazaki_1"));
-            LoadGameObject(new Sakazaki(World, new Vector2(Game.Rng.Next(80, 720), 100), "sakazaki_2"));
-            LoadGameObject(new Sakazaki(World, new Vector2(Game.Rng.Next(80, 720), 100), "sakazaki_3"));
+            LoadGameObject(new Sakazaki(World, new Vector2(Game.Rng.Next(20, 720), 60), "sakazaki_1"));
+            LoadGameObject(new Sakazaki(World, new Vector2(Game.Rng.Next(20, 720), 60), "sakazaki_2"));
+            LoadGameObject(new Sakazaki(World, new Vector2(Game.Rng.Next(20, 720), 60), "sakazaki_3"));
+
+            LoadGameObject(new SakazakiSpawner(World, "sakazaki_spawner_1"));
         }
 
         public override void InitializeRoom()
@@ -49,6 +52,7 @@ namespace UntitledGame.Rooms.TestRoom2
             Instantiate("sakazaki_1");
             Instantiate("sakazaki_2");
             Instantiate("sakazaki_3");
+            Instantiate("sakazaki_spawner_1");
         }
 
         private void HandleKeyboard()
