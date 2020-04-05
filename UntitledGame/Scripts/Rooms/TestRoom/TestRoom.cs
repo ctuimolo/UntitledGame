@@ -159,34 +159,38 @@ namespace UntitledGame.Rooms.TestRoom
 
         public override void InitializeRoom()
         {
-            Instantiate("wall_01");
-            Instantiate("wall_02");
-            Instantiate("wall_03");
-            Instantiate("wall_04");
-            Instantiate("wall_05");
-            Instantiate("wall_06");
-            Instantiate("wall_07");
-            Instantiate("wall_08");
-            Instantiate("wall_09");
-            Instantiate("wall_10");
-            Instantiate("wall_11");
-            Instantiate("wall_12");
-            Instantiate("wall_13");
-            Instantiate("wall_14");
-            Instantiate("wall_15");
-            Instantiate("wall_16");
-            Instantiate("wall_17");
-            Instantiate("player_1");
+            Activate("wall_01");
+            Activate("wall_02");
+            Activate("wall_03");
+            Activate("wall_04");
+            Activate("wall_05");
+            Activate("wall_06");
+            Activate("wall_07");
+            Activate("wall_08");
+            Activate("wall_09");
+            Activate("wall_10");
+            Activate("wall_11");
+            Activate("wall_12");
+            Activate("wall_13");
+            Activate("wall_14");
+            Activate("wall_15");
+            Activate("wall_16");
+            Activate("wall_17");
+            Activate("player_1");
                
             Deactivate("wall_12");
             Deactivate("wall_13");
             Deactivate("wall_14");
             Deactivate("wall_15");
 
-            Instantiate("wall_13");
-            Instantiate("wall_14");
-            Instantiate("sakazaki_spawner_1");
+            Activate("wall_13");
+            Activate("wall_14");
+            Activate("sakazaki_spawner_1");
 
+            Deactivate("wall_17");
+            Activate("wall_17");
+            Deactivate("wall_17");
+            Activate("wall_17");
             Deactivate("wall_17");
         }
 

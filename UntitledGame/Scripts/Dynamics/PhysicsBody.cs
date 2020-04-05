@@ -11,17 +11,20 @@ namespace UntitledGame.Dynamics
 {
     public enum CollisionCategory
     {
+        none,
         wall,
         dynamic,
     }
 
     public class PhysicsBody
     {
-        public Dictionary<string, Hitbox>  ChildHitboxes       { get; private set; }
-        public List<string> HitboxesToRemove { get; private set; }
+        public Dictionary<string, Hitbox>  ChildHitboxes { get; private set; }
+        public List<string>         HitboxesToRemove    { get; private set; }
+        public List<Hitbox>         CurrentCollisions   { get; private set; }
+        public CollisionCategory    Category            { get; set; }
 
-        public List<Hitbox>     CurrentCollisions   { get; private set; }
         public bool IsFloored   { get; set; }
+        public bool IsActive    { get; set; }
 
         public readonly IBox        BoxCollider;
         public readonly GameObject  Owner;
@@ -33,16 +36,11 @@ namespace UntitledGame.Dynamics
         {
             Owner            = owner;
             BoxCollider      = body;
-            BoxCollider.Data = collisionCategory;
+            Category         = collisionCategory;
 
             ChildHitboxes       = new Dictionary<string, Hitbox>();
             HitboxesToRemove    = new List<string>();
             CurrentCollisions   = new List<Hitbox>();
-        }
-
-        public void SetCollisionCategory (CollisionCategory category)
-        {
-            BoxCollider.Data = category;
         }
 
         public void ClearHitboxes()

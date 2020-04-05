@@ -36,17 +36,23 @@ namespace UntitledGame.GameObjects
         public virtual void Draw()          { }
         public virtual void DrawDebug()     { }
 
-        public virtual void FlagForDeactivation()
+        public virtual void PreActivate()
+        {
+            // TODO : not sure if there's any generic pre/post activate logic to do here
+            //        otherwise the child object handles OnActivate()
+        }
+
+        public void FlagForDeactivation()
         {
             // TODO
         }
 
-        public virtual void FlagForDestruction()
+        public void FlagForDestruction()
         {
             // TODO
         }
 
-        public virtual void PreDestruct()
+        public void PreDestruct()
         {
             // TODO
         }

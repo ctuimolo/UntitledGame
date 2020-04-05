@@ -48,7 +48,7 @@ namespace UntitledGame.Dynamics
             {
                 _dynamicBodies[owner.Key] = newBody;
             }
-
+            newBody.BoxCollider.Data = CollisionCategory.none;
             return newBody;
         }
 

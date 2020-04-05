@@ -21,13 +21,12 @@ namespace UntitledGame.GameObjects.Wall
             InitPosition = Position;
             Key          = key;
             Drawable     = true;
-
         }
 
         public override void LoadContent()
         {
             Body = CurrentWorld.AddBody(this, Position, Size, false);
-            Body.SetCollisionCategory(CollisionCategory.wall);
+            Body.Category = CollisionCategory.wall;
         }
 
         public override void Update()

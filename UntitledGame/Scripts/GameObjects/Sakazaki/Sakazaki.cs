@@ -49,7 +49,6 @@ namespace UntitledGame.GameObjects.Sakazaki
                     Value = Key
                 }
             };
-
             AnimationHandler    = new AnimationHandler(this);
             _animationLibrary   = new Sakazaki_AnimationLibrary();
             _animationLibrary.LoadAnimations(AnimationHandler);
@@ -61,6 +60,11 @@ namespace UntitledGame.GameObjects.Sakazaki
 
             AnimationHandler.ChangeAnimation((int)AnimationStates.Idle);
             AnimationHandler.Facing = Orientation.Right;
+        }
+
+        public override void PreActivate()
+        {
+            base.PreActivate();
         }
 
         public override void Update()

@@ -40,12 +40,12 @@ namespace UntitledGame.Rooms.TestRoom2
 
         public override void InitializeRoom()
         {
-            Instantiate("wall_01");
-            Instantiate("wall_02");
-            Instantiate("wall_03");
-            Instantiate("wall_04");
-            Instantiate("player_1");
-            Instantiate("sakazaki_spawner_1");
+            Activate("wall_01");
+            Activate("wall_02");
+            Activate("wall_03");
+            Activate("wall_04");
+            Activate("player_1");
+            Activate("sakazaki_spawner_1");
         }
 
         private void HandleKeyboard()

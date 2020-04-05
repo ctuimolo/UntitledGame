@@ -60,27 +60,28 @@ namespace UntitledGame.Rooms
             gameObject.LoadContent();
         }
 
-        // Instantiate all the queued objects
-        protected void InstantiateQueue()
+        // Activate all the queued objects
+        protected void ActivateQueue()
         {
             foreach (GameObject gameObject in QueuedGameObjects)
             {
-                Instantiate(gameObject.Key);
+                Activate(gameObject.Key);
             }
             QueuedGameObjects.Clear();
         }
 
         // Spawns a cached object, moves into active obj list and update loop. Physics bodies reset.
-        protected void Instantiate(string key)
+        protected void Activate(string key)
         {
             if (!CachedGameObjects.ContainsKey(key))
             {
-                Console.Error.WriteLine("Room : \"{0}\" : Instantiate() : Keyname \"{1}\" not found in loaded objects", Key, key);
+                Console.Error.WriteLine("Room : \"{0}\" : Activate() : Keyname \"{1}\" not found in loaded objects", Key, key);
                 return;
             }
             ActiveGameObjects.Add(CachedGameObjects[key]);
             if(CachedGameObjects[key].Body != null)
             {
+                CachedGameObjects[key].Body.BoxCollider.Data = CachedGameObjects[key].Body.Category;
                 foreach (Hitbox childHitbox in CachedGameObjects[key].Body.ChildHitboxes.Values)
                 {
                     World.AddHitbox(childHitbox);
@@ -90,14 +91,9 @@ namespace UntitledGame.Rooms
             {
                 DrawableGameObjects.Add(CachedGameObjects[key]);
             }
-            if (CachedGameObjects[key].Body != null)
-            {
-                CachedGameObjects[key].Body.BoxCollider.Move(CachedGameObjects[key].InitPosition.X, CachedGameObjects[key].InitPosition.Y, (collision) => CollisionResponses.None);
-            }
         }
 
         // Remove a cached object from update loop, does not deallocate. Physics bodies crushed and moved to (-1,-1)
-        // TODO: needs work on "deactivating" the physics body. Not commfortable with just moving an active body to negative space
         protected void Deactivate(string key)
         {
             if (!CachedGameObjects.ContainsKey(key))
@@ -109,7 +105,7 @@ namespace UntitledGame.Rooms
             DrawableGameObjects.Remove(CachedGameObjects[key]);
             if(CachedGameObjects[key].Body != null)
             {
-                CachedGameObjects[key].Body.BoxCollider.Move(CachedGameObjects[key].Size.X * -1, CachedGameObjects[key].Size.Y * -1, (collision) => CollisionResponses.None);
+                CachedGameObjects[key].Body.BoxCollider.Data = CollisionCategory.none;
             }
         }
 
@@ -149,7 +145,7 @@ namespace UntitledGame.Rooms
                 obj.LateUpdate();
             }
 
-            InstantiateQueue();
+            ActivateQueue();
         }
 
         public virtual void Draw()
