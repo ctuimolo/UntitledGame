@@ -26,6 +26,11 @@ namespace UntitledGame.Rooms
             World   = new WorldHandler(worldSize);
             Key     = setKey;
             World.OwnerRoom = this;
+
+            CachedGameObjects   = new Dictionary<string, GameObject>();
+            ActiveGameObjects   = new List<GameObject>();
+            DrawableGameObjects = new List<GameObject>();
+            QueuedGameObjects   = new List<GameObject>();
         }
 
         public Room(WorldHandler sharedWorld, string setKey)
@@ -50,6 +55,8 @@ namespace UntitledGame.Rooms
                 Environment.Exit(1);
             }
             CachedGameObjects[gameObject.Key] = gameObject;
+            gameObject.CurrentRoom  = this;
+            gameObject.CurrentWorld = World;
             gameObject.LoadContent();
         }
 
@@ -90,7 +97,8 @@ namespace UntitledGame.Rooms
         }
 
         // Remove a cached object from update loop, does not deallocate. Physics bodies crushed and moved to (-1,-1)
-        protected void Remove(string key)
+        // TODO: needs work on "deactivating" the physics body. Not commfortable with just moving an active body to negative space
+        protected void Deactivate(string key)
         {
             if (!CachedGameObjects.ContainsKey(key))
             {
@@ -105,6 +113,8 @@ namespace UntitledGame.Rooms
             }
         }
 
+        // TODO: needs work, pre-destruct and deallocate the memory assigned to the cached object
+        //       Also probably need to do something about the child hitboxes and PhysicsBodies...
         protected void Destruct(string key)
         {
             if (!CachedGameObjects.ContainsKey(key))
@@ -114,7 +124,7 @@ namespace UntitledGame.Rooms
             }
             ActiveGameObjects.Remove(CachedGameObjects[key]);
             DrawableGameObjects.Remove(CachedGameObjects[key]);
-            CachedGameObjects[key].Destruct();
+            CachedGameObjects[key].PreDestruct();
             CachedGameObjects.Remove(key);
         }
 

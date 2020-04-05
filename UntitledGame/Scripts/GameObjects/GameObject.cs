@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 
 using UntitledGame.Animations;
-using UntitledGame.Input;
 using UntitledGame.Dynamics;
+using UntitledGame.Rooms;
 
 namespace UntitledGame.GameObjects
 {
@@ -16,7 +16,8 @@ namespace UntitledGame.GameObjects
 
         protected Vector2 Position;
 
-        public WorldHandler CurrentWorld    { get; protected set; }
+        public WorldHandler CurrentWorld    { get; set; }
+        public Room         CurrentRoom     { get; set; }
         public Vector2      InitPosition    { get; protected set; }
         public Point        Size            { get; protected set; }
 
@@ -35,12 +36,19 @@ namespace UntitledGame.GameObjects
         public virtual void Draw()          { }
         public virtual void DrawDebug()     { }
 
-        public virtual void Destruct()
+        public virtual void FlagForDeactivation()
         {
-            if(CurrentWorld != null && Body != null)
-            {
-                CurrentWorld.RemoveBody(Body);
-            }
+            // TODO
+        }
+
+        public virtual void FlagForDestruction()
+        {
+            // TODO
+        }
+
+        public virtual void PreDestruct()
+        {
+            // TODO
         }
     }
 }

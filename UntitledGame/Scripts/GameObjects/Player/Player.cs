@@ -38,12 +38,10 @@ namespace UntitledGame.GameObjects.Player
         public Action BehaviorFunctions;
         public Player_State State;
 
-        public Player(WorldHandler setWorld, Vector2 setPosition, string key)
+        public Player(Vector2 setPosition, string key)
         {
-            CurrentWorld    = setWorld;
             Key             = key;
             Drawable        = true;
-
             InitPosition    = setPosition;
             Position        = setPosition;
             Size            = _initSize;

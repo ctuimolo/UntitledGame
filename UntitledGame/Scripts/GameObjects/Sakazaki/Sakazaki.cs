@@ -29,12 +29,10 @@ namespace UntitledGame.GameObjects.Sakazaki
         public Action BehaviorFunctions;
         public Sakazaki_State State;
 
-        public Sakazaki(WorldHandler setWorld, Vector2 setPosition, string key)
+        public Sakazaki(Vector2 setPosition, string key)
         {
-            CurrentWorld    = setWorld;
             Key             = key;
             Drawable        = true;
-
             InitPosition    = setPosition;
             Position        = setPosition;
             Size            = _initSize;
@@ -85,7 +83,6 @@ namespace UntitledGame.GameObjects.Sakazaki
         public override void DrawDebug()
         {
             Body.DrawDebug();
-            AnimationHandler.DrawDebug();
         }
     }
 }

@@ -15,11 +15,10 @@ namespace UntitledGame.GameObjects.Sakazaki
         private InputManager _controller;
         private int _sakazakiCount = 0;
 
-        public SakazakiSpawner(WorldHandler setWorld, string key)
+        public SakazakiSpawner(string key)
         {
-            CurrentWorld    = setWorld;
             Key             = key;
-            Drawable        = true;
+            Drawable        = false;
         }
 
         public override void LoadContent()
@@ -37,12 +36,8 @@ namespace UntitledGame.GameObjects.Sakazaki
                     // this is borked for now
                     _sakazakiCount++;
                     CurrentWorld.OwnerRoom.QueueGameObject(
-                        new Sakazaki(
-                            CurrentWorld, 
-                            new Vector2(
-                                Game.Rng.Next(80, 720), 
-                                100), 
-                            "sakazakiSpawner_" + _sakazakiCount));
+                        new Sakazaki( 
+                            new Vector2( Game.Rng.Next(80, 720), 100), "sakazakiSpawner_" + _sakazakiCount));
                 }
             }
         }

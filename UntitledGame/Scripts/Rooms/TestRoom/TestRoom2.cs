@@ -19,27 +19,23 @@ namespace UntitledGame.Rooms.TestRoom2
 
         public TestRoom2(Point worldSize, string setKey) : base(worldSize, setKey)
         {
-            CachedGameObjects   = new Dictionary<string, GameObject>();
-            ActiveGameObjects   = new List<GameObject>();
-            DrawableGameObjects = new List<GameObject>();
-            QueuedGameObjects   = new List<GameObject>();
         }
 
         public override void LoadContent()
         {
             _controller = Game.GlobalKeyboard;
 
-            LoadGameObject(new Wall(World, new Rectangle(0, 420, 800, 80),  "wall_01"));
-            LoadGameObject(new Wall(World, new Rectangle(796, 0, 4, 480),   "wall_02"));
-            LoadGameObject(new Wall(World, new Rectangle(0, 0, 4, 480),     "wall_03"));
-            LoadGameObject(new Wall(World, new Rectangle(0, 0, 800, 4),     "wall_04"));
+            LoadGameObject(new Wall(new Rectangle(0, 420, 800, 80),  "wall_01"));
+            LoadGameObject(new Wall(new Rectangle(796, 0, 4, 480),   "wall_02"));
+            LoadGameObject(new Wall(new Rectangle(0, 0, 4, 480),     "wall_03"));
+            LoadGameObject(new Wall(new Rectangle(0, 0, 800, 4),     "wall_04"));
 
-            LoadGameObject(new Player(World, new Vector2(350, 300), "player_1"));
-            LoadGameObject(new Sakazaki(World, new Vector2(Game.Rng.Next(20, 720), 60), "sakazaki_1"));
-            LoadGameObject(new Sakazaki(World, new Vector2(Game.Rng.Next(20, 720), 60), "sakazaki_2"));
-            LoadGameObject(new Sakazaki(World, new Vector2(Game.Rng.Next(20, 720), 60), "sakazaki_3"));
+            LoadGameObject(new Player(new Vector2(350, 300), "player_1"));
+            LoadGameObject(new Sakazaki(new Vector2(Game.Rng.Next(20, 720), 60), "sakazaki_1"));
+            LoadGameObject(new Sakazaki(new Vector2(Game.Rng.Next(20, 720), 60), "sakazaki_2"));
+            LoadGameObject(new Sakazaki(new Vector2(Game.Rng.Next(20, 720), 60), "sakazaki_3"));
 
-            LoadGameObject(new SakazakiSpawner(World, "sakazaki_spawner_1"));
+            LoadGameObject(new SakazakiSpawner("sakazaki_spawner_1"));
         }
 
         public override void InitializeRoom()
@@ -49,9 +45,6 @@ namespace UntitledGame.Rooms.TestRoom2
             Instantiate("wall_03");
             Instantiate("wall_04");
             Instantiate("player_1");
-            Instantiate("sakazaki_1");
-            Instantiate("sakazaki_2");
-            Instantiate("sakazaki_3");
             Instantiate("sakazaki_spawner_1");
         }
 
@@ -74,6 +67,8 @@ namespace UntitledGame.Rooms.TestRoom2
         {
             base.Draw();
             Game.SpriteBatch.DrawString(Debug.Assets.DebugFont, "CURRENT ROOM: " + Key, new Vector2(10, 24), Color.LightGray);
+            Game.SpriteBatch.DrawString(Debug.Assets.DebugFont, "Yuri:[F5]", new Vector2(544, 24), Color.White);
+
             if (World.State == WorldState.Pause)
             {
                 Game.SpriteBatch.DrawString(Debug.Assets.DebugFont, "<< PAUSED >>", new Vector2(350, 48), Color.White);

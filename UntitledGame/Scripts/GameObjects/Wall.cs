@@ -13,17 +13,19 @@ namespace UntitledGame.GameObjects.Wall
 
         public Hitbox Hitbox  { get; private set; }
 
-        public Wall(WorldHandler setWorld, Rectangle coordinates, string key)
+        public Wall(Rectangle coordinates, string key)
         {
             // Object fields
             Size         = new Point(coordinates.Width, coordinates.Height);
             Position     = new Vector2(coordinates.X, coordinates.Y);
             InitPosition = Position;
-
             Key          = key;
-            CurrentWorld = setWorld;
             Drawable     = true;
 
+        }
+
+        public override void LoadContent()
+        {
             Body = CurrentWorld.AddBody(this, Position, Size, false);
             Body.SetCollisionCategory(CollisionCategory.wall);
         }
