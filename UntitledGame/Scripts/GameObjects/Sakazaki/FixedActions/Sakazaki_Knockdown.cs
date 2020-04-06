@@ -35,6 +35,10 @@ namespace UntitledGame.GameObjects.Sakazaki
                 {
                     _body.Velocity.X = 0;
                     _animationHandler.ChangeAnimation((int)AnimationStates.Knockdown);
+                    if (_animationHandler.Finished)
+                    {
+                        _owner.FlagForDestruction();
+                    }
                 }
             }
         }

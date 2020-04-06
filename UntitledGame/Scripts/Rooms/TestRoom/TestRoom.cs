@@ -192,6 +192,12 @@ namespace UntitledGame.Rooms.TestRoom
             Deactivate("wall_17");
             Activate("wall_17");
             Deactivate("wall_17");
+            Activate("wall_17");
+            Deactivate("wall_17");
+            Activate("wall_17");
+            Activate("wall_17");
+            Activate("wall_17");
+            Destruct("wall_17");
         }
 
         private void HandleKeyboard()

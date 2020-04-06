@@ -10,9 +10,10 @@ namespace UntitledGame.GameObjects
     public abstract class GameObject
     {
         public AnimationHandler  AnimationHandler { get; protected set; }
+        public string       Key         { get; protected set; }
         public PhysicsBody  Body        { get; protected set; }
         public bool         Drawable    { get; protected set; }
-        public string       Key         { get; protected set; }
+        public bool         Active      { get; private set; }
 
         protected Vector2 Position;
 
@@ -38,23 +39,24 @@ namespace UntitledGame.GameObjects
 
         public virtual void PreActivate()
         {
-            // TODO : not sure if there's any generic pre/post activate logic to do here
-            //        otherwise the child object handles OnActivate()
+            Active = true;
+        }
+
+        public virtual void PreDeactivate()
+        {
+            Active = false;
         }
 
         public void FlagForDeactivation()
         {
-            // TODO
+            CurrentRoom.DeactivateQueue.Add(Key);
         }
 
         public void FlagForDestruction()
         {
-            // TODO
+            CurrentRoom.DestructQueue.Add(Key);
         }
 
-        public void PreDestruct()
-        {
-            // TODO
-        }
+        public void PreDestruct() { }
     }
 }
