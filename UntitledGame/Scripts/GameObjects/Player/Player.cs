@@ -1,12 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 
 using System;
-using System.Collections.Generic;
 
 using UntitledGame.Animations;
 using UntitledGame.Dynamics;
 using UntitledGame.Input;
+
+using UntitledGame.ShaderEffects.PanelLines;
+using UntitledGame.ShaderEffects.Blinkout;
 
 namespace UntitledGame.GameObjects.Player
 {
@@ -58,13 +59,12 @@ namespace UntitledGame.GameObjects.Player
                     Value = Key
                 }
             };
-            //CurrentWorld.AddHitbox(Body.ChildHitboxes[Key + "_body"]);
 
             AnimationHandler = new AnimationHandler(this)
             {
                 LayerDepth = 1f,
-                Effect = Game.TestEffect,
             };
+            AnimationHandler.SetShaderEffect(new PanelLines());
             _animationLibrary   = new Player_AnimationLibrary();
             _animationLibrary.LoadAnimations(AnimationHandler);
 

@@ -74,6 +74,9 @@
     <Compile Include="Scripts\GameObjects\Wall.cs" />
     <Compile Include="Scripts\Dynamics\WorldHandler.cs" />
     <Compile Include="Scripts\Rooms\TestRoom\TestRoom2.cs" />
+    <Compile Include="Scripts\ShaderEffects\Blinkout\Blinkout.cs" />
+    <Compile Include="Scripts\ShaderEffects\PanelLines\PanelLines.cs" />
+    <Compile Include="Scripts\ShaderEffects\ShaderEffect.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

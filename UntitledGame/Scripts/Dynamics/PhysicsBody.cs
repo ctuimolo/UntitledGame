@@ -56,16 +56,6 @@ namespace UntitledGame.Dynamics
         
         public void DrawDebug()
         {
-            Debug.Assets.DrawRectBorder(
-                Game.SpriteBatch,
-                new Rectangle(
-                    (int)BoxCollider.X,
-                    (int)BoxCollider.Y,
-                    (int)BoxCollider.Width,
-                    (int)BoxCollider.Height),
-                    1,
-                    Color.Yellow);
-
             foreach (Hitbox hitbox in ChildHitboxes.Values)
             {
                 Game.SpriteBatch.Draw(
@@ -79,6 +69,16 @@ namespace UntitledGame.Dynamics
                     SpriteEffects.None,
                     0f);
             }
+
+            Debug.Assets.DrawRectBorder(
+                Game.SpriteBatch,
+                new Rectangle(
+                    (int)BoxCollider.X,
+                    (int)BoxCollider.Y,
+                    (int)BoxCollider.Width,
+                    (int)BoxCollider.Height),
+                    1,
+                    Color.Yellow);
         }
 
         public void Destruct()

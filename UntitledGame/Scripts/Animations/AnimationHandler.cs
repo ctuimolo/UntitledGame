@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using System;
 using System.Collections.Generic;
 
 using UntitledGame.GameObjects;
+using UntitledGame.ShaderEffects;
 
 namespace UntitledGame.Animations
 {
@@ -31,7 +31,7 @@ namespace UntitledGame.Animations
         public GameObject   Owner       { get; private set; }
         public Orientation  Facing      { get; set; } = Orientation.Right;
         public float        LayerDepth  { get; set; } = 0f;
-        public Effect       Effect      { get; set; } = null;
+        public ShaderEffect Shader      { get; set; } = null;
 
         public AnimationHandler(GameObject owner, int initState = 0)
         {
@@ -64,6 +64,12 @@ namespace UntitledGame.Animations
             }
         }
 
+        public void SetShaderEffect(ShaderEffect shaderEffect)
+        {
+            Shader = shaderEffect;
+            shaderEffect.AnimationHandler = this;
+        }
+
         public void SetDrawIndex(int setDrawIndex)
         {
             if (setDrawIndex >= CurrentAnimation.FrameCount)
@@ -74,6 +80,11 @@ namespace UntitledGame.Animations
 
         public void UpdateIndex()
         {
+            if(Shader != null)
+            {
+                Shader.Update();
+            }
+
             if (CurrentAnimation != null && CurrentAnimation.Play)
             {
                 if (_stateQueue > -1)
@@ -119,12 +130,11 @@ namespace UntitledGame.Animations
         {
             if(CurrentAnimation != null)
             {
-                if(Effect != null)
+                if(Shader != null)
                 {
                     Game.SpriteBatch.End();
                     Game.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
-                    Effect.Parameters["TextureHeight"].SetValue(CurrentAnimation.SpriteSheet.Height);
-                    Effect.CurrentTechnique.Passes[0].Apply();
+                    Shader.Apply();
                 }
                 Game.SpriteBatch.Draw(
                     CurrentAnimation.SpriteSheet,
@@ -137,7 +147,7 @@ namespace UntitledGame.Animations
                     Facing == Orientation.Right ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
                     LayerDepth
                 );
-                if(Effect != null)
+                if(Shader != null)
                 {
                     Game.SpriteBatch.End();
                     Game.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);

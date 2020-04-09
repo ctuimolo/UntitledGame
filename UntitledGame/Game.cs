@@ -37,7 +37,6 @@ namespace UntitledGame
         public static RoomHandler           Rooms           { get; private set; }
         public static Room                  CurrentRoom     { get; private set; }
         public static Random                Rng             { get; private set; }
-        public static Effect                TestEffect { get; set; }
 
         public Game()
         {
@@ -62,11 +61,8 @@ namespace UntitledGame
             SpriteBatch     = new SpriteBatch(Graphics.GraphicsDevice);
             Rooms           = new RoomHandler();
             Rng             = new Random();
+
             Debug.Assets.InitDebugAssets();
-            
-            /////// Sprite effects test ////////
-            TestEffect = Content.Load<Effect>("Effects/Blinkout");
-            ////////////////////////////////////
 
             InputProfiles["global_keyboard"] = new InputManager();
             GlobalKeyboard = InputProfiles["global_keyboard"];
