@@ -29,7 +29,9 @@ namespace UntitledGame.Animations
         public int      CurrentFrame    { get; private set; }
 
         public GameObject   Owner       { get; private set; }
-        public Orientation  Facing      { get; set; }
+        public Orientation  Facing      { get; set; } = Orientation.Right;
+        public float        LayerDepth  { get; set; } = 0f;
+        public Effect       Effect      { get; set; } = null;
 
         public AnimationHandler(GameObject owner, int initState = 0)
         {
@@ -117,6 +119,14 @@ namespace UntitledGame.Animations
         {
             if(CurrentAnimation != null)
             {
+                if(Effect != null)
+                {
+                    Game.SpriteBatch.End();
+                    Game.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
+                    Effect.Parameters["TextureWidth"].SetValue(CurrentAnimation.SpriteSheet.Width);
+                    Effect.Parameters["TextureHeight"].SetValue(CurrentAnimation.SpriteSheet.Height);
+                    Effect.CurrentTechnique.Passes[0].Apply();
+                }
                 Game.SpriteBatch.Draw(
                     CurrentAnimation.SpriteSheet,
                     new Vector2(Owner.Body.BoxCollider.X, Owner.Body.BoxCollider.Y) - CurrentAnimation.Offset,
@@ -126,8 +136,13 @@ namespace UntitledGame.Animations
                     Vector2.Zero,
                     1f,
                     Facing == Orientation.Right ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
-                    0.5f
+                    LayerDepth
                 );
+                if(Effect != null)
+                {
+                    Game.SpriteBatch.End();
+                    Game.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
+                }
             }
         }
 

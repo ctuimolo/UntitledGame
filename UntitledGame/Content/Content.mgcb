@@ -320,3 +320,9 @@
 /processorParam:TextureFormat=Color
 /build:SpriteSheets/yuri_knockdown_sheet.png
 
+#begin Effects/Blinkout.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effects/Blinkout.fx
+

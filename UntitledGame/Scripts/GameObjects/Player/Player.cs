@@ -60,7 +60,11 @@ namespace UntitledGame.GameObjects.Player
             };
             //CurrentWorld.AddHitbox(Body.ChildHitboxes[Key + "_body"]);
 
-            AnimationHandler = new AnimationHandler(this);
+            AnimationHandler = new AnimationHandler(this)
+            {
+                LayerDepth = 1f,
+                Effect = Game.TestEffect,
+            };
             _animationLibrary   = new Player_AnimationLibrary();
             _animationLibrary.LoadAnimations(AnimationHandler);
 
