@@ -85,7 +85,7 @@ namespace UntitledGame.Dynamics
                 DebugSprite,
                 new Vector2(Position.X, Position.Y),
                 new Rectangle(0, 0, Size.X, Size.Y),
-                new Color(Color.White, 0.01f),
+                new Color(Color.White, 0.5f),
                 0f,
                 Vector2.Zero,
                 1f,

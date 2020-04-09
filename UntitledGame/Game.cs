@@ -130,7 +130,7 @@ namespace UntitledGame
 
                 _frameRate = Math.Round((1 / gameTime.ElapsedGameTime.TotalSeconds), 1);
 
-                GraphicsDevice.Clear(new Color(30,30,30));
+                GraphicsDevice.Clear(Color.Black);
                 SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied, null, null, null, null, _view);
 
                 SpriteBatch.DrawString(Debug.Assets.DebugFont, "                     DrawDebug:[F1]       Pause:[P]       Action:[Arrows][Z][X]      Rooms1&2:[F2][F3]", new Vector2(10, 10), Color.White);

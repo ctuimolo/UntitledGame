@@ -72,7 +72,7 @@ namespace UntitledGame.Dynamics
                     hitbox.DebugSprite,
                     new Vector2(hitbox.Position.X, hitbox.Position.Y),
                     new Rectangle(0, 0, hitbox.Size.X, hitbox.Size.Y),
-                    new Color(Color.White, .01f),
+                    new Color(Color.White, .5f),
                     0,
                     Vector2.Zero,
                     1f,

@@ -123,7 +123,6 @@ namespace UntitledGame.Animations
                 {
                     Game.SpriteBatch.End();
                     Game.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
-                    Effect.Parameters["TextureWidth"].SetValue(CurrentAnimation.SpriteSheet.Width);
                     Effect.Parameters["TextureHeight"].SetValue(CurrentAnimation.SpriteSheet.Height);
                     Effect.CurrentTechnique.Passes[0].Apply();
                 }

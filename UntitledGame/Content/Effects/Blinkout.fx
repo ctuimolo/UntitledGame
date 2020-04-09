@@ -7,7 +7,6 @@
 	#define PS_SHADERMODEL ps_4_0_level_9_1
 #endif
 
-int	TextureWidth;
 int	TextureHeight;
 sampler TextureSampler : register(s0);
 
