@@ -134,6 +134,18 @@
 /processorParam:TextureFormat=Color
 /build:Debug/yellow.png
 
+#begin Effects/Blinkout.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effects/Blinkout.fx
+
+#begin Effects/Panellines.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effects/Panellines.fx
+
 #begin Fonts/console.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -152,6 +164,42 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:SpriteSheets/suika_attack1.png
+
+#begin SpriteSheets/suika_attack2_1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:SpriteSheets/suika_attack2_1.png
+
+#begin SpriteSheets/suika_attack2_2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:SpriteSheets/suika_attack2_2.png
+
+#begin SpriteSheets/suika_attack2_3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:SpriteSheets/suika_attack2_3.png
 
 #begin SpriteSheets/suika_fall.png
 /importer:TextureImporter
@@ -213,77 +261,6 @@
 /processorParam:TextureFormat=Color
 /build:SpriteSheets/tileset.png
 
-#begin SpriteSheets/suika_attack2_1.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:SpriteSheets/suika_attack2_1.png
-
-#begin SpriteSheets/suika_attack2_2.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:SpriteSheets/suika_attack2_2.png
-
-#begin SpriteSheets/suika_attack2_3.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:SpriteSheets/suika_attack2_3.png
-
-#begin UI/InputHandler_Sheet.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:UI/InputHandler_Sheet.png
-
-#begin Audio/sample.ogg
-/importer:OggImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Audio/sample.ogg
-
-#begin Audio/sample2.ogg
-/importer:VorbisWaveReaderImporter
-/processor:PassThroughProcessor
-/build:Audio/sample2.ogg
-
-#begin SpriteSheets/yuri_idle_sheet.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:SpriteSheets/yuri_idle_sheet.png
-
 #begin SpriteSheets/yuri_airborne_sheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -308,6 +285,18 @@
 /processorParam:TextureFormat=Color
 /build:SpriteSheets/yuri_hit1_sheet.png
 
+#begin SpriteSheets/yuri_idle_sheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:SpriteSheets/yuri_idle_sheet.png
+
 #begin SpriteSheets/yuri_knockdown_sheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -320,15 +309,15 @@
 /processorParam:TextureFormat=Color
 /build:SpriteSheets/yuri_knockdown_sheet.png
 
-#begin Effects/Panellines.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:Effects/Panellines.fx
-
-#begin Effects/Blinkout.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:Effects/Blinkout.fx
+#begin UI/InputHandler_Sheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:UI/InputHandler_Sheet.png
 
